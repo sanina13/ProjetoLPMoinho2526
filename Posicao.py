@@ -7,7 +7,7 @@ caraterizada pela coluna e linha que ocupa no tabuleiro.
 Constantes
 """
 letters = ('a', 'b', 'c')
-nums = (1, 2, 3)
+nums = ('1', '2', '3')
 
 class Posicao:
     
@@ -24,8 +24,7 @@ class Posicao:
     def cria_posicao(c, l):
         if c in letters and l in nums:
             return Posicao(c, l)
-        else:
-            return ValueError("cria_posicao: argumentos invalidos")
+        raise ValueError("cria_posicao: argumentos invalidos")
         
     """
     cria_copia_posicao(p) recebe uma posição e devolve uma cópia novada posição.
@@ -76,6 +75,41 @@ class Posicao:
     def posicao_para_str(p):
         return f"{p.c}{p.l}"
     
+    """
+       Função de alto nível:
+        o obter_posicoes_adjacentes: posicao → tuplo de posicoes
+        obter_posicoes_adjacentes(p) devolve um tuplo com as posições
+        adjacentes à posição p de acordo com a ordem de leitura do tabuleiro. 
+    """
+
+    def obter_posicoes_adjacentes(p):
+        # Converter coluna para número temporário (para facilitar cálculos)
+        # 'a' -> 1, 'b' -> 2, 'c' -> 3
+        # Utilizei o chat para essa conversão porque com um switch o codigo
+        # ficava poluido e assim com ASCII ele converte de letra para numero
+        col_num = ord(p.c) - ord('a') + 1
+
+        pos_adjacentes = []
+        
+        # Esses são os deslocamentos que eu pelo menos entendi verificar se os diagonais sao necessarios
+        deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        for dl, dc in deslocamentos:
+            linha_nova = int(p.l) + dl
+            col_nova = col_num + dc
+
+            # Converter coluna de volta para letra 
+            col_letra = chr(ord('a') + col_nova - 1)
+
+            nova_pos = Posicao(col_letra, str(linha_nova))
+            
+            if Posicao.eh_posicao(nova_pos):
+                pos_adjacentes.append(nova_pos)
+
+        return tuple(pos_adjacentes)
+        
+        
 
     def __repr__(self):
         return f"Posição Criada na coluna '{self.c}' e linha '{self.l}'"
+    
