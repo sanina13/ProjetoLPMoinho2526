@@ -50,24 +50,32 @@ class Posicao:
         devolve True caso o seu argumento seja um TAD posicao e False caso contrário.
     """
     def eh_posicao(arg):
-        if isinstance(arg, Posicao):
-            return arg.c in letters and arg.l in nums
-        elif isinstance(arg, tuple):
+        """if isinstance(arg, Posicao):"""
+        return arg.c in letters and arg.l in nums
+        """ Codigo que so seria necessario se nao se colocar uma POS 
+            elif isinstance(arg, tuple):
             if len(arg) != 2:
                 return False
             try: 
                 return arg[0] in letters and int(arg[1]) in nums
             except ValueError:
-                return False
-        return False
-    
+                return False"""
+        
     """
         Teste: o posicoes_iguais: posicao × posicao → booleano
         posicoes_iguais(p1,p2) devolve True apenas se p1 e p2 são posições esão iguais.
     """
+    def posicoes_iguais(p1, p2):
+        return p1.c == p2.c and p1.l == p2.l
+    
+    """
+        Transformador: o posição_para_str: posicao → str
+        posicao_para_str(p) devolve a cadeia de caracteres ‘cl’ que representa
+        o seu argumento, sendo os valores c e l as componentes coluna e linha de p. 
+    """
+    def posicao_para_str(p):
+        return f"{p.c}{p.l}"
+    
 
-    
-             
-    
     def __repr__(self):
         return f"Posição Criada na coluna '{self.c}' e linha '{self.l}'"
