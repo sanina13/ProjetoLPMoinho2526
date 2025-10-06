@@ -27,7 +27,7 @@ class Posicao:
         raise ValueError("cria_posicao: argumentos invalidos")
         
     """
-    cria_copia_posicao(p) recebe uma posição e devolve uma cópia novada posição.
+    cria_copia_posicao(p) recebe uma posição e devolve uma cópia nova da posição.
     """
     @staticmethod
     def cria_copia_posicao(pos):
