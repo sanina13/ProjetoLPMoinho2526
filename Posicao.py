@@ -91,7 +91,7 @@ class Posicao:
         col_num = ord(self.c) - ord('a') + 1
         linha_num = int(self.l)
         
-        # Esses são os deslocamentos que eu pelo menos entendi verificar se os diagonais sao necessarios
+        # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
         deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         pos_adjacentes = []
 
