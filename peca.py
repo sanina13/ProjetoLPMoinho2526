@@ -1,10 +1,10 @@
-"""_summary_
-  O TAD peca é usado para representar as peças do jogo. Cada peça é caracterizada pelo jogador
-a quem pertencem, podendo ser peças do jogador ‘X’ ou do jogador ‘O’. Por conveniência, é
-também definido o conceito peça livre, que é uma peça que não pertence a nenhum jogador.
+"""
+O TAD peca é usado para representar as peças do jogo. Cada peça é caracterizada
+pelo jogador a quem pertence, podendo ser peças do jogador 'X' ou do jogador 'O'.
+Por conveniência, é também definido o conceito de peça livre (' ').
 """
 
-possible_piece_type = ('O',' ','X') # tuplo com as opções válidas de peças
+possible_piece_type = ('O', ' ', 'X')  # tuplo com as opções válidas de peças
 
 class peca:
     """
@@ -14,7 +14,7 @@ class peca:
 
     def __init__(self, player):
         """
-        Inicializa uma peça com o jogador especificado.
+        Iniciali4za uma peça com o jogador especificado.
         player: 'X', 'O' ou ' ' (livre)
         """
         self.player = player
@@ -37,12 +37,17 @@ class peca:
         """
         return peca(piece.player)
 
+
+    '''
+     @staticmethod 
+        def eh_peca(arg): 
+            "" Verifica se o argumento é uma peça válida. """ 
+        return arg.piece in possible_piece_type
+    '''
     @staticmethod
     def eh_peca(arg):
-        """
-        Verifica se o argumento é uma peça válida.
-        """
-        return arg.piece in possible_piece_type
+       
+        return isinstance(arg, peca) and arg.player in possible_piece_type
 
     @staticmethod
     def pecas_iguais(j1, j2):
@@ -64,5 +69,4 @@ class peca:
         Converte a peça para um valor inteiro:
         -1 para 'O', 0 para ' ' (livre), 1 para 'X'.
         """
-        return possible_piece_type.index(j.player)-1
-   
+        return possible_piece_type.index(j.player) - 1
