@@ -27,7 +27,7 @@ class Peca:
         Lança ValueError se o argumento for inválido.
         """
         if player in possible_piece_type:
-            return peca(player)
+            return Peca(player)
         raise ValueError("cria_peca: argumento invalido")
 
     @staticmethod
@@ -35,7 +35,7 @@ class Peca:
         """
         Cria uma cópia da peça fornecida.
         """
-        return peca(piece.player)
+        return Peca(piece.player)
 
 
     '''
@@ -44,26 +44,26 @@ class Peca:
             "" Verifica se o argumento é uma peça válida. """ 
         return arg.piece in possible_piece_type
     '''
-    @staticmethod
+    
     def eh_peca(arg):
        
-        return isinstance(arg, peca) and arg.player in possible_piece_type
+        return isinstance(arg, Peca) and arg.player in possible_piece_type
 
-    @staticmethod
+    
     def pecas_iguais(j1, j2):
         """
         Verifica se duas peças pertencem ao mesmo jogador.
         """
         return j1.player == j2.player
 
-    @staticmethod
+    
     def peca_para_str(self):
         """
         Devolve a representação em string da peça (o símbolo do jogador).
         """
         return self.player
 
-    @staticmethod
+    
     def peca_para_inteiro(self):
         """
         Converte a peça para um valor inteiro:

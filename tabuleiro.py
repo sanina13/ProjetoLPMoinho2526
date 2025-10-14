@@ -1,5 +1,5 @@
-from Peca import Peca 
-from Posicao import Posicao
+from Peca import Peca as pc
+from Posicao import Posicao as ps
 
 
 class Tabuleiro:
@@ -10,73 +10,72 @@ class Tabuleiro:
 
     
     # 1) CONSTRUTORES
+    def __init__(self):
+        """
+        Cria um novo tabuleiro vazio (3x3) com peças livres (' ').
+        """
+        self.tabuleiro = []
+        for _ in range(3):
+            linha = [pc(' ') for _ in range(3)]
+            self.tabuleiro.append(linha)
 
-
+    # metodos estaticos apenas o  cria_tabuleiro e copia são estaticos por enquanto
     @staticmethod
     def cria_tabuleiro():
         """
-        Cria um novo tabuleiro vazio (3x3) com pecas livres (' ').
-        Retorna: matriz 3x3 de objetos peca.
+        Cria e retorna um novo objeto Tabuleiro vazio (3x3) com peças livres (' ').
         """
-        tabuleiro = []
-        for _ in range(3):
-            linha = [Peca( ' ') for _ in range(3)]
-            tabuleiro.append(linha)
-        return tabuleiro
+        return Tabuleiro()
 
     @staticmethod
     def cria_copia_tabuleiro(t):
         """
         Cria uma copia independente do tabuleiro recebido.
         """
-        copia = []
-        for linha in t:
-            nova = [peca.cria_copia_peca(p) for p in linha]
-            copia.append(nova)
+        copia = Tabuleiro()
+        for linha in range(3):
+            for coluna in range(3):
+                copia.tabuleiro[linha][coluna] = pc.cria_copia_peca(t.tabuleiro[linha][coluna])
         return copia
 
     
     # 2) SELETORES E MODIFICADORES
     
-    @staticmethod
-    def obter_peca(t, pos):
+    def obter_peca(self, pos):
         """
         Devolve a peca existente na posicao indicada.
         pos: objeto Posicao
         """
-        col = ord(Posicao.obter_pos_c(pos)) - ord('a')
-        lin = int(Posicao.obter_pos_l(pos)) - 1
-        return t[lin][col]
+        col = ord(ps.obter_pos_c(pos)) - ord('a')
+        lin = int(ps.obter_pos_l(pos)) - 1
+        return self.tabuleiro[lin][col]
 
-    @staticmethod
-    def coloca_peca(t, j, pos):
+
+    def coloca_peca(self, j, pos):
         """
         Coloca a peca j na posicao pos.
         Altera o tabuleiro destrutivamente.
         """
-        col = ord(Posicao.obter_pos_c(pos)) - ord('a')
-        lin = int(Posicao.obter_pos_l(pos)) - 1
-        t[lin][col] = j
-        return t
+        col = ord(ps.obter_pos_c(pos)) - ord('a')
+        lin = int(ps.obter_pos_l(pos)) - 1
+        self.tabuleiro[lin][col] = j   
 
-    @staticmethod
-    def remove_peca(t, pos):
+
+    def remove_peca(self, pos):
         """
         Remove a peca de uma posicao (substitui por peca livre).
         """
-        col = ord(Posicao.obter_pos_c(pos)) - ord('a')
-        lin = int(Posicao.obter_pos_l(pos)) - 1
-        t[lin][col] = peca(' ')
-        return t
+        col = ord(ps.obter_pos_c(pos)) - ord('a')
+        lin = int(ps.obter_pos_l(pos)) - 1
+        self.tabuleiro[lin][col] = pc(' ')
+        
 
-    @staticmethod
-    def move_peca(t, pos1, pos2):
+    def move_peca(self, pos1, pos2):
         """
         Move a peca da posicao pos1 para pos2.
         """
-        p = Tabuleiro.obter_peca(t, pos1)
-        Tabuleiro.remove_peca(t, pos1)
-        Tabuleiro.coloca_peca(t, p, pos2)
-        return t
+        p = self.obter_peca(pos1)
+        self.remove_peca(pos1)
+        self.coloca_peca(p, pos2)
 
     

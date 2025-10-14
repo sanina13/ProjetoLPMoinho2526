@@ -20,6 +20,6 @@ print(pc.pecas_iguais(j1, j2))
 print(pc.peca_para_str(j1))
 print(pc.peca_para_inteiro(pc.cria_peca(' '))) """
 
-tabuleiro = tab.cria_tabuleiro()
+tabuleiro = tab.cria_tabuleiro().tabuleiro # obter cada linha como estava antes mas agora com o init
 print(tabuleiro)
 
