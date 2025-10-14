@@ -57,16 +57,16 @@ class peca:
         return j1.player == j2.player
 
     @staticmethod
-    def peca_para_str(j):
+    def peca_para_str(self):
         """
         Devolve a representação em string da peça (o símbolo do jogador).
         """
-        return j.player
+        return self.player
 
     @staticmethod
-    def peca_para_inteiro(j):
+    def peca_para_inteiro(self):
         """
         Converte a peça para um valor inteiro:
         -1 para 'O', 0 para ' ' (livre), 1 para 'X'.
         """
-        return possible_piece_type.index(j.player) - 1
+        return possible_piece_type.index(self.player) - 1

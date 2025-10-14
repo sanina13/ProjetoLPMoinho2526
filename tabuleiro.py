@@ -10,7 +10,7 @@ class Tabuleiro:
 
     
     # 1) CONSTRUTORES
-   
+
 
     @staticmethod
     def cria_tabuleiro():
