@@ -1,5 +1,5 @@
-from peca import peca
-from posicao import Posicao
+from peca import peca as Peca
+from Posicao import Posicao
 
 
 class Tabuleiro:
@@ -20,7 +20,7 @@ class Tabuleiro:
         """
         tabuleiro = []
         for _ in range(3):
-            linha = [peca(' ') for _ in range(3)]
+            linha = [Peca(' ') for _ in range(3)]
             tabuleiro.append(linha)
         return tabuleiro
 
@@ -31,7 +31,7 @@ class Tabuleiro:
         """
         copia = []
         for linha in t:
-            nova = [peca.cria_copia_peca(p) for p in linha]
+            nova = [Peca.cria_copia_peca(p) for p in linha]
             copia.append(nova)
         return copia
 
@@ -47,7 +47,26 @@ class Tabuleiro:
         col = ord(Posicao.obter_pos_c(pos)) - ord('a')
         lin = int(Posicao.obter_pos_l(pos)) - 1
         return t[lin][col]
-
+    
+    @staticmethod
+    def obter_vetor(t, s):
+        """
+        obter_vetor: tabuleiro × str → tuplo de pecas
+        Devolve todas as peças da linha (se s ∈ {'1','2','3'}) ou
+        da coluna (se s ∈ {'a','b','c'}) especificada por s.
+        Lança ValueError se s for inválido.
+        """
+        if s in ('1', '2', '3'):
+            # devolve a linha correspondente
+            lin = int(s) - 1
+            return tuple(t[lin][j] for j in range(3))
+        elif s in ('a', 'b', 'c'):
+            # devolve a coluna correspondente
+            col = ord(s) - ord('a')
+            return tuple(t[i][col] for i in range(3))
+        else:
+            raise ValueError("obter_vetor: argumento invalido")
+        
     @staticmethod
     def coloca_peca(t, j, pos):
         """
@@ -56,7 +75,11 @@ class Tabuleiro:
         """
         col = ord(Posicao.obter_pos_c(pos)) - ord('a')
         lin = int(Posicao.obter_pos_l(pos)) - 1
-        t[lin][col] = j
+        # only place if the position is currently free
+        if t[lin][col].player == ' ':
+            t[lin][col] = j
+        else:
+            print("Posicao ja ocupada")
         return t
 
     @staticmethod
@@ -66,7 +89,7 @@ class Tabuleiro:
         """
         col = ord(Posicao.obter_pos_c(pos)) - ord('a')
         lin = int(Posicao.obter_pos_l(pos)) - 1
-        t[lin][col] = peca(' ')
+        t[lin][col] = Peca(' ')
         return t
 
     @staticmethod
@@ -79,4 +102,3 @@ class Tabuleiro:
         Tabuleiro.coloca_peca(t, p, pos2)
         return t
 
-    

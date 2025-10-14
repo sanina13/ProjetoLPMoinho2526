@@ -12,6 +12,8 @@ nums = ('1', '2', '3')
 class Posicao:
     
     def __init__(self, c, l):
+        if not c in letters and l in nums:
+            raise ValueError("cria_posicao: argumentos invalidos")
         self.c = c
         self.l = l
 
@@ -22,9 +24,8 @@ class Posicao:
     """
     @staticmethod
     def cria_posicao(c, l):
-        if c in letters and l in nums:
-            return Posicao(c, l)
-        raise ValueError("cria_posicao: argumentos invalidos")
+        return Posicao(c, l)
+        
         
     """
     cria_copia_posicao(p) recebe uma posição e devolve uma cópia nova da posição.
@@ -38,11 +39,11 @@ class Posicao:
         Seletores obter_pos_c e obter_pos_l
     """
 
-    def obter_pos_c(p):
-        return p.c
+    def obter_pos_c(self):
+        return self.c
 
-    def obter_pos_l(p):
-        return p.l  
+    def obter_pos_l(self):
+        return self.l  
     
     """
         Reconhecedor: o eh_posicao: universal → booleano eh_posicao(arg) 
@@ -50,7 +51,7 @@ class Posicao:
     """
     def eh_posicao(arg):
         """if isinstance(arg, Posicao):"""
-        return arg.c in letters and arg.l in nums
+        return isinstance(arg, Posicao) and arg.c in letters and arg.l in nums
         """ Codigo que so seria necessario se nao se colocar uma POS 
             elif isinstance(arg, tuple):
             if len(arg) != 2:
@@ -64,16 +65,16 @@ class Posicao:
         Teste: o posicoes_iguais: posicao × posicao → booleano
         posicoes_iguais(p1,p2) devolve True apenas se p1 e p2 são posições esão iguais.
     """
-    def posicoes_iguais(p1, p2):
-        return p1.c == p2.c and p1.l == p2.l
+    def posicoes_iguais(self, other):
+        return self.c == other.c and self.l == other.l
     
     """
         Transformador: o posição_para_str: posicao → str
         posicao_para_str(p) devolve a cadeia de caracteres ‘cl’ que representa
         o seu argumento, sendo os valores c e l as componentes coluna e linha de p. 
     """
-    def posicao_para_str(p):
-        return f"{p.c}{p.l}"
+    def posicao_para_str(self):
+        return f"{self.c}{self.l}"
     
     """
        Função de alto nível:
@@ -82,29 +83,26 @@ class Posicao:
         adjacentes à posição p de acordo com a ordem de leitura do tabuleiro. 
     """
 
-    def obter_posicoes_adjacentes(p):
+    def obter_posicoes_adjacentes(self):
         # Converter coluna para número temporário (para facilitar cálculos)
         # 'a' -> 1, 'b' -> 2, 'c' -> 3
         # Utilizei o chat para essa conversão porque com um switch o codigo
         # ficava poluido e assim com ASCII ele converte de letra para numero
-        col_num = ord(p.c) - ord('a') + 1
-
-        pos_adjacentes = []
+        col_num = ord(self.c) - ord('a') + 1
+        linha_num = int(self.l)
         
-        # Esses são os deslocamentos que eu pelo menos entendi verificar se os diagonais sao necessarios
+        # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
         deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        pos_adjacentes = []
 
         for dl, dc in deslocamentos:
-            linha_nova = int(p.l) + dl
+            linha_nova = linha_num + dl
             col_nova = col_num + dc
 
-            # Converter coluna de volta para letra 
-            col_letra = chr(ord('a') + col_nova - 1)
+            if 1 <= linha_nova <= 3 and 1<= col_nova <=3:
+                col_letra = chr(ord('a') + col_nova - 1)
+                pos_adjacentes.append(Posicao(col_letra, str(linha_nova)))
 
-            nova_pos = Posicao(col_letra, str(linha_nova))
-            
-            if Posicao.eh_posicao(nova_pos):
-                pos_adjacentes.append(nova_pos)
 
         return tuple(pos_adjacentes)
         
