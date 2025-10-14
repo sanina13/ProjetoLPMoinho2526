@@ -2,7 +2,7 @@ from Posicao import Posicao as pos
 from Peca import Peca as pc
 from Tabuleiro import Tabuleiro as tab
 
-""" 
+
 p1 = pos.cria_posicao('a', '2')
 p2 = pos.cria_posicao('a', '2')
 
@@ -18,7 +18,7 @@ j2 = pc.cria_peca('X')
 
 print(pc.pecas_iguais(j1, j2))
 print(pc.peca_para_str(j1))
-print(pc.peca_para_inteiro(pc.cria_peca(' '))) """
+print(pc.peca_para_inteiro(pc.cria_peca(' ')))
 
 tabuleiro = tab.cria_tabuleiro().tabuleiro # obter cada linha como estava antes mas agora com o init
 print(tabuleiro)
