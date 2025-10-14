@@ -1,5 +1,5 @@
-from peca import peca
-from posicao import Posicao
+from Peca import Peca 
+from Posicao import Posicao
 
 
 class Tabuleiro:
@@ -20,7 +20,7 @@ class Tabuleiro:
         """
         tabuleiro = []
         for _ in range(3):
-            linha = [peca(' ') for _ in range(3)]
+            linha = [Peca( ' ') for _ in range(3)]
             tabuleiro.append(linha)
         return tabuleiro
 

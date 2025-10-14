@@ -6,7 +6,7 @@ Por conveniência, é também definido o conceito de peça livre (' ').
 
 possible_piece_type = ('O', ' ', 'X')  # tuplo com as opções válidas de peças
 
-class peca:
+class Peca:
     """
     Classe que representa uma peça do jogo do moinho.
     Cada peça pertence a um jogador ('X' ou 'O') ou pode ser livre (' ').
