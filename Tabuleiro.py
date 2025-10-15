@@ -1,6 +1,8 @@
 from Peca import Peca as pc
 from Posicao import Posicao as ps
 
+letters = ('a', 'b', 'c')
+nums = ('1', '2', '3')
 
 class Tabuleiro:
     """
@@ -66,7 +68,7 @@ class Tabuleiro:
         """
         Remove a peca de uma posicao (substitui por peca livre).
         """
-        col = ord(ps.obter_pos_c(pos)) - ord('a')
+        col = ord(ps.obter_pos_c(pos) - ord('a'))
         lin = int(ps.obter_pos_l(pos)) - 1
         self.tabuleiro[lin][col] = pc(' ')
         
@@ -86,11 +88,11 @@ class Tabuleiro:
         da coluna (se s ∈ {'a','b','c'}) especificada por s.
         Lança ValueError se s for inválido.
         """
-        if s in ('1', '2', '3'):
+        if s in nums:
             # devolve a linha correspondente
             lin = int(s) - 1
             return tuple(self[lin][j] for j in range(3))
-        elif s in ('a', 'b', 'c'):
+        elif s in letters:
             # devolve a coluna correspondente
             col = ord(s) - ord('a')
             return tuple(self[i][col] for i in range(3))
