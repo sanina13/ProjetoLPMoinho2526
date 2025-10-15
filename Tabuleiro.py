@@ -26,6 +26,7 @@ class Tabuleiro:
         Cria e retorna um novo objeto Tabuleiro vazio (3x3) com peças livres (' ').
         """
         return Tabuleiro()
+        
 
     @staticmethod
     def cria_copia_tabuleiro(t):
@@ -77,5 +78,23 @@ class Tabuleiro:
         p = self.obter_peca(pos1)
         self.remove_peca(pos1)
         self.coloca_peca(p, pos2)
+
+    def obter_vetor(self, s):
+        """
+        obter_vetor: tabuleiro × str → tuplo de pecas
+        Devolve todas as peças da linha (se s ∈ {'1','2','3'}) ou
+        da coluna (se s ∈ {'a','b','c'}) especificada por s.
+        Lança ValueError se s for inválido.
+        """
+        if s in ('1', '2', '3'):
+            # devolve a linha correspondente
+            lin = int(s) - 1
+            return tuple(self[lin][j] for j in range(3))
+        elif s in ('a', 'b', 'c'):
+            # devolve a coluna correspondente
+            col = ord(s) - ord('a')
+            return tuple(self[i][col] for i in range(3))
+        else:
+            raise ValueError("obter_vetor: argumento invalido")
 
     
