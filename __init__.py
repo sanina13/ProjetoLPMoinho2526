@@ -4,9 +4,9 @@ from Tabuleiro import Tabuleiro as tab
 
 
 p1 = pos.cria_posicao('a', '2')
-p2 = pos.cria_posicao('a', '2')
+p2 = pos.cria_posicao('a', '3')
 
-print(pos.posicoes_iguais(p1, p2))
+print(p1.posicoes_iguais(p2))
 
 print(pos.posicao_para_str(p1)) # verificar pelicas se tem que printar com elas
 print(isinstance(pos.posicao_para_str(p1), str)) # indicar ser String
@@ -27,4 +27,3 @@ for linha in tabuleiro:
     for peca in linha:
         print("["+ pc.peca_para_str(peca) +"]", end='')
     print()
-

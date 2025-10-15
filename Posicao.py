@@ -66,7 +66,7 @@ class Posicao:
         posicoes_iguais(p1,p2) devolve True apenas se p1 e p2 são posições esão iguais.
     """
     def posicoes_iguais(self, other):
-        return self.c == other.c and self.l == other.l
+        return self.c == other.obter_pos_c() and self.l == other.obter_pos_l()
     
     """
         Transformador: o posição_para_str: posicao → str
