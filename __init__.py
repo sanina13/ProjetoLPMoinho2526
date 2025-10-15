@@ -20,10 +20,14 @@ print(j1.pecas_iguais(j2))
 print(pc.peca_para_str(j1))
 print(pc.peca_para_inteiro(pc.cria_peca(' ')))
 
-tabuleiro = tab.cria_tabuleiro().tabuleiro # obter cada linha como estava antes mas agora com o init
+tabuleiro = tab.cria_tabuleiro() # obter cada linha como estava antes mas agora com o init
 print(tabuleiro)
 
-for linha in tabuleiro:
+""" for linha in tabuleiro:
     for peca in linha:
         print("["+ pc.peca_para_str(peca) +"]", end='')
-    print()
+    print() """
+
+tabuleiro.coloca_peca(j1, p1)
+vet = tabuleiro.obter_vetor('2')
+print([pc.peca_para_str(p) for p in vet])
