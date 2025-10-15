@@ -46,8 +46,7 @@ class Peca:
     '''
     
     def eh_peca(arg):
-       
-        return isinstance(arg, Peca) and arg.player in possible_piece_type
+        return type(arg) == Peca and arg.player in possible_piece_type
 
     
     def pecas_iguais(j1, j2):

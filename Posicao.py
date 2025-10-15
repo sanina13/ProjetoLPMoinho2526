@@ -51,7 +51,7 @@ class Posicao:
     """
     def eh_posicao(arg):
         """if isinstance(arg, Posicao):"""
-        return isinstance(arg, Posicao) and arg.c in letters and arg.l in nums
+        return type(arg) == Posicao and arg.c in letters and arg.l in nums
         """ Codigo que so seria necessario se nao se colocar uma POS 
             elif isinstance(arg, tuple):
             if len(arg) != 2:
