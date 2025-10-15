@@ -23,3 +23,8 @@ print(pc.peca_para_inteiro(pc.cria_peca(' ')))
 tabuleiro = tab.cria_tabuleiro().tabuleiro # obter cada linha como estava antes mas agora com o init
 print(tabuleiro)
 
+for linha in tabuleiro:
+    for peca in linha:
+        print("["+ pc.peca_para_str(peca) +"]", end='')
+    print()
+
