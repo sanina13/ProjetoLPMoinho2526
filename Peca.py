@@ -14,21 +14,22 @@ class Peca:
 
     def __init__(self, player):
         """
-        Iniciali4za uma peça com o jogador especificado.
-        player: 'X', 'O' ou ' ' (livre)
-        """
-        self.player = player
-
-    @staticmethod
-    def cria_peca(player):
-        """
         Cria uma nova peça para o jogador indicado.
         Retorna uma instância de peca se o jogador for válido.
         Lança ValueError se o argumento for inválido.
         """
-        if player in possible_piece_type:
-            return Peca(player)
-        raise ValueError("cria_peca: argumento invalido")
+        if not player in possible_piece_type:
+            raise ValueError("cria_peca: argumento invalido")
+        """
+        Iniciali4za uma peça com o jogador especificado.
+        player: 'X', 'O' ou ' ' (livre)
+        """
+        self.player = player
+        
+
+    @staticmethod
+    def cria_peca(player):
+        return Peca(player)
 
     @staticmethod
     def cria_copia_peca(piece):
@@ -48,12 +49,12 @@ class Peca:
     def eh_peca(arg):
         return type(arg) == Peca and arg.player in possible_piece_type
 
-    
-    def pecas_iguais(j1, j2):
+    #colocação do self para comparar algo com outra peca
+    def pecas_iguais(self, j1):
         """
         Verifica se duas peças pertencem ao mesmo jogador.
         """
-        return j1.player == j2.player
+        return self.peca_para_str() == j1.peca_para_str() 
 
     
     def peca_para_str(self):
