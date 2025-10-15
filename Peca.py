@@ -50,11 +50,11 @@ class Peca:
         return type(arg) == Peca and arg.player in possible_piece_type
 
     #colocação do self para comparar algo com outra peca
-    def pecas_iguais(self, j1):
+    def pecas_iguais(self, other):
         """
         Verifica se duas peças pertencem ao mesmo jogador.
         """
-        return self.peca_para_str() == j1.peca_para_str() 
+        return self.player == other.player
 
     
     def peca_para_str(self):
