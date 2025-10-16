@@ -16,10 +16,10 @@ class Tabuleiro:
         """
         Cria um novo tabuleiro vazio (3x3) com peças livres (' ').
         """
-        self.tabuleiro = []
+        self.tabuleiro_lista = []
         for _ in range(3):
             linha = [pc(' ') for _ in range(3)]
-            self.tabuleiro.append(linha)
+            self.tabuleiro_lista.append(linha)
 
     # metodos estaticos apenas o  cria_tabuleiro e copia são estaticos por enquanto
     @staticmethod
@@ -38,7 +38,7 @@ class Tabuleiro:
         copia = Tabuleiro()
         for linha in range(3):
             for coluna in range(3):
-                copia.tabuleiro[linha][coluna] = pc.cria_copia_peca(t.tabuleiro[linha][coluna])
+                copia.tabuleiro_lista[linha][coluna] = pc.cria_copia_peca(t.tabuleiro_lista[linha][coluna])
         return copia
 
     
@@ -51,7 +51,7 @@ class Tabuleiro:
         """
         col = ord(ps.obter_pos_c(pos)) - ord('a')
         lin = int(ps.obter_pos_l(pos)) - 1
-        return self.tabuleiro[lin][col]
+        return self.tabuleiro_lista[lin][col]
 
 
     def coloca_peca(self, j, pos):
@@ -61,7 +61,7 @@ class Tabuleiro:
         """
         col = ord(pos.obter_pos_c()) - ord('a')
         lin = int(pos.obter_pos_l()) - 1
-        self.tabuleiro[lin][col] = j   
+        self.tabuleiro_lista[lin][col] = j   
 
 
     def remove_peca(self, pos):
@@ -70,7 +70,7 @@ class Tabuleiro:
         """
         col = ord(ps.obter_pos_c(pos)) - ord('a')
         lin = int(ps.obter_pos_l(pos)) - 1
-        self.tabuleiro[lin][col] = pc(' ')
+        self.tabuleiro_lista[lin][col] = pc(' ')
         
 
     def move_peca(self, pos1, pos2):
@@ -92,7 +92,7 @@ class Tabuleiro:
         """
         if self.eh_tabuleiro() == False:
             raise ValueError("obter_vetor: argumento invalido")
-        board = self.tabuleiro
+        board = self.tabuleiro_lista
 
         if s in ('1', '2', '3'):
             # devolve a linha correspondente
@@ -112,7 +112,7 @@ class Tabuleiro:
     def eh_tabuleiro(arg):
         if not type(arg) == Tabuleiro:
             return False
-        t = arg.tabuleiro
+        t = arg.tabuleiro_lista
         if not type(t) == list or len(t) != 3:
             return False
         for linha in t:
@@ -130,7 +130,7 @@ class Tabuleiro:
     def tabuleiros_iguais(t1, t2): 
         for i in range(3):
             for j in range(3):
-                if not pc.pecas_iguais(t1.tabuleiro[i][j], t2.tabuleiro[i][j]):
+                if not pc.pecas_iguais(t1.tabuleiro_lista[i][j], t2.tabuleiro_lista[i][j]):
                     return False
         return True
 
@@ -141,7 +141,7 @@ class Tabuleiro:
     def tabuleiro_para_str(self):
         linhas = ["   a   b   c"]
         for i in range(3):
-            linha = f"{i+1} " + "-".join(pc.peca_para_str(p) for p in self.tabuleiro[i])
+            linha = f"{i+1} " + "-".join(pc.peca_para_str(p) for p in self.tabuleiro_lista[i])
             linhas.append(linha)
             if i < 2:
                 if i == 0:
@@ -156,11 +156,11 @@ class Tabuleiro:
         for i in range(3):
             for j in range(3):
                 if tp[i][j] == 1:
-                    t.tabuleiro[i][j] = pc('X')
+                    t.tabuleiro_lista[i][j] = pc('X')
                 elif tp[i][j] == -1:
-                    t.tabuleiro[i][j] = pc('O')
+                    t.tabuleiro_lista[i][j] = pc('O')
                 else:
-                    t.tabuleiro[i][j] = pc(' ')
+                    t.tabuleiro_lista[i][j] = pc(' ')
         return t
 
     # ==============================
@@ -169,18 +169,18 @@ class Tabuleiro:
 
     def obter_ganhador(self):
         for i in range(3):
-            if (self.tabuleiro[i][0].player == self.tabuleiro[i][1].player == self.tabuleiro[i][2].player) and self.tabuleiro[i][0].player != ' ':
-                return self.tabuleiro[i][0]
+            if (self.tabuleiro_lista[i][0].player == self.tabuleiro_lista[i][1].player == self.tabuleiro_lista[i][2].player) and self.tabuleiro_lista[i][0].player != ' ':
+                return self.tabuleiro_lista[i][0]
         for j in range(3):
-            if (self.tabuleiro[0][j].player == self.tabuleiro[1][j].player == self.tabuleiro[2][j].player) and self.tabuleiro[0][j].player != ' ':
-                return self.tabuleiro[0][j]
+            if (self.tabuleiro_lista[0][j].player == self.tabuleiro_lista[1][j].player == self.tabuleiro_lista[2][j].player) and self.tabuleiro_lista[0][j].player != ' ':
+                return self.tabuleiro_lista[0][j]
         return pc(' ')
 
     def obter_posicoes_livres(self):
         livres = []
         for i in range(3):
             for j in range(3):
-                if self.tabuleiro[i][j].player == ' ':
+                if self.tabuleiro_lista[i][j].player == ' ':
                     livres.append(ps(chr(ord('a') + j), str(i + 1)))
         return tuple(livres)
 
@@ -188,9 +188,6 @@ class Tabuleiro:
         posicoes = []
         for i in range(3):
             for k in range(3):
-                if pc.pecas_iguais(self.tabuleiro[i][k], j):
+                if pc.pecas_iguais(self.tabuleiro_lista[i][k], j):
                     posicoes.append(ps(chr(ord('a') + k), str(i + 1)))
         return tuple(posicoes)
-
-
-    
