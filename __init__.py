@@ -48,12 +48,34 @@ def obter_movimento_auto(t, peca, nivel):
             
             if t_sim.obter_ganhador().peca_para_inteiro() == peca.peca_para_inteiro():
                 return(pos,)
+        
+        #Bloqueio
+        for pos in posicoes:
+            t_sim = tab.cria_copia_tabuleiro(t)
+            t_sim.coloca_peca(peca, pos)
             
-        
-        
+            if len(t_sim.obter_vetor(pos.obter_pos_l())) == 3: 
+                return(pos,)
+            
+            
 
-t.coloca_peca(x, pos.cria_posicao('a', '1'))
+        
+#Testes para a def movimento auto
+""" t.coloca_peca(x, pos.cria_posicao('a', '1'))
 t.coloca_peca(x, pos.cria_posicao('b', '1'))
 t.coloca_peca(o, pos.cria_posicao('a', '2'))
 movimento = obter_movimento_auto(t, x, 'facil')
 print("Movimento escolhido:", movimento)
+
+t = tab.cria_tabuleiro()
+
+# Peças
+x = pc.cria_peca('X')  # computador
+o = pc.cria_peca('O')  # adversário
+
+# Colocar duas peças do adversário na linha 1
+t.coloca_peca(o, pos.cria_posicao('a', '1'))
+t.coloca_peca(o, pos.cria_posicao('b', '1'))
+t.coloca_peca(x, pos.cria_posicao('a', '2'))
+movimento = obter_movimento_auto(t, x, 'facil')
+print("Movimento escolhido pelo computador:", movimento) """
