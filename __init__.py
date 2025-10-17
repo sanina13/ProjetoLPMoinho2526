@@ -16,7 +16,7 @@ def obter_movimento_auto(t, peca, nivel):
         posicoes = t.obter_posicoes_livres()
 
         #Vitoria
-        """ for pos in posicoes:
+        for pos in posicoes:
             t_sim = tab.cria_copia_tabuleiro(t)
             t_sim.coloca_peca(peca, pos)
             
@@ -33,7 +33,6 @@ def obter_movimento_auto(t, peca, nivel):
             
             if t_sim.obter_ganhador().peca_para_inteiro() == adversario.peca_para_inteiro(): 
                 return(pos,)
- """
 
         
         #Centro
@@ -51,10 +50,22 @@ def obter_movimento_auto(t, peca, nivel):
         for pos in posicoes:
             if pos.posicao_para_str() in cantos:
                  return(pos,)
+        
+        #Laterais Vazias a2, b1, b3, c2
+        """ laterais = [ps.cria_posicao('a', '2').posicao_para_str(), 
+                  ps.cria_posicao('b', '1').posicao_para_str(), 
+                  ps.cria_posicao('b', '3').posicao_para_str(), 
+                  ps.cria_posicao('c', '2').posicao_para_str()]  """
+        laterais = {ps.cria_posicao(l,c).posicao_para_str() for l, c in [('a', '2'), ('b', '1'), ('b', '3'), ('c', '2')]}
+        for pos in posicoes:
+            if pos.posicao_para_str() in laterais:
+                 return(pos,)
+        
 
 
 
-t = tab.cria_tabuleiro()
+
+""" t = tab.cria_tabuleiro()
 
 # Criar peças
 x = pc.cria_peca('X')  # computador
@@ -65,9 +76,10 @@ t.coloca_peca(o, ps.cria_posicao('a', '1'))
 t.coloca_peca(o, ps.cria_posicao('b', '1'))
 t.coloca_peca(o, ps.cria_posicao('c', '1'))
 t.coloca_peca(x, ps.cria_posicao('b', '2'))   
+t.coloca_peca(o, ps.cria_posicao('a', '2'))
 
 movimento = obter_movimento_auto(t, x, 'facil')
-print("Movimento escolhido:", movimento)
+print("Movimento escolhido:", movimento) """
         
      
             
