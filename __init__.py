@@ -1,4 +1,4 @@
-from Posicao import Posicao as pos
+from Posicao import Posicao as ps
 from Peca import Peca as pc
 from Tabuleiro import Tabuleiro as tab
 
@@ -16,7 +16,7 @@ def obter_movimento_auto(t, peca, nivel):
         posicoes = t.obter_posicoes_livres()
 
         #Vitoria
-        for pos in posicoes:
+        """ for pos in posicoes:
             t_sim = tab.cria_copia_tabuleiro(t)
             t_sim.coloca_peca(peca, pos)
             
@@ -33,12 +33,24 @@ def obter_movimento_auto(t, peca, nivel):
             
             if t_sim.obter_ganhador().peca_para_inteiro() == adversario.peca_para_inteiro(): 
                 return(pos,)
+ """
 
-
+        
         #Centro
-        centro = pos.cria_posicao('b', '2')
+        centro = ps.cria_posicao('b', '2')
         if t.eh_posicao_livre(centro):
-                return(centro, )
+                return(centro, ) 
+       
+        #canto vazio
+        """ cantos = [ps.cria_posicao('a', '1').posicao_para_str(), 
+                  ps.cria_posicao('a', '3').posicao_para_str(), 
+                  ps.cria_posicao('c', '1').posicao_para_str(), 
+                  ps.cria_posicao('c', '3').posicao_para_str()] """
+        #Versão otimizada com ajuda da ia
+        cantos = {ps.cria_posicao(l, c).posicao_para_str() for l in ['a', 'c'] for c in ['1', '3']}
+        for pos in posicoes:
+            if pos.posicao_para_str() in cantos:
+                 return(pos,)
 
 
 
@@ -48,16 +60,14 @@ t = tab.cria_tabuleiro()
 x = pc.cria_peca('X')  # computador
 o = pc.cria_peca('O')  # adversário
 
-# Situação: adversário ('O') está prestes a ganhar
-# Linha 1: O O [ ]
-t.coloca_peca(o, pos.cria_posicao('a', '1'))
-t.coloca_peca(o, pos.cria_posicao('b', '1'))
 
-# Coloca outra peça qualquer para preencher o tabuleiro um pouco
-t.coloca_peca(x, pos.cria_posicao('b', '2'))   
+t.coloca_peca(o, ps.cria_posicao('a', '1'))
+t.coloca_peca(o, ps.cria_posicao('b', '1'))
+t.coloca_peca(o, ps.cria_posicao('c', '1'))
+t.coloca_peca(x, ps.cria_posicao('b', '2'))   
 
 movimento = obter_movimento_auto(t, x, 'facil')
-print("Movimento escolhido para bloquear:", movimento)
+print("Movimento escolhido:", movimento)
         
      
             
@@ -76,7 +86,6 @@ t = tab.cria_tabuleiro()
 x = pc.cria_peca('X')  # computador
 o = pc.cria_peca('O')  # adversário
 
-# Colocar duas peças do adversário na linha 1
 t.coloca_peca(o, pos.cria_posicao('a', '1'))
 t.coloca_peca(o, pos.cria_posicao('b', '1'))
 t.coloca_peca(x, pos.cria_posicao('a', '2'))
