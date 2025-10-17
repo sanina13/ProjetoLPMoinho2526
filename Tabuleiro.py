@@ -54,32 +54,34 @@ class Tabuleiro:
         return self.tabuleiro_lista[lin][col]
 
 
-    def coloca_peca(self, j, pos):
+    def coloca_peca(t, j, pos):
         """
         Coloca a peca j na posicao pos.
         Altera o tabuleiro destrutivamente.
         """
         col = ord(pos.obter_pos_c()) - ord('a')
         lin = int(pos.obter_pos_l()) - 1
-        self.tabuleiro_lista[lin][col] = j   
+        t.tabuleiro_lista[lin][col] = j
+        return t
 
 
-    def remove_peca(self, pos):
+    def remove_peca(t, pos):
         """
         Remove a peca de uma posicao (substitui por peca livre).
         """
         col = ord(ps.obter_pos_c(pos)) - ord('a')
         lin = int(ps.obter_pos_l(pos)) - 1
-        self.tabuleiro_lista[lin][col] = pc(' ')
-        
+        t.tabuleiro_lista[lin][col] = pc(' ')
+        return t
 
-    def move_peca(self, pos1, pos2):
+    def move_peca(t, pos1, pos2):
         """
         Move a peca da posicao pos1 para pos2.
         """
-        p = self.obter_peca(pos1)
-        self.remove_peca(pos1)
-        self.coloca_peca(p, pos2)
+        p = t.obter_peca(pos1)
+        t.remove_peca(pos1)
+        t.coloca_peca(p, pos2)
+        return t
 
     
     

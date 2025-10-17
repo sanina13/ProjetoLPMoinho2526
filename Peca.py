@@ -61,7 +61,7 @@ class Peca:
         """
         Devolve a representação em string da peça (o símbolo do jogador).
         """
-        return self.player
+        return "[" + self.player + "]"
 
     
     def peca_para_inteiro(self):
