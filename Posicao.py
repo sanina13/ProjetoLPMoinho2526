@@ -12,7 +12,8 @@ nums = ('1', '2', '3')
 class Posicao:
     
     def __init__(self, c, l):
-        if not c in letters and l in nums:
+        # validar que a coluna e a linha são válidas
+        if not (c in letters and l in nums):
             raise ValueError("cria_posicao: argumentos invalidos")
         self.c = c
         self.l = l

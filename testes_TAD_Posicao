@@ -1,0 +1,56 @@
+from Posicao import *
+
+# imports para simular a stream de input/output
+import io
+import sys
+
+num_tests = 0
+total_score = 0
+
+print("Inicio dos testes publicos")
+print("---------------------")
+
+# TAD posicao
+num_tests += 1
+try:
+    p1 = Posicao.cria_posicao('a', '4')
+    print("Teste " + str(num_tests) + ": Falhou")
+except ValueError as inst:
+    if str(inst) == "cria_posicao: argumentos invalidos":
+        total_score += 1
+        print("Teste " + str(num_tests) + ": Passou")
+    else:
+        print("Teste " + str(num_tests) + ": Falhou")
+except:
+    print("Teste " + str(num_tests) + ": Falhou")
+    pass
+
+num_tests += 1
+p1 = Posicao.cria_posicao('a', '2')
+p2 = Posicao.cria_posicao('b', '3')
+if not Posicao.posicoes_iguais(p1, p2):
+    total_score += 1
+    print("Teste " + str(num_tests) + ": Passou")
+else:
+    print("Teste " + str(num_tests) + ": Falhou")
+
+num_tests += 1
+p1 = Posicao.cria_posicao('a', '2')
+if Posicao.posicao_para_str(p1) == "a2":
+    total_score += 1
+    print("Teste " + str(num_tests) + ": Passou")
+else:
+    print("Teste " + str(num_tests) + ": Falhou")
+
+num_tests += 1
+p2 = Posicao.cria_posicao('b', '3')
+t = tuple(Posicao.posicao_para_str(p) for p in Posicao.obter_posicoes_adjacentes(p2))
+if t == ('b2', 'a3', 'c3'):
+    total_score += 1
+    print("Teste " + str(num_tests) + ": Passou")
+else:
+    print("Teste " + str(num_tests) + ": Falhou")
+    
+print("---------------------")
+print("Pontuacao final do projeto: ", total_score, "/", num_tests, "(" + "{:.2f}".format((total_score / num_tests) * 100) + "% )")
+
