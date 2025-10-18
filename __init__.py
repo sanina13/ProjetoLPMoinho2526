@@ -13,9 +13,9 @@ o = pc.cria_peca('O')
  """
 def obter_movimento_auto(t, peca, nivel):
     if len(t.obter_posicoes_jogador(peca)) < 3:
-       movimento_colocao(t, peca)
+       return movimento_colocao(t, peca)
     else:
-        movimento_movimentacao(t, peca, nivel)
+        return movimento_movimentacao(t, peca, nivel)
 
 
 #função auxiliar para fase de movimento colocação
@@ -52,7 +52,7 @@ def movimento_colocao(t, peca):
                   ps.cria_posicao('c', '1').posicao_para_str(), 
                   ps.cria_posicao('c', '3').posicao_para_str()] """
     #Versão otimizada com ajuda da ia
-    cantos = {ps.cria_posicao(l, c) for l in ['a', 'c'] for c in ['1', '3']}
+    cantos = [ps.cria_posicao(l, c) for l in ['a', 'c'] for c in ['1', '3']]
     for pos in posicoes:
         for canto in cantos:
             if canto.posicoes_iguais(pos):
@@ -63,11 +63,12 @@ def movimento_colocao(t, peca):
                   ps.cria_posicao('b', '1').posicao_para_str(), 
                   ps.cria_posicao('b', '3').posicao_para_str(), 
                   ps.cria_posicao('c', '2').posicao_para_str()]  """
-    laterais = {ps.cria_posicao(l,c) for l, c in [('a', '2'), ('b', '1'), ('b', '3'), ('c', '2')]}
+    laterais = [ps.cria_posicao(l,c) for l, c in [('a', '2'), ('b', '1'), ('b', '3'), ('c', '2')]]
     for pos in posicoes:
         for lateral in laterais:
             if lateral.posicoes_iguais(pos):
                 return(pos,)
+            
 
 def movimento_movimentacao(t, peca, nivel):
     # testar se existem peças bloqueadas
@@ -76,7 +77,7 @@ def movimento_movimentacao(t, peca, nivel):
     movimentos_possiveis = []
 
     for origem in posicoes_jogador:
-        adjacentes = ps.obter_posicoes_adjacentes(origem)
+        adjacentes = origem.obter_posicoes_adjacentes()
         for destino in adjacentes:
             if t.eh_posicao_livre(destino):
                 movimentos_possiveis.append((origem, destino))
@@ -102,8 +103,16 @@ def movimento_movimentacao(t, peca, nivel):
 
 
 # Por fazer para nivel normal e dificil
-def minimax(n):
-    return n
+def minimax(t, player, profundidade, seq_movimentos):
+    if (not t.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
+        return t.obter_ganhador().peca_para_inteiro(), seq_movimentos
+    else:
+        return t
+
+
+
+
+
 
 t = tab.cria_tabuleiro()
 x = pc.cria_peca('X')

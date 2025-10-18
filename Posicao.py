@@ -12,7 +12,7 @@ nums = ('1', '2', '3')
 class Posicao:
     
     def __init__(self, c, l):
-        if not c in letters and l in nums:
+        if c not in letters or l not in nums:
             raise ValueError("cria_posicao: argumentos invalidos")
         self.c = c
         self.l = l
@@ -92,7 +92,8 @@ class Posicao:
         linha_num = int(self.l)
         
         # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
-        deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1),
+                         (-1, -1), (-1, 1), (1, -1), (1, 1)]#diagonais
         pos_adjacentes = []
 
         for dl, dc in deslocamentos:
