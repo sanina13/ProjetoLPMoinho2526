@@ -103,18 +103,62 @@ def movimento_movimentacao(t, peca, nivel):
 
 
 # Por fazer para nivel normal e dificil
-def minimax(t, player, profundidade, seq_movimentos):
+def minimax(t, player, profundidade, seq_movimentos):  
     if (not t.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
         return t.obter_ganhador().peca_para_inteiro(), seq_movimentos
     else:
-        return t
 
+        melhor_resultado = -2 if player == 'X' else 2
+        
+        melhor_seq_movimentos = seq_movimentos
 
+        #Jogador peca para iterar no loop ...
+        player_peca = pc.cria_peca(player)
 
+        for pos in t.obter_posicoes_jogador(player_peca):
+            for posAdj in pos.obter_posicoes_adjacentes():
+                if t.eh_posicao_livre(posAdj):
+                    tab_N = tab.cria_copia_tabuleiro(t)
+                    tab_N.move_peca(pos, posAdj)
 
+                    outro_player = 'X' if player == 'O' else 'O'
 
+                    novo_resultado, nova_seq_movimentos = minimax(
+                        tab_N,
+                        outro_player,
+                        profundidade - 1,
+                        seq_movimentos + [(pos, posAdj)]
+                    )
+
+                    # da para remover esse not in locals mas o professor colocou no pseudo-codigo
+                    if 'melhor_seq_movimentos' not in locals() or (player == 'X' and novo_resultado > melhor_resultado) or (player == 'O' and novo_resultado < melhor_resultado):
+                        melhor_resultado, melhor_seq_movimentos = novo_resultado, nova_seq_movimentos        
+        
+        return melhor_resultado, melhor_seq_movimentos
 
 t = tab.cria_tabuleiro()
+
+# Simular um estado com 2 peças de cada jogador
+t.coloca_peca(pc('X'), ps('a', '1'))
+t.coloca_peca(pc('X'), ps('b', '2'))
+t.coloca_peca(pc('O'), ps('c', '1'))
+t.coloca_peca(pc('O'), ps('c', '3'))
+
+print("=== Estado inicial ===")
+print(t.tabuleiro_para_str())
+
+# Testar o minimax
+print("\n=== Execução do MINIMAX ===")
+resultado, jogadas = minimax(t, 'X', 2, [])
+print(f"\nResultado final: {resultado}")
+print(f"Sequência de movimentos escolhida: {jogadas}")                
+
+
+
+
+
+
+""" t = tab.cria_tabuleiro()
 x = pc.cria_peca('X')
 
 # criar um tabuleiro com algumas peças
@@ -125,7 +169,7 @@ t.coloca_peca(pc.cria_peca('O'), ps.cria_posicao('b', '1'))
 
 mov = movimento_movimentacao(t, x, 'facil')
 print("Movimento escolhido:", ps.posicao_para_str(mov[0]), "→", ps.posicao_para_str(mov[1]))
-
+ """
         
      
             
