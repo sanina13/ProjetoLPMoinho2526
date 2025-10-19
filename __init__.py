@@ -177,6 +177,7 @@ def minimax(t, player, profundidade, seq_movimentos):
         
         return melhor_resultado, melhor_seq_movimentos
 
+#testes nivel automatico
 t = tab.cria_tabuleiro() 
 m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 
 print(ps.posicao_para_str(m[0]))
@@ -197,8 +198,6 @@ print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
 
 #testes anteriores
-
-
 """ p1 = pos.cria_posicao('a', '2')
 p2 = pos.cria_posicao('a', '3')
 
