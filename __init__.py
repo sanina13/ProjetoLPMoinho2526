@@ -4,20 +4,30 @@ from Tabuleiro import Tabuleiro as tab
 
 
 
-""" t = tab.cria_tabuleiro()
-
-# Criar peça do jogador 'X'
-x = pc.cria_peca('X')
-# Criar peça do adversário 'O'
-o = pc.cria_peca('O')
- """
+'''
+    Obtém o movimento automático para o jogador indicado, com base no nível de dificuldade.
+    Se o jogador tiver menos de 3 peças no tabuleiro, realiza um movimento de colocação
+    Se tiver 3 ou mais peças, realiza um movimento de movimentação.
+    Tem o nivel de dificuldade que pode ser 'facil', 'normal' ou 'dificil'.
+    Em que o nivel facil escolhe o primeiro movimento possivel
+    o nivel normal escolhe o melhor movimento com profundidade 1
+    o nivel dificil escolhe o melhor movimento com profundidade 5
+'''
 def obter_movimento_auto(t, peca, nivel):
     if len(t.obter_posicoes_jogador(peca)) < 3:
        return movimento_colocao(t, peca)
     else:
         return movimento_movimentacao(t, peca, nivel)
 
-
+'''
+    Função auxiliar para fase de colocação
+    Obtem posições livres e tenta:
+    1. Vencer imediatamente
+    2. Bloquear vitória do adversário
+    3. Colocar no centro se livre
+    4. Colocar num canto vazio
+    5. Colocar numa lateral vazia
+'''
 #função auxiliar para fase de movimento colocação
 def movimento_colocao(t, peca):
     posicoes = t.obter_posicoes_livres()
@@ -69,7 +79,16 @@ def movimento_colocao(t, peca):
             if lateral.posicoes_iguais(pos):
                 return(pos,)
             
-
+'''
+    Função auxiliar para fase de movimentação
+    Obtem todas as peças do jogador e verifica as posições adjacentes livres
+    e cria uma lista de movimentos possíveis (origem, destino).
+    Se não houver movimentos possíveis (peças bloqueadas), retorna a primeira posição do jogador.
+    Dependendo do nível de dificuldade, escolhe o movimento:
+    - 'facil': o primeiro movimento possível.
+    - 'normal': o melhor movimento usando minimax com profundidade 1.
+    - 'dificil': o melhor movimento usando minimax com profundidade 5.
+'''
 def movimento_movimentacao(t, peca, nivel):
     # testar se existem peças bloqueadas
     posicoes_jogador = t.obter_posicoes_jogador(peca)
@@ -98,11 +117,33 @@ def movimento_movimentacao(t, peca, nivel):
 
     #normal a incluir o algoritmo minimax
 
+    elif nivel == 'normal':
+      resultado, jogadas = minimax(t, peca.player, 1, [])
+      if not jogadas:
+          return movimentos_possiveis[0]
+      melhor_movimento = jogadas[0]
+      return melhor_movimento
+    
+    elif nivel == 'dificil':
+        resultado, jogadas = minimax(t, peca.player, 5, [])
+        melhor_movimento = jogadas[0]
+        return melhor_movimento
 
-    #dificil a incluir o algoritmo minimax
 
 
-# Por fazer para nivel normal e dificil
+
+'''
+    Algoritmo minimax para determinar o melhor movimento possível.
+    t: estado atual do tabuleiro
+    player: jogador atual ('X' ou 'O')
+    profundidade: profundidade máxima da busca
+    seq_movimentos: sequência de movimentos realizados até o momento
+    Testa se o jogo terminou ou se a profundidade máxima foi atingida.
+    Se sim, retorna a avaliação do tabuleiro e a sequência de movimentos.
+    Caso contrário, explora todos os movimentos possíveis para o jogador atual,
+    aplicando recursivamente o minimax para o jogador adversário.
+    Retorna o melhor resultado e a sequência de movimentos correspondente.
+'''
 def minimax(t, player, profundidade, seq_movimentos):  
     if (not t.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
         return t.obter_ganhador().peca_para_inteiro(), seq_movimentos
@@ -136,64 +177,23 @@ def minimax(t, player, profundidade, seq_movimentos):
         
         return melhor_resultado, melhor_seq_movimentos
 
-t = tab.cria_tabuleiro()
+t = tab.cria_tabuleiro() 
+m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 
+print(ps.posicao_para_str(m[0]))
 
-# Simular um estado com 2 peças de cada jogador
-t.coloca_peca(pc('X'), ps('a', '1'))
-t.coloca_peca(pc('X'), ps('b', '2'))
-t.coloca_peca(pc('O'), ps('c', '1'))
-t.coloca_peca(pc('O'), ps('c', '3'))
+t = tab.tuplo_para_tabuleiro(((1,0,-1),(0,1,-1),(1,-1,0))) 
+m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 
+print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-print("=== Estado inicial ===")
-print(t.tabuleiro_para_str())
+m = obter_movimento_auto(t, pc.cria_peca('X'), 'normal') 
+print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-# Testar o minimax
-print("\n=== Execução do MINIMAX ===")
-resultado, jogadas = minimax(t, 'X', 2, [])
-print(f"\nResultado final: {resultado}")
-print(f"Sequência de movimentos escolhida: {jogadas}")                
+t = tab.tuplo_para_tabuleiro(((1,-1,-1),(-1,1,0),(0,0,1))) 
+m = obter_movimento_auto(t, pc.cria_peca('X'), 'normal') 
+print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-
-
-
-
-
-""" t = tab.cria_tabuleiro()
-x = pc.cria_peca('X')
-
-# criar um tabuleiro com algumas peças
-t.coloca_peca(x, ps.cria_posicao('b', '2'))
-t.coloca_peca(pc.cria_peca('O'), ps.cria_posicao('a', '1'))
-t.coloca_peca(pc.cria_peca('O'), ps.cria_posicao('c', '1'))
-t.coloca_peca(pc.cria_peca('O'), ps.cria_posicao('b', '1'))
-
-mov = movimento_movimentacao(t, x, 'facil')
-print("Movimento escolhido:", ps.posicao_para_str(mov[0]), "→", ps.posicao_para_str(mov[1]))
- """
-        
-     
-            
-
-        
-#Testes para a def movimento auto
-""" t.coloca_peca(x, pos.cria_posicao('a', '1'))
-t.coloca_peca(x, pos.cria_posicao('b', '1'))
-t.coloca_peca(o, pos.cria_posicao('a', '2'))
-movimento = obter_movimento_auto(t, x, 'facil')
-print("Movimento escolhido:", movimento)
-
-t = tab.cria_tabuleiro()
-
-# Peças
-x = pc.cria_peca('X')  # computador
-o = pc.cria_peca('O')  # adversário
-
-t.coloca_peca(o, pos.cria_posicao('a', '1'))
-t.coloca_peca(o, pos.cria_posicao('b', '1'))
-t.coloca_peca(x, pos.cria_posicao('a', '2'))
-movimento = obter_movimento_auto(t, x, 'facil')
-print("Movimento escolhido pelo computador:", movimento) """
-
+m = obter_movimento_auto(t, pc.cria_peca('X'), 'dificil') 
+print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
 
 #testes anteriores
