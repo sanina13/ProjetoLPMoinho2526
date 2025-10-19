@@ -3,7 +3,6 @@ from Peca import Peca as pc
 from Tabuleiro import Tabuleiro as tab
 
 
-
 '''
     Obtém o movimento automático para o jogador indicado, com base no nível de dificuldade.
     Se o jogador tiver menos de 3 peças no tabuleiro, realiza um movimento de colocação
