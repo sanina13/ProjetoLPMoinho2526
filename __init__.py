@@ -95,7 +95,7 @@ def movimento_movimentacao(t, peca, nivel):
     movimentos_possiveis = []
 
     for origem in posicoes_jogador:
-        adjacentes = origem.obter_posicoes_adjacentes()
+        adjacentes = origem.obter_posicoes_adjacentes(True)
         for destino in adjacentes:
             if t.eh_posicao_livre(destino):
                 movimentos_possiveis.append((origem, destino))
@@ -156,7 +156,7 @@ def minimax(t, player, profundidade, seq_movimentos):
         player_peca = pc.cria_peca(player)
 
         for pos in t.obter_posicoes_jogador(player_peca):
-            for posAdj in pos.obter_posicoes_adjacentes():
+            for posAdj in pos.obter_posicoes_adjacentes(True):
                 if t.eh_posicao_livre(posAdj):
                     tab_N = tab.cria_copia_tabuleiro(t)
                     tab_N.move_peca(pos, posAdj)
@@ -216,10 +216,10 @@ print(pc.peca_para_inteiro(pc.cria_peca(' ')))
 
 tabuleiro = tab.cria_tabuleiro()
 """
-for linha in tabuleiro.tabuleiro_lista:
+""" for linha in tabuleiro.tabuleiro_lista:
     for peca in linha:
         print("["+ pc.peca_para_str(peca) +"]", end='')
-    print() 
+    print()  """
 """
 print (tabuleiro.tabuleiro_para_str())
 tabuleiro.coloca_peca(j1, p1)

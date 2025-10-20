@@ -84,7 +84,7 @@ class Posicao:
         adjacentes à posição p de acordo com a ordem de leitura do tabuleiro. 
     """
 
-    def obter_posicoes_adjacentes(self):
+    def obter_posicoes_adjacentes(self, incluir_diagonais=False):
         # Converter coluna para número temporário (para facilitar cálculos)
         # 'a' -> 1, 'b' -> 2, 'c' -> 3
         # Utilizei o chat para essa conversão porque com um switch o codigo
@@ -93,8 +93,15 @@ class Posicao:
         linha_num = int(self.l)
         
         # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
-        deslocamentos = [(0, -1), (-1, 0), (0, 1), (1, 0), (-1, -1),
-                          (-1, 1), (1, -1), (1, 1)]
+        if incluir_diagonais:
+            # 8 direções (com diagonais)
+            deslocamentos = [
+            (0, -1), (-1, 0), (0, 1), (1, 0), 
+            (-1, -1),(-1, 1), (1, -1), (1, 1)
+            ]
+        else:
+            # 4 direções (sem diagonais)
+            deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         pos_adjacentes = []
 
         for dl, dc in deslocamentos:
