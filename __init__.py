@@ -21,12 +21,14 @@ print(pc.peca_para_str(j1))
 print(pc.peca_para_inteiro(pc.cria_peca(' ')))
 
 tabuleiro = tab.cria_tabuleiro()
-
+"""
 for linha in tabuleiro.tabuleiro_lista:
     for peca in linha:
         print("["+ pc.peca_para_str(peca) +"]", end='')
     print() 
-
+"""
+print (tabuleiro.tabuleiro_para_str())
 tabuleiro.coloca_peca(j1, p1)
 vet = tabuleiro.obter_vetor('2')
 print([pc.peca_para_str(p) for p in vet])
+print (tabuleiro.tabuleiro_para_str())

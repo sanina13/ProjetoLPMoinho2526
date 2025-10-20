@@ -140,17 +140,25 @@ class Tabuleiro:
     # 4) TRANSFORMADORES
     # ==============================
 
+    def cabecalho(self):
+        cabecalho = ""
+        for i in range(tamanho_tabuleiro):
+            cabecalho += "   " + letters[i]
+            
+        return cabecalho
+
     def tabuleiro_para_str(self):
-        linhas = ["   a   b   c"]
+        linhas = [self.cabecalho()]
         for i in range(tamanho_tabuleiro):
             linha = f"{i+1} " + "-".join(pc.peca_para_str(p) for p in self.tabuleiro_lista[i])
             linhas.append(linha)
-            if i < 2:
-                if i == 0:
+            if i < tamanho_tabuleiro - 1:
+                if i%2 == 0:
                     linhas.append("   | \\ | / |")
                 else:
                     linhas.append("   | / | \\ |")
         return "\n".join(linhas)
+        
 
 
     def tuplo_para_tabuleiro(tp):
