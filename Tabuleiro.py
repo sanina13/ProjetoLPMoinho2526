@@ -112,11 +112,11 @@ class Tabuleiro:
     # 3) RECONHECEDORES E TESTES
     # ==============================
 
-    def eh_tabuleiro(tabuleiro):
-        if not type(tabuleiro) == Tabuleiro:
+    def eh_tabuleiro(arg):
+        if not type(arg) == Tabuleiro:
             return False
         try:
-            t = tabuleiro.tabuleiro_lista
+            t = arg.tabuleiro_lista
             if not type(t) == list or len(t) != tamanho_tabuleiro:
                 return False
             for linha in t:
