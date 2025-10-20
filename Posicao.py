@@ -12,8 +12,7 @@ nums = ('1', '2', '3')
 class Posicao:
     
     def __init__(self, c, l):
-        # validar que a coluna e a linha são válidas
-        if not (c in letters and l in nums):
+        if c not in letters or l not in nums:
             raise ValueError("cria_posicao: argumentos invalidos")
         self.c = c
         self.l = l
@@ -50,6 +49,7 @@ class Posicao:
         Reconhecedor: o eh_posicao: universal → booleano eh_posicao(arg) 
         devolve True caso o seu argumento seja um TAD posicao e False caso contrário.
     """
+    @staticmethod
     def eh_posicao(arg):
         """if isinstance(arg, Posicao):"""
         return type(arg) == Posicao and arg.c in letters and arg.l in nums
@@ -93,7 +93,8 @@ class Posicao:
         linha_num = int(self.l)
         
         # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
-        deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        deslocamentos = [(0, -1), (-1, 0), (0, 1), (1, 0), (-1, -1),
+                          (-1, 1), (1, -1), (1, 1)]
         pos_adjacentes = []
 
         for dl, dc in deslocamentos:
