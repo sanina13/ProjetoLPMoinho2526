@@ -13,7 +13,7 @@ total_score = 0
 print("Inicio dos testes publicos")
 print("---------------------")
 
-""" # TAD posicao
+# TAD posicao
 num_tests += 1
 try:
     p1 = Posicao.cria_posicao('a', '4')
@@ -168,7 +168,7 @@ if tuplo == ('[ ]', '[X]', '[O]'):
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
- """
+
 # obter_movimento_manual
 """
 
@@ -267,6 +267,7 @@ if Posicao.posicao_para_str(m[0]) == "c3" and Posicao.posicao_para_str(m[1]) == 
 else:
     print("Teste " + str(num_tests) + ": Falhou")
     
+
 """
 # moinho
 
@@ -289,7 +290,7 @@ try:
         print("\nTeste " + str(num_tests) + ": Falhou")
 except:
     print("\nTeste " + str(num_tests) + ": Falhou")
-    pass """
-
+    pass 
+"""
 print("---------------------")
 print("Pontuacao final do projeto: ", total_score, "/", num_tests, "(" + "{:.2f}".format((total_score / num_tests) * 100) + "% )")

@@ -84,37 +84,41 @@ class Posicao:
         adjacentes à posição p de acordo com a ordem de leitura do tabuleiro. 
     """
 
-    def obter_posicoes_adjacentes(self, incluir_diagonais=False):
-        # Converter coluna para número temporário (para facilitar cálculos)
-        # 'a' -> 1, 'b' -> 2, 'c' -> 3
-        # Utilizei o chat para essa conversão porque com um switch o codigo
-        # ficava poluido e assim com ASCII ele converte de letra para numero
-        col_num = ord(self.c) - ord('a') + 1
-        linha_num = int(self.l)
-        
-        # Esses são os deslocamentos que eu pelo menos entendi tendo em conta que seriam apenas os adjacentes
+    def obter_deslocamentos(self, incluir_diagonais=False):
+        """Retorna os deslocamentos possíveis (4 ou 8 direções)."""
         if incluir_diagonais:
-            # 8 direções (com diagonais)
-            deslocamentos = [
-            (0, -1), (-1, 0), (0, 1), (1, 0), 
-            (-1, -1),(-1, 1), (1, -1), (1, 1)
+            return [
+                (0, -1), (-1, 0), (0, 1), (1, 0),
+                (-1, -1), (-1, 1), (1, -1), (1, 1)
             ]
         else:
-            # 4 direções (sem diagonais)
-            deslocamentos = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+            return [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    def gerar_posicoes(self, deslocamentos):
+        """Gera posições válidas com base nos deslocamentos recebidos."""
+        col_num = ord(self.c) - ord('a') + 1
+        linha_num = int(self.l)
         pos_adjacentes = []
 
         for dl, dc in deslocamentos:
             linha_nova = linha_num + dl
             col_nova = col_num + dc
 
-            if 1 <= linha_nova <= 3 and 1<= col_nova <=3:
+            if 1 <= linha_nova <= 3 and 1 <= col_nova <= 3:
                 col_letra = chr(ord('a') + col_nova - 1)
                 pos_adjacentes.append(Posicao(col_letra, str(linha_nova)))
 
-
         return tuple(pos_adjacentes)
-        
+
+    def obter_posicoes_adjacentes(self):
+        """Retorna apenas as posições adjacentes (sem diagonais)."""
+        deslocamentos = self.obter_deslocamentos(incluir_diagonais=False)
+        return self.gerar_posicoes(deslocamentos)
+
+    def obter_todas_posicoes_perto(self):
+        """Retorna todas as posições adjacentes (incluindo diagonais)."""
+        deslocamentos = self.obter_deslocamentos(incluir_diagonais=True)
+        return self.gerar_posicoes(deslocamentos)
         
 
     def __repr__(self):
