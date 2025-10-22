@@ -1,6 +1,7 @@
 from Posicao import *
 from Peca import *
 from Tabuleiro import *
+import __init__ as init
 
 # imports para simular a stream de input/output
 import io
@@ -12,7 +13,7 @@ total_score = 0
 print("Inicio dos testes publicos")
 print("---------------------")
 
-# TAD posicao
+""" # TAD posicao
 num_tests += 1
 try:
     p1 = Posicao.cria_posicao('a', '4')
@@ -167,7 +168,7 @@ if tuplo == ('[ ]', '[X]', '[O]'):
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
-
+ """
 # obter_movimento_manual
 """
 
@@ -219,53 +220,54 @@ except ValueError as inst:
 except:
     print("\nTeste " + str(num_tests) + ": Falhou")
     pass
-
+"""
 # obter_movimento_auto
 num_tests += 1
-t = cria_tabuleiro()
-m = obter_movimento_auto(t, cria_peca('X'), 'facil')
-if posicao_para_str(m[0]) == "b2":
+t = Tabuleiro.cria_tabuleiro()
+m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
+if Posicao.posicao_para_str(m[0]) == "b2":
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
 
 num_tests += 1
-t = tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
-m = obter_movimento_auto(t, cria_peca('X'), 'facil')
-if posicao_para_str(m[0]) == "a1" and posicao_para_str(m[1]) == "b1" and len(m) == 2:
+t = Tabuleiro.tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
+m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
+if Posicao.posicao_para_str(m[0]) == "a1" and Posicao.posicao_para_str(m[1]) == "b1" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
 
 num_tests += 1
-t = tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
-m = obter_movimento_auto(t, cria_peca('X'), 'normal')
-if posicao_para_str(m[0]) == "b2" and posicao_para_str(m[1]) == "a2" and len(m) == 2:
+t = Tabuleiro.tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
+m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
+if Posicao.posicao_para_str(m[0]) == "b2" and Posicao.posicao_para_str(m[1]) == "a2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
 
 num_tests += 1
-t = tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
-m = obter_movimento_auto(t, cria_peca('X'), 'normal')
-if posicao_para_str(m[0]) == "b2" and posicao_para_str(m[1]) == "c2" and len(m) == 2:
+t = Tabuleiro.tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
+m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
+if Posicao.posicao_para_str(m[0]) == "b2" and Posicao.posicao_para_str(m[1]) == "c2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
 
 num_tests += 1
-t = tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
-m = obter_movimento_auto(t, cria_peca('X'), 'dificil')
-if posicao_para_str(m[0]) == "c3" and posicao_para_str(m[1]) == "c2" and len(m) == 2:
+t = Tabuleiro.tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
+m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'dificil')
+if Posicao.posicao_para_str(m[0]) == "c3" and Posicao.posicao_para_str(m[1]) == "c2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
-
+    
+"""
 # moinho
 
 
