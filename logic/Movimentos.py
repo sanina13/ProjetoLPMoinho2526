@@ -4,8 +4,8 @@ from models.Tabuleiro import Tabuleiro as tab
 
 
 class Movimentos:
-    def __init__(self, nivel=None):
-        self.nivel = nivel.lower() if nivel else None
+    def __init__(self):
+        pass
 
     
     '''
@@ -37,11 +37,13 @@ class Movimentos:
     o nivel normal escolhe o melhor movimento com profundidade 1
     o nivel dificil escolhe o melhor movimento com profundidade 5
     '''
-    def obter_movimento_auto(self, t, peca, nivel):
+    # !!! Verificar se usar static aqui é melhor forma
+    @staticmethod
+    def obter_movimento_auto(t, peca, nivel):
         if len(t.obter_posicoes_jogador(peca)) < 3:
-            return self.movimento_colocao(t, peca)
+            return Movimentos.movimento_colocao(t, peca)
         else:
-            return self.movimento_movimentacao(t, peca, nivel)
+            return Movimentos.movimento_movimentacao(t, peca, nivel)
         
 
     #
@@ -57,29 +59,29 @@ class Movimentos:
     4. Colocar num canto vazio
     5. Colocar numa lateral vazia
     '''
-    #função auxiliar para fase de movimento colocação
-    def movimento_colocao(self, t, peca):
+    @staticmethod
+    def movimento_colocao(t, peca):
         posicoes = t.obter_posicoes_livres()
 
         #Vitoria
-        condicao = self.vitoria(t, posicoes, peca)
+        condicao = Movimentos.vitoria(t, posicoes, peca)
         if condicao: return condicao
                 
         #Bloqueio
         #se 'X', o adversário é 'O', e vice-versa.
-        condicao = self.bloqueio(t, posicoes, peca)
+        condicao = Movimentos.bloqueio(t, posicoes, peca)
         if condicao: return condicao
 
         #Centro
-        condicao = self.centro(t)
+        condicao = Movimentos.centro(t)
         if condicao: return condicao
             
         #canto vazio
-        condicao = self.cantos(posicoes)
+        condicao = Movimentos.cantos(posicoes)
         if condicao: return condicao
                 
         #Laterais Vazias a2, b1, b3, c2
-        condicao = self.laterais(posicoes)
+        condicao = Movimentos.laterais(posicoes)
         if condicao: return condicao
 
         # Se nada corresponder 
@@ -144,11 +146,12 @@ class Movimentos:
         - 'normal': o melhor movimento usando minimax com profundidade 1.
         - 'dificil': o melhor movimento usando minimax com profundidade 5.
     '''
-    def movimento_movimentacao(self, t, peca, nivel):
+    @staticmethod
+    def movimento_movimentacao(t, peca, nivel):
         # testar se existem peças bloqueadas
         posicoes_jogador = t.obter_posicoes_jogador(peca)
         
-        movimentos_possiveis = self.movimentosPosiveis(t, posicoes_jogador)
+        movimentos_possiveis = Movimentos.movimentosPosiveis(t, posicoes_jogador)
         
         #Se não houver movimentos possiveis retorna a primeira posicao do jogador
         if not movimentos_possiveis:
@@ -156,7 +159,7 @@ class Movimentos:
             return (primeira, primeira)
         
         # Níveis
-        return self.niveis(t, nivel, movimentos_possiveis, peca)
+        return Movimentos.niveis(t, nivel, movimentos_possiveis, peca)
 
     # Funções auxiliares a movimentação
     @staticmethod
@@ -171,19 +174,20 @@ class Movimentos:
             
         return movimentos_possiveis
 
-    def niveis(self, t, nivel, movimentosPos, peca):
+    @staticmethod
+    def niveis(t, nivel, movimentosPos, peca):
         if nivel == 'facil':
             return movimentosPos[0]
         
         elif nivel == 'normal':
-            resultado, jogadas = self.minimax(t, peca.player, 1, [])
+            resultado, jogadas = Movimentos.minimax(t, peca.player, 1, [])
             if not jogadas:
                 return movimentosPos[0]
             melhor_movimento = jogadas[0]
             return melhor_movimento
         
         elif nivel == 'dificil':
-            resultado, jogadas = self.minimax(t, peca.player, 5, [])
+            resultado, jogadas = Movimentos.minimax(t, peca.player, 5, [])
             melhor_movimento = jogadas[0]
             return melhor_movimento
     
@@ -203,7 +207,8 @@ class Movimentos:
         aplicando recursivamente o minimax para o jogador adversário.
         Retorna o melhor resultado e a sequência de movimentos correspondente.
     '''
-    def minimax(self, t, player, profundidade, seq_movimentos):  
+    @staticmethod
+    def minimax(t, player, profundidade, seq_movimentos):  
         if (not t.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
             return t.obter_ganhador().peca_para_inteiro(), seq_movimentos
         else:
@@ -223,7 +228,7 @@ class Movimentos:
 
                         outro_player = 'X' if player == 'O' else 'O'
 
-                        novo_resultado, nova_seq_movimentos = self.minimax(
+                        novo_resultado, nova_seq_movimentos = Movimentos.minimax(
                             tab_N,
                             outro_player,
                             profundidade - 1,

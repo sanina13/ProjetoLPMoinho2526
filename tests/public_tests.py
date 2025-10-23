@@ -1,7 +1,10 @@
-from models.Posicao import *
-from models.Peca import *
-from models.Tabuleiro import *
-import __init__ as init
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from models.Posicao import Posicao
+from models.Peca import Peca
+from models.Tabuleiro import Tabuleiro
+from logic.Movimentos import Movimentos as mov
 
 # imports para simular a stream de input/output
 import io
@@ -224,7 +227,7 @@ except:
 # obter_movimento_auto
 num_tests += 1
 t = Tabuleiro.cria_tabuleiro()
-m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
+m = mov.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
 if Posicao.posicao_para_str(m[0]) == "b2":
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
@@ -233,7 +236,7 @@ else:
 
 num_tests += 1
 t = Tabuleiro.tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
-m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
+m = mov.obter_movimento_auto(t, Peca.cria_peca('X'), 'facil')
 if Posicao.posicao_para_str(m[0]) == "a1" and Posicao.posicao_para_str(m[1]) == "b1" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
@@ -242,7 +245,7 @@ else:
 
 num_tests += 1
 t = Tabuleiro.tuplo_para_tabuleiro(((1, 0, -1), (0, 1, -1), (1, -1, 0)))
-m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
+m = mov.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
 if Posicao.posicao_para_str(m[0]) == "b2" and Posicao.posicao_para_str(m[1]) == "a2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
@@ -251,7 +254,7 @@ else:
 
 num_tests += 1
 t = Tabuleiro.tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
-m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
+m = mov.obter_movimento_auto(t, Peca.cria_peca('X'), 'normal')
 if Posicao.posicao_para_str(m[0]) == "b2" and Posicao.posicao_para_str(m[1]) == "c2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
@@ -260,7 +263,7 @@ else:
 
 num_tests += 1
 t = Tabuleiro.tuplo_para_tabuleiro(((1, -1, -1), (-1, 1, 0), (0, 0, 1)))
-m = init.obter_movimento_auto(t, Peca.cria_peca('X'), 'dificil')
+m = mov.obter_movimento_auto(t, Peca.cria_peca('X'), 'dificil')
 if Posicao.posicao_para_str(m[0]) == "c3" and Posicao.posicao_para_str(m[1]) == "c2" and len(m) == 2:
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")
