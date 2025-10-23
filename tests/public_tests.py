@@ -1,6 +1,6 @@
-from Posicao import *
-from Peca import *
-from Tabuleiro import *
+from models.Posicao import *
+from models.Peca import *
+from models.Tabuleiro import *
 import __init__ as init
 
 # imports para simular a stream de input/output

@@ -1,5 +1,5 @@
-from Peca import Peca as pc
-from Posicao import Posicao as ps
+from models.Peca import Peca as pc
+from models.Posicao import Posicao as ps
 
 letters = ('a', 'b', 'c')
 nums = ('1', '2', '3')
