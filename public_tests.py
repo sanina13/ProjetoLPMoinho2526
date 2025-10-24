@@ -1,6 +1,3 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from models.Posicao import Posicao
 from models.Peca import Peca
 from models.Tabuleiro import Tabuleiro
