@@ -45,14 +45,18 @@ class Peca:
             "" Verifica se o argumento é uma peça válida. """ 
         return arg.piece in possible_piece_type
     '''
-    
+    @staticmethod
     def eh_peca(arg):
-        return type(arg) == Peca and arg.player in possible_piece_type
+        return isinstance(arg, Peca) and arg.player in possible_piece_type
+        #return type(arg) == Peca and arg.player in possible_piece_type
 
     #colocação do self para comparar algo com outra peca
     def __eq__(self, other):
-        return self.pecas_iguais(self, other)
-        
+        """Permite comparar duas peças com ==."""
+        if not isinstance(other, Peca):
+            return False
+        return self.player == other.player
+
     def pecas_iguais(self, other): 
         """
         Verifica se duas peças pertencem ao mesmo jogador.
@@ -73,3 +77,6 @@ class Peca:
         -1 para 'O', 0 para ' ' (livre), 1 para 'X'.
         """
         return possible_piece_type.index(self.player) - 1
+
+    def __repr__(self):
+        return f"Peca('{self.player}')"

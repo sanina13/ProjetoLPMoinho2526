@@ -1,3 +1,16 @@
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from models.Peca import Peca as pc
+
+
+""" a1 = pc.cria_peca('X')
+a3 = pc.cria_peca('O')
+
+print(a1 == a3)
+
+ """
+
 #testes nivel automatico
 """ t = tab.cria_tabuleiro() 
 m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 

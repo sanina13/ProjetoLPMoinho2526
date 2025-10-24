@@ -4,8 +4,8 @@ from models.Tabuleiro import Tabuleiro as tab
 
 
 class Movimentos:
-    def __init__(self):
-        pass
+    def __init__(self, nivel =None):
+        self.nivel = nivel
 
     
     '''
@@ -223,7 +223,7 @@ class Movimentos:
 
     @staticmethod
     def cantos(posicoes):
-        cantos = [ps.cria_posicao(l, c) for l in ['a', 'c'] for c in ['1', '3']]
+        cantos = [ps.cria_posicao(l, c) for l in  ['1', '3'] for c in ['a', 'c']]
         for pos in posicoes:
             for canto in cantos:
                 if canto.posicoes_iguais(pos):
@@ -260,8 +260,7 @@ class Movimentos:
         
         #Se não houver movimentos possiveis retorna a primeira posicao do jogador
         if not movimentos_possiveis:
-            primeira = posicoes_jogador[0]
-            return (primeira, primeira)
+            return (posicoes_jogador[0], posicoes_jogador[0])
         
         # Níveis
         return Movimentos.niveis(t, nivel, movimentos_possiveis, peca)
@@ -341,7 +340,7 @@ class Movimentos:
                         )
 
                         # da para remover esse not in locals mas o professor colocou no pseudo-codigo
-                        if 'melhor_seq_movimentos' not in locals() or (player == 'X' and novo_resultado > melhor_resultado) or (player == 'O' and novo_resultado < melhor_resultado):
+                        if (player == 'X' and novo_resultado > melhor_resultado) or (player == 'O' and novo_resultado < melhor_resultado):
                             melhor_resultado, melhor_seq_movimentos = novo_resultado, nova_seq_movimentos        
             
             return melhor_resultado, melhor_seq_movimentos
