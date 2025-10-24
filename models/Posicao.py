@@ -12,8 +12,6 @@ nums = ('1', '2', '3')
 class Posicao:
     
     def __init__(self, c, l):
-        if c not in letters or l not in nums:
-            raise ValueError("cria_posicao: argumentos invalidos")
         self.c = c
         self.l = l
 
@@ -24,6 +22,8 @@ class Posicao:
     """
     @staticmethod
     def cria_posicao(c, l):
+        if c not in letters or l not in nums:
+            raise ValueError("cria_posicao: argumentos invalidos")
         return Posicao(c, l)
         
         
