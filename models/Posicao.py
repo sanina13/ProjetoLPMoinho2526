@@ -52,7 +52,8 @@ class Posicao:
     @staticmethod
     def eh_posicao(arg):
         """if isinstance(arg, Posicao):"""
-        return type(arg) == Posicao and arg.c in letters and arg.l in nums
+        return isinstance(arg, Posicao) and arg.c in letters and arg.l in nums
+        #return type(arg) == Posicao and arg.c in letters and arg.l in nums Forma antiga mas trocada por isinstance, pois aceita Herança!
         """ Codigo que so seria necessario se nao se colocar uma POS 
             elif isinstance(arg, tuple):
             if len(arg) != 2:
@@ -67,6 +68,8 @@ class Posicao:
         posicoes_iguais(p1,p2) devolve True apenas se p1 e p2 são posições esão iguais.
     """
     def posicoes_iguais(self, other):
+        if not isinstance(other, Posicao):
+            raise ValueError("posicoes_iguais(self, other): O tipo a ser comparado não é Posicao")
         return self.c == other.obter_pos_c() and self.l == other.obter_pos_l()
     
     """
