@@ -12,22 +12,22 @@ print(a1 == a3)
  """
 
 #testes nivel automatico
-""" t = tab.cria_tabuleiro() 
-m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 
+""" tabuleiro = tab.cria_tabuleiro() 
+m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'facil') 
 print(ps.posicao_para_str(m[0]))
 
-t = tab.tuplo_para_tabuleiro(((1,0,-1),(0,1,-1),(1,-1,0))) 
-m = obter_movimento_auto(t, pc.cria_peca('X'), 'facil') 
+tabuleiro = tab.tuplo_para_tabuleiro(((1,0,-1),(0,1,-1),(1,-1,0))) 
+m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'facil') 
 print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-m = obter_movimento_auto(t, pc.cria_peca('X'), 'normal') 
+m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'normal') 
 print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-t = tab.tuplo_para_tabuleiro(((1,-1,-1),(-1,1,0),(0,0,1))) 
-m = obter_movimento_auto(t, pc.cria_peca('X'), 'normal') 
+tabuleiro = tab.tuplo_para_tabuleiro(((1,-1,-1),(-1,1,0),(0,0,1))) 
+m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'normal') 
 print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
 
-m = obter_movimento_auto(t, pc.cria_peca('X'), 'dificil') 
+m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'dificil') 
 print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
  """
 

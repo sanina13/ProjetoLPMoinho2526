@@ -32,14 +32,14 @@ class Tabuleiro:
         
 
     @staticmethod
-    def cria_copia_tabuleiro(t):
+    def cria_copia_tabuleiro(tabuleiro):
         """
         Cria uma copia independente do tabuleiro recebido.
         """
         copia = Tabuleiro()
         for linha in range(tamanho_tabuleiro):
             for coluna in range(tamanho_tabuleiro):
-                copia.tabuleiro_lista[linha][coluna] = pc.cria_copia_peca(t.tabuleiro_lista[linha][coluna])
+                copia.tabuleiro_lista[linha][coluna] = pc.cria_copia_peca(tabuleiro.tabuleiro_lista[linha][coluna])
         return copia
 
     
@@ -115,10 +115,10 @@ class Tabuleiro:
         if not type(arg) == Tabuleiro:
             return False
         try:
-            t = arg.tabuleiro_lista
-            if not type(t) == list or len(t) != tamanho_tabuleiro:
+            tabuleiro = arg.tabuleiro_lista
+            if not type(tabuleiro) == list or len(tabuleiro) != tamanho_tabuleiro:
                 return False
-            for linha in t:
+            for linha in tabuleiro:
                 if not type(linha) == list or len(linha) != tamanho_tabuleiro:
                     return False
                 for p in linha:
@@ -161,16 +161,16 @@ class Tabuleiro:
 
     @staticmethod
     def tuplo_para_tabuleiro(tp):
-        t = Tabuleiro()
+        tabuleiro = Tabuleiro()
         for i in range(tamanho_tabuleiro):
             for j in range(tamanho_tabuleiro):
                 if tp[i][j] == 1:
-                    t.tabuleiro_lista[i][j] = pc('X')
+                    tabuleiro.tabuleiro_lista[i][j] = pc('X')
                 elif tp[i][j] == -1:
-                    t.tabuleiro_lista[i][j] = pc('O')
+                    tabuleiro.tabuleiro_lista[i][j] = pc('O')
                 else:
-                    t.tabuleiro_lista[i][j] = pc(' ')
-        return t
+                    tabuleiro.tabuleiro_lista[i][j] = pc(' ')
+        return tabuleiro
 
     # ==============================
     # 5) FUNÇÕES DE ALTO NÍVEL

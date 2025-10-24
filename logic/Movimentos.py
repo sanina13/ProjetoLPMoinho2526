@@ -12,44 +12,44 @@ class Movimentos:
     Toggle que irá decidir se será manual (jogador) ou automático,
     dependendo do sel.nível
     '''
-    def obter_movimento(self, t, peca):
+    def obter_movimento(self, tabuleiro, peca):
         if self.nivel is None:
-            return self.obter_movimento_manual(t, peca)
+            return self.obter_movimento_manual(tabuleiro, peca)
         else:
-            return self.obter_movimento_auto(t, peca, self.nivel)
+            return self.obter_movimento_auto(tabuleiro, peca, self.nivel)
         
     #
-    # Movimento manual(t, peca)
+    # Movimento manual(tabuleiro, peca)
     #
     @staticmethod
-    def obter_movimento_manual(t, peca):
+    def obter_movimento_manual(tabuleiro, peca):
         """
         Recebe um tabuleiro e uma peça de um jogador, e devolve um tuplo com
         uma ou duas posições (dependendo da fase).
         Lança ValueError('obter_movimento_manual: escolha invalida') se a jogada for inválida.
         """
 
-        pos_jog = t.obter_posicoes_jogador(peca)
+        pos_jog = tabuleiro.obter_posicoes_jogador(peca)
 
         if len(pos_jog) < 3:
             # Fase de colocação
-            return Movimentos.fase_colocacao(t)
+            return Movimentos.fase_colocacao(tabuleiro)
         else:
             # Fase de movimentação
-            return Movimentos.fase_movimentacao(t, peca, pos_jog)
+            return Movimentos.fase_movimentacao(tabuleiro, peca, pos_jog)
 
     # 
     # FASE DE COLOCAÇÃO MANUAL
     # 
     @staticmethod
-    def fase_colocacao(t):
+    def fase_colocacao(tabuleiro):
         entrada = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
 
         try:
             if len(entrada) != 2:
                 raise ValueError
             pos = ps.cria_posicao(entrada[0], entrada[1])
-            if not t.eh_posicao_livre(pos):
+            if not tabuleiro.eh_posicao_livre(pos):
                 raise ValueError
             return (pos,)
         except Exception:
@@ -59,19 +59,19 @@ class Movimentos:
     # FASE DE MOVIMENTAÇÃO MANUAL
     # 
     @staticmethod
-    def fase_movimentacao(t, peca, pos_jog):
+    def fase_movimentacao(tabuleiro, peca, pos_jog):
         entrada = input("Turno do jogador. Escolha um movimento: ").strip().lower()
         origem, destino = Movimentos.parse_movimento(entrada)
 
         # Verifica se a origem contém uma peça do jogador
-        Movimentos.validar_posicao_jogador(t, origem, peca)
+        Movimentos.validar_posicao_jogador(tabuleiro, origem, peca)
 
         # Se o jogador quiser passar (origem == destino)
-        if Movimentos.verificar_passar_turno(t, origem, destino, pos_jog):
+        if Movimentos.verificar_passar_turno(tabuleiro, origem, destino, pos_jog):
             return (origem, destino)
 
         # Verifica se o movimento é válido (livre e adjacente)
-        Movimentos.validar_destino(t, origem, destino)
+        Movimentos.validar_destino(tabuleiro, origem, destino)
 
         return (origem, destino)
     
@@ -79,16 +79,16 @@ class Movimentos:
     # AUXILIARES
     # ==========================
     @staticmethod
-    def peca_do_jogador_na_pos(t, pos, peca):
+    def peca_do_jogador_na_pos(tabuleiro, pos, peca):
         """Verifica se a posição contém uma peça do jogador."""
-        return t.posicao_ocupada_por(pos, peca)
+        return tabuleiro.posicao_ocupada_por(pos, peca)
 
     @staticmethod
-    def existe_movimento_livre(t, pos_jog):
+    def existe_movimento_livre(tabuleiro, pos_jog):
         """Verifica se existe alguma peça do jogador que ainda possa mover."""
         for origem in pos_jog:
             for adj in origem.obter_todas_posicoes_perto():
-                if t.eh_posicao_livre(adj):
+                if tabuleiro.eh_posicao_livre(adj):
                     return True
         return False
 
@@ -105,24 +105,24 @@ class Movimentos:
             raise ValueError("obter_movimento_manual: escolha invalida")
 
     @staticmethod
-    def validar_posicao_jogador(t, origem, peca):
+    def validar_posicao_jogador(tabuleiro, origem, peca):
         """Garante que a origem pertence ao jogador."""
-        if not Movimentos.peca_do_jogador_na_pos(t, origem, peca):
+        if not Movimentos.peca_do_jogador_na_pos(tabuleiro, origem, peca):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
     @staticmethod
-    def verificar_passar_turno(t, origem, destino, pos_jog):
+    def verificar_passar_turno(tabuleiro, origem, destino, pos_jog):
         """Valida a regra de passar turno (origem == destino)."""
         if origem.posicoes_iguais(destino):
-            if Movimentos.existe_movimento_livre(t, pos_jog):
+            if Movimentos.existe_movimento_livre(tabuleiro, pos_jog):
                 raise ValueError("obter_movimento_manual: escolha invalida")
             return True
         return False
 
     @staticmethod
-    def validar_destino(t, origem, destino):
+    def validar_destino(tabuleiro, origem, destino):
         """Valida se o destino é livre e adjacente."""
-        if not t.eh_posicao_livre(destino):
+        if not tabuleiro.eh_posicao_livre(destino):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
         if not any(adj.posicoes_iguais(destino) for adj in origem.obter_todas_posicoes_perto()):
@@ -144,11 +144,11 @@ class Movimentos:
     '''
     # !!! Verificar se usar static aqui é melhor forma
     @staticmethod
-    def obter_movimento_auto(t, peca, nivel):
-        if len(t.obter_posicoes_jogador(peca)) < 3:
-            return Movimentos.movimento_colocao(t, peca)
+    def obter_movimento_auto(tabuleiro, peca, nivel):
+        if len(tabuleiro.obter_posicoes_jogador(peca)) < 3:
+            return Movimentos.movimento_colocao(tabuleiro, peca)
         else:
-            return Movimentos.movimento_movimentacao(t, peca, nivel)
+            return Movimentos.movimento_movimentacao(tabuleiro, peca, nivel)
         
 
     #
@@ -165,20 +165,20 @@ class Movimentos:
     5. Colocar numa lateral vazia
     '''
     @staticmethod
-    def movimento_colocao(t, peca):
-        posicoes = t.obter_posicoes_livres()
+    def movimento_colocao(tabuleiro, peca):
+        posicoes = tabuleiro.obter_posicoes_livres()
 
         #Vitoria
-        condicao = Movimentos.vitoria(t, posicoes, peca)
+        condicao = Movimentos.vitoria(tabuleiro, posicoes, peca)
         if condicao: return condicao
                 
         #Bloqueio
         #se 'X', o adversário é 'O', e vice-versa.
-        condicao = Movimentos.bloqueio(t, posicoes, peca)
+        condicao = Movimentos.bloqueio(tabuleiro, posicoes, peca)
         if condicao: return condicao
 
         #Centro
-        condicao = Movimentos.centro(t)
+        condicao = Movimentos.centro(tabuleiro)
         if condicao: return condicao
             
         #canto vazio
@@ -196,29 +196,29 @@ class Movimentos:
     # Funções auxiliares para a fase de colocação
 
     @staticmethod
-    def vitoria(t, posicoes, peca):
+    def vitoria(tabuleiro, posicoes, peca):
         for pos in posicoes:
-            t_sim = tab.cria_copia_tabuleiro(t)
+            t_sim = tab.cria_copia_tabuleiro(tabuleiro)
             t_sim.coloca_peca(peca, pos)
                     
             if t_sim.obter_ganhador().peca_para_inteiro() == peca.peca_para_inteiro():
                 return(pos,) 
     
     @staticmethod
-    def bloqueio(t, posicoes, peca):
+    def bloqueio(tabuleiro, posicoes, peca):
         adversario = pc.cria_peca('O' if peca.player == 'X' else 'X')
             
         for pos in posicoes:
-            t_sim = tab.cria_copia_tabuleiro(t)
+            t_sim = tab.cria_copia_tabuleiro(tabuleiro)
             t_sim.coloca_peca(adversario, pos)
                 
             if t_sim.obter_ganhador().peca_para_inteiro() == adversario.peca_para_inteiro(): 
                 return(pos,)
 
     @staticmethod
-    def centro(t):
+    def centro(tabuleiro):
         centro = ps.cria_posicao('b', '2')
-        if t.eh_posicao_livre(centro):
+        if tabuleiro.eh_posicao_livre(centro):
             return(centro, )
 
     @staticmethod
@@ -252,46 +252,46 @@ class Movimentos:
         - 'dificil': o melhor movimento usando minimax com profundidade 5.
     '''
     @staticmethod
-    def movimento_movimentacao(t, peca, nivel):
+    def movimento_movimentacao(tabuleiro, peca, nivel):
         # testar se existem peças bloqueadas
-        posicoes_jogador = t.obter_posicoes_jogador(peca)
+        posicoes_jogador = tabuleiro.obter_posicoes_jogador(peca)
         
-        movimentos_possiveis = Movimentos.movimentosPosiveis(t, posicoes_jogador)
+        movimentos_possiveis = Movimentos.movimentosPosiveis(tabuleiro, posicoes_jogador)
         
         #Se não houver movimentos possiveis retorna a primeira posicao do jogador
         if not movimentos_possiveis:
             return (posicoes_jogador[0], posicoes_jogador[0])
         
         # Níveis
-        return Movimentos.niveis(t, nivel, movimentos_possiveis, peca)
+        return Movimentos.niveis(tabuleiro, nivel, movimentos_possiveis, peca)
 
     # Funções auxiliares a movimentação
     @staticmethod
-    def movimentosPosiveis(t, posJogador):
+    def movimentosPosiveis(tabuleiro, posJogador):
         movimentos_possiveis = []
 
         for origem in posJogador:
             adjacentes = origem.obter_todas_posicoes_perto()
             for destino in adjacentes:
-                if t.eh_posicao_livre(destino):
+                if tabuleiro.eh_posicao_livre(destino):
                     movimentos_possiveis.append((origem, destino))
             
         return movimentos_possiveis
 
     @staticmethod
-    def niveis(t, nivel, movimentosPos, peca):
+    def niveis(tabuleiro, nivel, movimentosPos, peca):
         if nivel == 'facil':
             return movimentosPos[0]
         
         elif nivel == 'normal':
-            resultado, jogadas = Movimentos.minimax(t, peca.player, 1, [])
+            resultado, jogadas = Movimentos.minimax(tabuleiro, peca.player, 1, [])
             if not jogadas:
                 return movimentosPos[0]
             melhor_movimento = jogadas[0]
             return melhor_movimento
         
         elif nivel == 'dificil':
-            resultado, jogadas = Movimentos.minimax(t, peca.player, 5, [])
+            resultado, jogadas = Movimentos.minimax(tabuleiro, peca.player, 5, [])
             melhor_movimento = jogadas[0]
             return melhor_movimento
     
@@ -301,7 +301,7 @@ class Movimentos:
 
     '''
         Algoritmo minimax para determinar o melhor movimento possível.
-        t: estado atual do tabuleiro
+        tabuleiro: estado atual do tabuleiro
         player: jogador atual ('X' ou 'O')
         profundidade: profundidade máxima da busca
         seq_movimentos: sequência de movimentos realizados até o momento
@@ -312,9 +312,9 @@ class Movimentos:
         Retorna o melhor resultado e a sequência de movimentos correspondente.
     '''
     @staticmethod
-    def minimax(t, player, profundidade, seq_movimentos):  
-        if (not t.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
-            return t.obter_ganhador().peca_para_inteiro(), seq_movimentos
+    def minimax(tabuleiro, player, profundidade, seq_movimentos):  
+        if (not tabuleiro.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
+            return tabuleiro.obter_ganhador().peca_para_inteiro(), seq_movimentos
         else:
 
             melhor_resultado = -2 if player == 'X' else 2
@@ -324,10 +324,10 @@ class Movimentos:
             #Jogador peca para iterar no loop ...
             player_peca = pc.cria_peca(player)
 
-            for pos in t.obter_posicoes_jogador(player_peca):
+            for pos in tabuleiro.obter_posicoes_jogador(player_peca):
                 for posAdj in pos.obter_todas_posicoes_perto():
-                    if t.eh_posicao_livre(posAdj):
-                        tab_N = tab.cria_copia_tabuleiro(t)
+                    if tabuleiro.eh_posicao_livre(posAdj):
+                        tab_N = tab.cria_copia_tabuleiro(tabuleiro)
                         tab_N.move_peca(pos, posAdj)
 
                         outro_player = 'X' if player == 'O' else 'O'
