@@ -69,7 +69,7 @@ class Posicao:
     """
     def posicoes_iguais(self, other):
         if not isinstance(other, Posicao):
-            raise ValueError("posicoes_iguais(self, other): O tipo a ser comparado não é Posicao")
+            return False
         return self.c == other.obter_pos_c() and self.l == other.obter_pos_l()
     
     """
@@ -89,6 +89,11 @@ class Posicao:
     """Retorna apenas as posições adjacentes (sem diagonais)."""
     def obter_posicoes_adjacentes(self):
         deslocamentos = self.obter_deslocamentos(incluir_diagonais=False)
+        return self.gerar_posicoes(deslocamentos)
+    
+    """Retorna todas as posições adjacentes (incluindo diagonais)."""
+    def obter_todas_posicoes_perto(self):
+        deslocamentos = self.obter_deslocamentos(incluir_diagonais=True)
         return self.gerar_posicoes(deslocamentos)
 
     """Retorna os deslocamentos possíveis (4 ou 8 direções)."""
@@ -115,14 +120,8 @@ class Posicao:
                 col_letra = chr(ord('a') + col_nova - 1)
                 pos_adjacentes.append(Posicao(col_letra, str(linha_nova)))
 
-        return tuple(pos_adjacentes)
-    
+        return tuple(pos_adjacentes)     
 
-    """Retorna todas as posições adjacentes (incluindo diagonais)."""
-    def obter_todas_posicoes_perto(self):
-        deslocamentos = self.obter_deslocamentos(incluir_diagonais=True)
-        return self.gerar_posicoes(deslocamentos)
-        
 
     def __repr__(self):
         return f"Posição Criada na coluna '{self.c}' e linha '{self.l}'"
