@@ -173,11 +173,9 @@ else:
     print("Teste " + str(num_tests) + ": Falhou")
 
 # obter_movimento_manual
-"""
-
 def obter_movimento_manual_teste(t, j, p):
     sys.stdin = io.StringIO(p)
-    m = obter_movimento_manual(t, j)
+    m = mov.obter_movimento_manual(t, j)
     for line in sys.stdin:
         print(line)
     return m
@@ -185,9 +183,9 @@ def obter_movimento_manual_teste(t, j, p):
 
 num_tests += 1
 try:
-    t = cria_tabuleiro()
-    m = obter_movimento_manual_teste(t, cria_peca('X'), 'a1')
-    if posicao_para_str(m[0]) == "a1":
+    t = Tabuleiro.cria_tabuleiro()
+    m = obter_movimento_manual_teste(t, Peca.cria_peca('X'), 'a1')
+    if Posicao.posicao_para_str(m[0]) == "a1":
         total_score += 1
         print("\nTeste " + str(num_tests) + ": Passou")
     else:
@@ -198,9 +196,9 @@ except:
 
 num_tests += 1
 try:
-    t = tuplo_para_tabuleiro(((0, 1, -1), (1, -1, 0), (1, -1, 0)))
-    m = obter_movimento_manual_teste(t, cria_peca('X'), 'b1a1')
-    if posicao_para_str(m[0]) == "b1" and posicao_para_str(m[1]) == "a1" and len(m) == 2:
+    t = Tabuleiro.tuplo_para_tabuleiro(((0, 1, -1), (1, -1, 0), (1, -1, 0)))
+    m = obter_movimento_manual_teste(t, Peca.cria_peca('X'), 'b1a1')
+    if Posicao.posicao_para_str(m[0]) == "b1" and Posicao.posicao_para_str(m[1]) == "a1" and len(m) == 2:
         total_score += 1
         print("\nTeste " + str(num_tests) + ": Passou")
     else:
@@ -211,8 +209,8 @@ except:
 
 num_tests += 1
 try:
-    t = tuplo_para_tabuleiro(((0, 1, -1), (1, -1, 0), (1, -1, 0)))
-    m = obter_movimento_manual_teste(t, cria_peca('O'), 'a2a1')
+    t = Tabuleiro.tuplo_para_tabuleiro(((0, 1, -1), (1, -1, 0), (1, -1, 0)))
+    m = obter_movimento_manual_teste(t, Peca.cria_peca('O'), 'a2a1')
     print("\nTeste " + str(num_tests) + ": Falhou")
 except ValueError as inst:
     if str(inst) == "obter_movimento_manual: escolha invalida":
@@ -223,7 +221,7 @@ except ValueError as inst:
 except:
     print("\nTeste " + str(num_tests) + ": Falhou")
     pass
-"""
+
 # obter_movimento_auto
 num_tests += 1
 t = Tabuleiro.cria_tabuleiro()
@@ -269,7 +267,6 @@ if Posicao.posicao_para_str(m[0]) == "c3" and Posicao.posicao_para_str(m[1]) == 
     print("Teste " + str(num_tests) + ": Passou")
 else:
     print("Teste " + str(num_tests) + ": Falhou")
-    
 
 """
 # moinho

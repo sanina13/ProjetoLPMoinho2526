@@ -17,11 +17,116 @@ class Movimentos:
             return self.obter_movimento_manual(t, peca)
         else:
             return self.obter_movimento_auto(t, peca, self.nivel)
+        
     #
-    # Espaço para o movimento manual(t, peca)
+    # Movimento manual(t, peca)
     #
-    def obter_movimento_manual(self, t, peca):
-        print('teste')
+    @staticmethod
+    def obter_movimento_manual(t, peca):
+        """
+        Recebe um tabuleiro e uma peça de um jogador, e devolve um tuplo com
+        uma ou duas posições (dependendo da fase).
+        Lança ValueError('obter_movimento_manual: escolha invalida') se a jogada for inválida.
+        """
+
+        pos_jog = t.obter_posicoes_jogador(peca)
+
+        if len(pos_jog) < 3:
+            # Fase de colocação
+            return Movimentos.fase_colocacao(t)
+        else:
+            # Fase de movimentação
+            return Movimentos.fase_movimentacao(t, peca, pos_jog)
+
+    # 
+    # FASE DE COLOCAÇÃO MANUAL
+    # 
+    @staticmethod
+    def fase_colocacao(t):
+        entrada = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
+
+        try:
+            if len(entrada) != 2:
+                raise ValueError
+            pos = ps.cria_posicao(entrada[0], entrada[1])
+            if not t.eh_posicao_livre(pos):
+                raise ValueError
+            return (pos,)
+        except Exception:
+            raise ValueError("obter_movimento_manual: escolha invalida")
+
+    # 
+    # FASE DE MOVIMENTAÇÃO MANUAL
+    # 
+    @staticmethod
+    def fase_movimentacao(t, peca, pos_jog):
+        entrada = input("Turno do jogador. Escolha um movimento: ").strip().lower()
+        origem, destino = Movimentos.parse_movimento(entrada)
+
+        # Verifica se a origem contém uma peça do jogador
+        Movimentos.validar_posicao_jogador(t, origem, peca)
+
+        # Se o jogador quiser passar (origem == destino)
+        if Movimentos.verificar_passar_turno(t, origem, destino, pos_jog):
+            return (origem, destino)
+
+        # Verifica se o movimento é válido (livre e adjacente)
+        Movimentos.validar_destino(t, origem, destino)
+
+        return (origem, destino)
+    
+    # ==========================
+    # AUXILIARES
+    # ==========================
+    @staticmethod
+    def peca_do_jogador_na_pos(t, pos, peca):
+        """Verifica se a posição contém uma peça do jogador."""
+        return t.posicao_ocupada_por(pos, peca)
+
+    @staticmethod
+    def existe_movimento_livre(t, pos_jog):
+        """Verifica se existe alguma peça do jogador que ainda possa mover."""
+        for origem in pos_jog:
+            for adj in origem.obter_todas_posicoes_perto():
+                if t.eh_posicao_livre(adj):
+                    return True
+        return False
+
+    @staticmethod
+    def parse_movimento(entrada):
+        """Lê a string do input e devolve as posições origem e destino."""
+        try:
+            if len(entrada) != 4:
+                raise ValueError
+            origem = ps.cria_posicao(entrada[0], entrada[1])
+            destino = ps.cria_posicao(entrada[2], entrada[3])
+            return origem, destino
+        except Exception:
+            raise ValueError("obter_movimento_manual: escolha invalida")
+
+    @staticmethod
+    def validar_posicao_jogador(t, origem, peca):
+        """Garante que a origem pertence ao jogador."""
+        if not Movimentos.peca_do_jogador_na_pos(t, origem, peca):
+            raise ValueError("obter_movimento_manual: escolha invalida")
+
+    @staticmethod
+    def verificar_passar_turno(t, origem, destino, pos_jog):
+        """Valida a regra de passar turno (origem == destino)."""
+        if origem.posicoes_iguais(destino):
+            if Movimentos.existe_movimento_livre(t, pos_jog):
+                raise ValueError("obter_movimento_manual: escolha invalida")
+            return True
+        return False
+
+    @staticmethod
+    def validar_destino(t, origem, destino):
+        """Valida se o destino é livre e adjacente."""
+        if not t.eh_posicao_livre(destino):
+            raise ValueError("obter_movimento_manual: escolha invalida")
+
+        if not any(adj.posicoes_iguais(destino) for adj in origem.obter_todas_posicoes_perto()):
+            raise ValueError("obter_movimento_manual: escolha invalida")
 
 
     #

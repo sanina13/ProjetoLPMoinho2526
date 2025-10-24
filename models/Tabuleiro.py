@@ -111,7 +111,6 @@ class Tabuleiro:
     # ==============================
     # 3) RECONHECEDORES E TESTES
     # ==============================
-
     def eh_tabuleiro(arg):
         if not type(arg) == Tabuleiro:
             return False
@@ -160,7 +159,7 @@ class Tabuleiro:
         return "\n".join(linhas)
         
 
-
+    @staticmethod
     def tuplo_para_tabuleiro(tp):
         t = Tabuleiro()
         for i in range(tamanho_tabuleiro):
@@ -201,3 +200,10 @@ class Tabuleiro:
                 if pc.pecas_iguais(self.tabuleiro_lista[i][k], j):
                     posicoes.append(ps(chr(ord('a') + k), str(i + 1)))
         return tuple(posicoes)
+
+    def posicao_ocupada_por(self, pos, peca):
+        """
+        Verifica se a posição 'pos' está ocupada pela peça 'peca' indicada.
+        Retorna True se sim, False caso contrário.
+        """
+        return pc.pecas_iguais(self.obter_peca(pos), peca)
