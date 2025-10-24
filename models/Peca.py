@@ -27,16 +27,17 @@ class Peca:
         self.player = player
         
 
-    @staticmethod
-    def cria_peca(player):
-        return Peca(player)
+    @classmethod
+    def cria_peca(cls, player):
+        """Fábrica: devolve uma instância da classe (suporta subclasses)."""
+        return cls(player)
 
-    @staticmethod
-    def cria_copia_peca(piece):
+    @classmethod
+    def cria_copia_peca(cls, piece):
         """
-        Cria uma cópia da peça fornecida.
+        Cria uma cópia da peça fornecida (devolve instância de cls).
         """
-        return Peca(piece.player)
+        return cls(piece.player)
 
 
     '''
@@ -45,10 +46,11 @@ class Peca:
             "" Verifica se o argumento é uma peça válida. """ 
         return arg.piece in possible_piece_type
     '''
-    @staticmethod
-    def eh_peca(arg):
-        return isinstance(arg, Peca) and arg.player in possible_piece_type
-        #return type(arg) == Peca and arg.player in possible_piece_type
+    @classmethod
+    def eh_peca(cls, arg):
+        """Reconhecedor: aceita instâncias da classe (suporta herança)."""
+        return isinstance(arg, cls) and arg.player in possible_piece_type
+        # Se preferires não aceitar subclasses, usar: return type(arg) == cls and arg.player in possible_piece_type
 
     #colocação do self para comparar algo com outra peca
     def __eq__(self, other):

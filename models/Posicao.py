@@ -20,19 +20,19 @@ class Posicao:
         a b c - nas colunas
         1 2 3 - nas linhas
     """
-    @staticmethod
-    def cria_posicao(c, l):
+    @classmethod
+    def cria_posicao(cls, c, l):
         if c not in letters or l not in nums:
             raise ValueError("cria_posicao: argumentos invalidos")
-        return Posicao(c, l)
+        return cls(c, l)
         
         
     """
     cria_copia_posicao(p) recebe uma posição e devolve uma cópia nova da posição.
     """
-    @staticmethod
-    def cria_copia_posicao(pos):
-        return Posicao(pos.c, pos.l)
+    @classmethod
+    def cria_copia_posicao(cls, pos):
+        return cls(pos.c, pos.l)
     
 
     """
@@ -49,19 +49,10 @@ class Posicao:
         Reconhecedor: o eh_posicao: universal → booleano eh_posicao(arg) 
         devolve True caso o seu argumento seja um TAD posicao e False caso contrário.
     """
-    @staticmethod
-    def eh_posicao(arg):
-        """if isinstance(arg, Posicao):"""
-        return isinstance(arg, Posicao) and arg.c in letters and arg.l in nums
-        #return type(arg) == Posicao and arg.c in letters and arg.l in nums Forma antiga mas trocada por isinstance, pois aceita Herança!
-        """ Codigo que so seria necessario se nao se colocar uma POS 
-            elif isinstance(arg, tuple):
-            if len(arg) != 2:
-                return False
-            try: 
-                return arg[0] in letters and int(arg[1]) in nums
-            except ValueError:
-                return False"""
+    @classmethod
+    def eh_posicao(cls, arg):
+
+        return type(arg) == cls and arg.c in letters and arg.l in nums
         
     """
         Teste: o posicoes_iguais: posicao × posicao → booleano

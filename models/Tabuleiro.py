@@ -23,20 +23,20 @@ class Tabuleiro:
             self.tabuleiro_lista.append(linha)
 
     # metodos estaticos apenas o  cria_tabuleiro e copia são estaticos por enquanto
-    @staticmethod
-    def cria_tabuleiro():
+    @classmethod
+    def cria_tabuleiro(cls):
         """
         Cria e retorna um novo objeto Tabuleiro vazio (tamanho_tabuleiro x tamanho_tabuleiro) com peças livres (' ').
         """
-        return Tabuleiro()
+        return cls()
         
 
-    @staticmethod
-    def cria_copia_tabuleiro(tabuleiro):
+    @classmethod
+    def cria_copia_tabuleiro(cls, tabuleiro):
         """
         Cria uma copia independente do tabuleiro recebido.
         """
-        copia = Tabuleiro()
+        copia = cls()
         for linha in range(tamanho_tabuleiro):
             for coluna in range(tamanho_tabuleiro):
                 copia.tabuleiro_lista[linha][coluna] = pc.cria_copia_peca(tabuleiro.tabuleiro_lista[linha][coluna])
@@ -111,8 +111,9 @@ class Tabuleiro:
     # ==============================
     # 3) RECONHECEDORES E TESTES
     # ==============================
-    def eh_tabuleiro(arg):
-        if not type(arg) == Tabuleiro:
+    @classmethod
+    def eh_tabuleiro(cls, arg):
+        if not type(arg) == cls:
             return False
         try:
             tabuleiro = arg.tabuleiro_lista
@@ -159,9 +160,9 @@ class Tabuleiro:
         return "\n".join(linhas)
         
 
-    @staticmethod
-    def tuplo_para_tabuleiro(tp):
-        tabuleiro = Tabuleiro()
+    @classmethod
+    def tuplo_para_tabuleiro(cls, tp):
+        tabuleiro = cls()
         for i in range(tamanho_tabuleiro):
             for j in range(tamanho_tabuleiro):
                 if tp[i][j] == 1:
