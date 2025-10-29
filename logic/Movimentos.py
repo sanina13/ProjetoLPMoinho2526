@@ -210,7 +210,7 @@ class Movimentos:
     
     @classmethod
     def bloqueio(cls, tabuleiro, posicoes, peca):
-        adversario = pc.cria_peca('O' if peca.player == 'X' else 'X')
+        adversario = pc.obter_Peca_adversario(peca)
             
         for pos in posicoes:
             t_sim = tab.cria_copia_tabuleiro(tabuleiro)
@@ -288,14 +288,14 @@ class Movimentos:
             return movimentosPos[0]
         
         elif nivel == 'normal':
-            resultado, jogadas = cls.minimax(tabuleiro, peca.player, 1, [])
+            resultado, jogadas = cls.minimax(tabuleiro, peca, 1, [])
             if not jogadas:
                 return movimentosPos[0]
             melhor_movimento = jogadas[0]
             return melhor_movimento
         
         elif nivel == 'dificil':
-            resultado, jogadas = cls.minimax(tabuleiro, peca.player, 5, [])
+            resultado, jogadas = cls.minimax(tabuleiro, peca, 5, [])
             melhor_movimento = jogadas[0]
             return melhor_movimento
     
@@ -316,35 +316,32 @@ class Movimentos:
         Retorna o melhor resultado e a sequência de movimentos correspondente.
     '''
     @classmethod
-    def minimax(cls, tabuleiro, player, profundidade, seq_movimentos):  
+    def minimax(cls, tabuleiro, peca, profundidade, seq_movimentos):  
         if (not tabuleiro.obter_ganhador().pecas_iguais(pc.cria_peca(' '))) or profundidade == 0:
             return tabuleiro.obter_ganhador().peca_para_inteiro(), seq_movimentos
         else:
-
-            melhor_resultado = -2 if player == 'X' else 2
+            melhor_resultado = -2 if peca.peca_para_inteiro() == 1 else 2
             
             melhor_seq_movimentos = seq_movimentos
 
-            #Jogador peca para iterar no loop ...
-            player_peca = pc.cria_peca(player)
-
-            for pos in tabuleiro.obter_posicoes_jogador(player_peca):
+            for pos in tabuleiro.obter_posicoes_jogador(peca):
                 for posAdj in pos.obter_todas_posicoes_perto():
                     if tabuleiro.eh_posicao_livre(posAdj):
                         tab_N = tab.cria_copia_tabuleiro(tabuleiro)
                         tab_N.move_peca(pos, posAdj)
 
-                        outro_player = 'X' if player == 'O' else 'O'
+                        peca_adversario = pc.obter_Peca_adversario(peca)
 
                         novo_resultado, nova_seq_movimentos = cls.minimax(
                             tab_N,
-                            outro_player,
+                            peca_adversario,
                             profundidade - 1,
                             seq_movimentos + [(pos, posAdj)]
                         )
 
-                        # da para remover esse not in locals mas o professor colocou no pseudo-codigo
-                        if (player == 'X' and novo_resultado > melhor_resultado) or (player == 'O' and novo_resultado < melhor_resultado):
-                            melhor_resultado, melhor_seq_movimentos = novo_resultado, nova_seq_movimentos        
+                        # Verifica se o resultado é melhor para o jogador atual
+                        jogador_eh_x = peca.peca_para_inteiro() == 1
+                        if (jogador_eh_x and novo_resultado > melhor_resultado) or (not jogador_eh_x and novo_resultado < melhor_resultado):
+                            melhor_resultado, melhor_seq_movimentos = novo_resultado, nova_seq_movimentos
             
             return melhor_resultado, melhor_seq_movimentos

@@ -52,6 +52,18 @@ class Peca:
         return isinstance(arg, cls) and arg.player in possible_piece_type
         # Se preferires não aceitar subclasses, usar: return type(arg) == cls and arg.player in possible_piece_type
 
+    @classmethod
+    def obter_Peca_adversario(cls, peca):
+        """Cria uma peça do jogador adversário."""
+        return cls.cria_peca('O' if peca.obter_jogador() == 'X' else 'X')
+    
+    
+    def obter_jogador(self):
+        return self.player
+    
+    def obter_adversario(self):
+        return 'O' if self.obter_jogador() == 'X' else 'X'
+    
     #colocação do self para comparar algo com outra peca
     def __eq__(self, other):
         """Permite comparar duas peças com ==."""

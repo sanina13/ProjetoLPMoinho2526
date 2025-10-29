@@ -159,7 +159,7 @@ class Tabuleiro:
                     linhas.append("   | / | \\ |")
         return "\n".join(linhas)
         
-
+    
     @classmethod
     def tuplo_para_tabuleiro(cls, tp):
         tabuleiro = cls()
