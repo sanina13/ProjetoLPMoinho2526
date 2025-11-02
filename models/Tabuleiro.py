@@ -130,7 +130,7 @@ class Tabuleiro:
             return False
 
     def eh_posicao_livre(self, pos):
-        return self.obter_peca(pos).player == ' '
+        return self.obter_peca(pos).obter_jogador() == ' '
 
     @staticmethod 
     def tabuleiros_iguais(t1, t2): 
@@ -179,10 +179,10 @@ class Tabuleiro:
 
     def obter_ganhador(self):
         for i in range(tamanho_tabuleiro):
-            if (self.tabuleiro_lista[i][0].player == self.tabuleiro_lista[i][1].player == self.tabuleiro_lista[i][2].player) and self.tabuleiro_lista[i][0].player != ' ':
+            if (self.tabuleiro_lista[i][0].obter_jogador() == self.tabuleiro_lista[i][1].obter_jogador() == self.tabuleiro_lista[i][2].obter_jogador()) and self.tabuleiro_lista[i][0].obter_jogador() != ' ':
                 return self.tabuleiro_lista[i][0]
         for j in range(tamanho_tabuleiro):
-            if (self.tabuleiro_lista[0][j].player == self.tabuleiro_lista[1][j].player == self.tabuleiro_lista[2][j].player) and self.tabuleiro_lista[0][j].player != ' ':
+            if (self.tabuleiro_lista[0][j].obter_jogador() == self.tabuleiro_lista[1][j].obter_jogador() == self.tabuleiro_lista[2][j].obter_jogador()) and self.tabuleiro_lista[0][j].obter_jogador() != ' ':
                 return self.tabuleiro_lista[0][j]
         return pc(' ')
 
@@ -190,7 +190,7 @@ class Tabuleiro:
         livres = []
         for i in range(tamanho_tabuleiro):
             for j in range(tamanho_tabuleiro):
-                if self.tabuleiro_lista[i][j].player == ' ':
+                if self.tabuleiro_lista[i][j].obter_jogador() == ' ':
                     livres.append(ps(chr(ord('a') + j), str(i + 1)))
         return tuple(livres)
 
