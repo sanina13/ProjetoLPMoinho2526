@@ -1,67 +1,57 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from models.Peca import Peca as pc
-
-
-""" a1 = pc.cria_peca('X')
-a3 = pc.cria_peca('O')
-
-print(a1 == a3)
-
- """
+from logic.movimentos import *
 
 #testes nivel automatico
-""" tabuleiro = tab.cria_tabuleiro() 
-m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'facil') 
-print(ps.posicao_para_str(m[0]))
+tabuleiro = cria_tabuleiro() 
+m = obter_movimento_auto(tabuleiro, cria_peca('X'), 'facil') 
+print(posicao_para_str(m[0]))
 
-tabuleiro = tab.tuplo_para_tabuleiro(((1,0,-1),(0,1,-1),(1,-1,0))) 
-m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'facil') 
-print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
+tabuleiro = tuplo_para_tabuleiro(((1,0,-1),(0,1,-1),(1,-1,0))) 
+m = obter_movimento_auto(tabuleiro, cria_peca('X'), 'facil') 
+print(posicao_para_str(m[0]), posicao_para_str(m[1]))
 
-m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'normal') 
-print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
+m = obter_movimento_auto(tabuleiro, cria_peca('X'), 'normal') 
+print(posicao_para_str(m[0]), posicao_para_str(m[1]))
 
-tabuleiro = tab.tuplo_para_tabuleiro(((1,-1,-1),(-1,1,0),(0,0,1))) 
-m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'normal') 
-print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
+tabuleiro = tuplo_para_tabuleiro(((1,-1,-1),(-1,1,0),(0,0,1))) 
+m = obter_movimento_auto(tabuleiro, cria_peca('X'), 'normal') 
+print(posicao_para_str(m[0]), posicao_para_str(m[1]))
 
-m = obter_movimento_auto(tabuleiro, pc.cria_peca('X'), 'dificil') 
-print(ps.posicao_para_str(m[0]), ps.posicao_para_str(m[1]))
- """
+m = obter_movimento_auto(tabuleiro, cria_peca('X'), 'dificil') 
+print(posicao_para_str(m[0]), posicao_para_str(m[1]))
+
 
 #testes anteriores
-""" p1 = pos.cria_posicao('a', '2')
-p2 = pos.cria_posicao('a', '3')
+p1 = cria_posicao('a', '2')
+p2 = cria_posicao('a', '2')
 
-print(p1.posicoes_iguais(p2))
+print(posicoes_iguais(p1, p2))
 
-print(pos.posicao_para_str(p1)) # verificar pelicas se tem que printar com elas
-print(isinstance(pos.posicao_para_str(p1), str)) # indicar ser String
+print(posicao_para_str(p1)) # verificar pelicas se tem que printar com elas
+print(isinstance(posicao_para_str(p1), str)) # indicar ser String
 
-print(tuple(pos.posicao_para_str(p) for p in pos.obter_posicoes_adjacentes(p2)))
+print(tuple(posicao_para_str(p) for p in obter_posicoes_adjacentes(p2)))
 
-j1 = pc.cria_peca('X')
-j2 = pc.cria_peca('X')
+j1 = cria_peca('X')
+j2 = cria_peca('X')
 
-print(j1.pecas_iguais(j2))
-print(pc.peca_para_str(j1))
-print(pc.peca_para_inteiro(pc.cria_peca(' ')))
+print(pecas_iguais(j1, j2))
+print(peca_para_str(j1))
+print(peca_para_inteiro(cria_peca(' ')))
 
-tabuleiro = tab.cria_tabuleiro()
-"""
-""" for linha in tabuleiro.tabuleiro_lista:
+tabuleiro = cria_tabuleiro()
+
+for linha in tabuleiro:
     for peca in linha:
-        print("["+ pc.peca_para_str(peca) +"]", end='')
-    print()  """
-"""
-print (tabuleiro.tabuleiro_para_str())
-tabuleiro.coloca_peca(j1, p1)
-vet = tabuleiro.obter_vetor('2')
-print([pc.peca_para_str(p) for p in vet]) """
+        print("["+ peca_para_str(peca) +"]", end='')
+    print()  
 
-
+print (tabuleiro_para_str(tabuleiro))
+coloca_peca(tabuleiro, j1, p1)
+vet = obter_vetor(tabuleiro, '2')
+print([peca_para_str(p) for p in vet]) 
 
 
         

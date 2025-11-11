@@ -1,96 +1,98 @@
 """
-O TAD peca é usado para representar as peças do jogo. Cada peça é caracterizada
-pelo jogador a quem pertence, podendo ser peças do jogador 'X' ou do jogador 'O'.
-Por conveniência, é também definido o conceito de peça livre (' ').
+Módulo: peca
+O TAD peca é usado para representar as peças do jogo do moinho.
+Cada peça é caracterizada pelo jogador ('X', 'O') ou pode ser livre (' ').
 """
 
-possible_piece_type = ('O', ' ', 'X')  # tuplo com as opções válidas de peças
+# ============================================================
+#   Representação interna: string simples ('X', 'O' ou ' ')
+# ============================================================
 
-class Peca:
+PECAS_VALIDAS = ('X', 'O', ' ')
+
+# ================================
+#   CONSTRUTORES
+# ================================
+
+def cria_peca(s):
+    """cria_peca: str → peca
+    Cria uma peça correspondente ao jogador indicado ('X', 'O' ou ' ').
     """
-    Classe que representa uma peça do jogo do moinho.
-    Cada peça pertence a um jogador ('X' ou 'O') ou pode ser livre (' ').
+    if s not in PECAS_VALIDAS:
+        raise ValueError("cria_peca: argumento invalido")
+    return s
+
+
+def cria_copia_peca(j):
+    """cria_copia_peca: peca → peca
+    Devolve uma cópia da peça.
     """
-
-    def __init__(self, player):
-        """
-        Cria uma nova peça para o jogador indicado.
-        Retorna uma instância de peca se o jogador for válido.
-        Lança ValueError se o argumento for inválido.
-        """
-        if not player in possible_piece_type:
-            raise ValueError("cria_peca: argumento invalido")
-        """
-        Iniciali4za uma peça com o jogador especificado.
-        player: 'X', 'O' ou ' ' (livre)
-        """
-        self.player = player
-        
-
-    @classmethod
-    def cria_peca(cls, player):
-        """Fábrica: devolve uma instância da classe (suporta subclasses)."""
-        return cls(player)
-
-    @classmethod
-    def cria_copia_peca(cls, piece):
-        """
-        Cria uma cópia da peça fornecida (devolve instância de cls).
-        """
-        return cls(piece.player)
+    return j
 
 
-    '''
-     @staticmethod 
-        def eh_peca(arg): 
-            "" Verifica se o argumento é uma peça válida. """ 
-        return arg.piece in possible_piece_type
-    '''
-    @classmethod
-    def eh_peca(cls, arg):
-        """Reconhecedor: aceita instâncias da classe (suporta herança)."""
-        return isinstance(arg, cls) and arg.player in possible_piece_type
-        # Se preferires não aceitar subclasses, usar: return type(arg) == cls and arg.player in possible_piece_type
+# ================================
+#   RECONHECEDOR
+# ================================
 
-    @classmethod
-    def obter_Peca_adversario(cls, peca):
-        """Cria uma peça do jogador adversário."""
-        return cls.cria_peca('O' if peca.obter_jogador() == 'X' else 'X')
-    
-    
-    def obter_jogador(self):
-        return self.player
-    
-    def obter_adversario(self):
-        return 'O' if self.obter_jogador() == 'X' else 'X'
-    
-    #colocação do self para comparar algo com outra peca
-    def __eq__(self, other):
-        """Permite comparar duas peças com ==."""
-        if not isinstance(other, Peca):
-            return False
-        return self.player == other.player
+def eh_peca(arg):
+    """eh_peca: universal → booleano
+    Devolve True se o argumento representar uma peça válida ('X', 'O' ou ' ').
+    """
+    try:
+        return len(arg) == 1 and arg in PECAS_VALIDAS
+    except Exception:
+        return False
 
-    def pecas_iguais(self, other): 
-        """
-        Verifica se duas peças pertencem ao mesmo jogador.
-        """
-        return self.player == other.player
 
-    
-    def peca_para_str(self):
-        """
-        Devolve a representação em string da peça (o símbolo do jogador).
-        """
-        return "[" + self.player + "]"
 
-    
-    def peca_para_inteiro(self):
-        """
-        Converte a peça para um valor inteiro:
-        -1 para 'O', 0 para ' ' (livre), 1 para 'X'.
-        """
-        return possible_piece_type.index(self.player) - 1
+# ================================
+#   TESTE
+# ================================
 
-    def __repr__(self):
-        return f"Peca('{self.player}')"
+def pecas_iguais(j1, j2):
+    """pecas_iguais: peca × peca → booleano
+    Devolve True apenas se j1 e j2 são peças e são iguais.
+    """
+    return eh_peca(j1) and eh_peca(j2) and j1 == j2
+
+
+# ================================
+#   TRANSFORMADORES
+# ================================
+
+def peca_para_str(j):
+    """peca_para_str: peca → str
+    Devolve a cadeia '[X]', '[O]' ou '[ ]' que representa a peça.
+    """
+    return f"[{j}]"
+
+
+def peca_para_inteiro(j):
+    """peca_para_inteiro: peca → int
+    Devolve:
+      1 se a peça é 'X'
+     -1 se a peça é 'O'
+      0 se a peça é ' ' (livre)
+    """
+    if j == 'X':
+        return 1
+    elif j == 'O':
+        return -1
+    else:
+        return 0
+
+
+# ================================
+#   FUNÇÃO AUXILIAR (não obrigatória)
+# ================================
+
+def obter_peca_adversario(j):
+    """obter_peca_adversario: peca → peca
+    Devolve a peça do jogador adversário.
+    """
+    if j == 'X':
+        return 'O'
+    elif j == 'O':
+        return 'X'
+    else:
+        return ' '  # livre não tem adversário

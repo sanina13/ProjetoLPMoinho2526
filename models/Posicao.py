@@ -6,114 +6,100 @@ caraterizada pela coluna e linha que ocupa no tabuleiro.
 """
 Constantes
 """
-letters = ('a', 'b', 'c')
-nums = ('1', '2', '3')
+# Módulo: posicao
+# TAD posicao — representa uma posição no tabuleiro de jogo (coluna, linha)
 
-class Posicao:
-    
-    def __init__(self, c, l):
-        self.c = c
-        self.l = l
-
-    """
-        Construtor que cria a posição partindo de duas cadeias de carateres
-        a b c - nas colunas
-        1 2 3 - nas linhas
-    """
-    @classmethod
-    def cria_posicao(cls, c, l):
-        if c not in letters or l not in nums:
-            raise ValueError("cria_posicao: argumentos invalidos")
-        return cls(c, l)
-        
-        
-    """
-    cria_copia_posicao(p) recebe uma posição e devolve uma cópia nova da posição.
-    """
-    @classmethod
-    def cria_copia_posicao(cls, pos):
-        return cls(pos.c, pos.l)
-    
-
-    """
-        Seletores obter_pos_c e obter_pos_l
-    """
-
-    def obter_pos_c(self):
-        return self.c
-
-    def obter_pos_l(self):
-        return self.l  
-    
-    """
-        Reconhecedor: o eh_posicao: universal → booleano eh_posicao(arg) 
-        devolve True caso o seu argumento seja um TAD posicao e False caso contrário.
-    """
-    @classmethod
-    def eh_posicao(cls, arg):
-
-        return type(arg) == cls and arg.c in letters and arg.l in nums
-        
-    """
-        Teste: o posicoes_iguais: posicao × posicao → booleano
-        posicoes_iguais(p1,p2) devolve True apenas se p1 e p2 são posições esão iguais.
-    """
-    def posicoes_iguais(self, other):
-        if not isinstance(other, Posicao):
-            return False
-        return self.c == other.obter_pos_c() and self.l == other.obter_pos_l()
-    
-    """
-        Transformador: o posição_para_str: posicao → str
-        posicao_para_str(p) devolve a cadeia de caracteres ‘cl’ que representa
-        o seu argumento, sendo os valores c e l as componentes coluna e linha de p. 
-    """
-    def posicao_para_str(self):
-        return f"{self.c}{self.l}"
-    
-    """
-       Função de alto nível:
-        o obter_posicoes_adjacentes: posicao → tuplo de posicoes
-        obter_posicoes_adjacentes(p) devolve um tuplo com as posições
-        adjacentes à posição p de acordo com a ordem de leitura do tabuleiro. 
-    """
-    """Retorna apenas as posições adjacentes (sem diagonais)."""
-    def obter_posicoes_adjacentes(self):
-        deslocamentos = self.obter_deslocamentos(incluir_diagonais=False)
-        return self.gerar_posicoes(deslocamentos)
-    
-    """Retorna todas as posições adjacentes (incluindo diagonais)."""
-    def obter_todas_posicoes_perto(self):
-        deslocamentos = self.obter_deslocamentos(incluir_diagonais=True)
-        return self.gerar_posicoes(deslocamentos)
-
-    """Retorna os deslocamentos possíveis (4 ou 8 direções)."""
-    def obter_deslocamentos(self, incluir_diagonais=False):
-        if incluir_diagonais:
-            return [
-                (0, -1), (-1, 0), (0, 1), (1, 0),
-                (-1, -1), (-1, 1), (1, -1), (1, 1)
-            ]
-        else:
-            return [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
-    """Gera posições válidas com base nos deslocamentos recebidos."""
-    def gerar_posicoes(self, deslocamentos):
-        col_num = ord(self.c) - ord('a') + 1
-        linha_num = int(self.l)
-        pos_adjacentes = []
-
-        for dl, dc in deslocamentos:
-            linha_nova = linha_num + dl
-            col_nova = col_num + dc
-
-            if 1 <= linha_nova <= 3 and 1 <= col_nova <= 3:
-                col_letra = chr(ord('a') + col_nova - 1)
-                pos_adjacentes.append(Posicao(col_letra, str(linha_nova)))
-
-        return tuple(pos_adjacentes)     
+# Constantes
+LETRAS = ('a', 'b', 'c')
+NUMS = ('1', '2', '3')
 
 
-    def __repr__(self):
-        return f"Posição Criada na coluna '{self.c}' e linha '{self.l}'"
+# ================================
+#   CONSTRUTORES
+# ================================
+
+def cria_posicao(c, l):
+    """cria_posicao: str × str → posicao
+    Cria uma posição (tuplo) a partir da coluna c e linha l.
+    """
+    if c not in LETRAS or l not in NUMS:
+        raise ValueError("cria_posicao: argumentos invalidos")
+    return (c, l)
+
+
+def cria_copia_posicao(p):
+    """cria_copia_posicao: posicao → posicao"""
+    return (p[0], p[1])
+
+
+# ================================
+#   SELETORES
+# ================================
+
+def obter_pos_c(p):
+    """obter_pos_c: posicao → str"""
+    return p[0]
+
+
+def obter_pos_l(p):
+    """obter_pos_l: posicao → str"""
+    return p[1]
+
+
+# ================================
+#   RECONHECEDOR
+# ================================
+
+def eh_posicao(arg):
+    """eh_posicao: universal → booleano"""
+    try:
+        # tentar aceder como se fosse tuplo/lista
+        c, l = arg[0], arg[1]
+        return len(arg) == 2 and c in LETRAS and l in NUMS
+    except Exception:
+        return False
+
+
+# ================================
+#   TESTE
+# ================================
+
+def posicoes_iguais(p1, p2):
+    """posicoes_iguais: posicao × posicao → booleano"""
+    return eh_posicao(p1) and eh_posicao(p2) and p1 == p2
+
+
+# ================================
+#   TRANSFORMADOR
+# ================================
+
+def posicao_para_str(p):
+    """posicao_para_str: posicao → str"""
+    return p[0] + p[1]
+
+
+# ================================
+#   FUNÇÃO DE ALTO NÍVEL
+# ================================
+
+def obter_posicoes_adjacentes(p):
+    """obter_posicoes_adjacentes: posicao → tuplo de posicoes"""
+    c, l = p
+    adjacentes = []
+
+    col_num = ord(c) - ord('a') + 1
+    lin_num = int(l)
+
+    # ordem: cima, esquerda, direita, baixo
+    deslocamentos = [(0, -1), (-1, 0), (1, 0), (0, 1)]
+
+    for dc, dl in deslocamentos:
+        nova_c = col_num + dc
+        nova_l = lin_num + dl
+        if 1 <= nova_c <= 3 and 1 <= nova_l <= 3:
+            adjacentes.append(cria_posicao(chr(ord('a') + nova_c - 1), str(nova_l)))
+
+    return tuple(adjacentes)
+
+
     
