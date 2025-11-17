@@ -45,7 +45,7 @@ else:
 num_tests += 1
 p2 = cria_posicao('b', '3')
 t = tuple(posicao_para_str(p) for p in obter_posicoes_adjacentes(p2))
-print(t)
+
 if t == ('b2', 'a3', 'c3'):
     total_score += 1
     print("Teste " + str(num_tests) + ": Passou")

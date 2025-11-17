@@ -1,7 +1,4 @@
-from models.Peca import Peca as PecaModel
-from models.Posicao import Posicao as PosicaoModel
-from models.Tabuleiro import Tabuleiro as TabuleiroModel
-from logic.Movimentos import Movimentos as mov
+
 
 def main():
     print('teste AQUI VAI SER POSTERIORMENTE ONDE VAMOS LANÇAR O JOGO PARA RODAR')
