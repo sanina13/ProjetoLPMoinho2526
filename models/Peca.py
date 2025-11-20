@@ -27,6 +27,9 @@ def cria_copia_peca(j):
     """cria_copia_peca: peca → peca
     Devolve uma cópia da peça.
     """
+    if not eh_peca(j):
+        raise ValueError("cria_copia_peca: argumento invalido")
+    
     return j
 
 
