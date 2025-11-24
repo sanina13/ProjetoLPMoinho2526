@@ -27,39 +27,39 @@ def cria_tabuleiro():
     return [[cria_peca(' ') for _ in range(TAM)] for _ in range(TAM)]
 
 
-def cria_copia_tabuleiro(t):
+def cria_copia_tabuleiro(tabuleiro):
     """cria_copia_tabuleiro: tabuleiro → tabuleiro
     Devolve uma cópia independente do tabuleiro.
     """
-    return [[cria_copia_peca(t[i][j]) for j in range(TAM)] for i in range(TAM)]
+    return [[cria_copia_peca(tabuleiro[i][j]) for j in range(TAM)] for i in range(TAM)]
 
 
 # ================================
 #   SELETORES
 # ================================
 
-def obter_peca(t, p):
+def obter_peca(tabuleiro, posicao):
     """obter_peca: tabuleiro × posicao → peca
     Devolve a peça na posição indicada.
     """
-    c = ord(obter_pos_c(p)) - ord('a')
-    l = int(obter_pos_l(p)) - 1
-    return t[l][c]
+    coluna_indice = ord(obter_pos_c(posicao)) - ord('a')
+    linha_indice = int(obter_pos_l(posicao)) - 1
+    return tabuleiro[linha_indice][coluna_indice]
 
 
-def obter_vetor(t, s):
+def obter_vetor(tabuleiro, seletor):
     """obter_vetor: tabuleiro × str → tuplo de pecas
     Devolve todas as peças da linha (1–3) ou coluna (a–c).
     """
-    if not eh_tabuleiro(t):
+    if not eh_tabuleiro(tabuleiro):
         raise ValueError("obter_vetor: argumento invalido")
 
-    if s in NUMS:
-        l = int(s) - 1
-        return tuple(t[l][j] for j in range(TAM))
-    elif s in LETTERS:
-        c = ord(s) - ord('a')
-        return tuple(t[i][c] for i in range(TAM))
+    if seletor in NUMS:
+        linha_indice = int(seletor) - 1
+        return tuple(tabuleiro[linha_indice][j] for j in range(TAM))
+    elif seletor in LETTERS:
+        coluna_indice = ord(seletor) - ord('a')
+        return tuple(tabuleiro[i][coluna_indice] for i in range(TAM))
     else:
         raise ValueError("obter_vetor: argumento invalido")
 
@@ -68,50 +68,50 @@ def obter_vetor(t, s):
 #   MODIFICADORES (destrutivos)
 # ================================
 
-def coloca_peca(t, j, p):
+def coloca_peca(tabuleiro, peca, posicao):
     """coloca_peca: tabuleiro × peca × posicao → tabuleiro
     Coloca a peça j na posição p (modifica destrutivamente).
     """
-    c = ord(obter_pos_c(p)) - ord('a')
-    l = int(obter_pos_l(p)) - 1
-    t[l][c] = j
-    return t
+    coluna_indice = ord(obter_pos_c(posicao)) - ord('a')
+    linha_indice = int(obter_pos_l(posicao)) - 1
+    tabuleiro[linha_indice][coluna_indice] = peca
+    return tabuleiro
 
 
-def remove_peca(t, p):
+def remove_peca(tabuleiro, posicao):
     """remove_peca: tabuleiro × posicao → tabuleiro
     Remove a peça da posição p (coloca peça livre).
     """
-    return coloca_peca(t, cria_peca(' '), p)
+    return coloca_peca(tabuleiro, cria_peca(' '), posicao)
 
 
-def move_peca(t, p1, p2):
+def move_peca(tabuleiro, posicao_origem, posicao_destino):
     """move_peca: tabuleiro × posicao × posicao → tabuleiro
     Move a peça de p1 para p2 (modifica destrutivamente).
     """
-    j = obter_peca(t, p1)
-    remove_peca(t, p1)
-    coloca_peca(t, j, p2)
-    return t
+    peca_origem = obter_peca(tabuleiro, posicao_origem)
+    remove_peca(tabuleiro, posicao_origem)
+    coloca_peca(tabuleiro, peca_origem, posicao_destino)
+    return tabuleiro
 
 
 # ================================
 #   RECONHECEDORES E TESTES
 # ================================
 
-def eh_tabuleiro(arg):
+def eh_tabuleiro(argumento):
     """eh_tabuleiro: universal → booleano
     Verifica se o argumento é um tabuleiro válido (3x3 e com peças válidas).
     """
     try:
-        if len(arg) != TAM:
+        if len(argumento) != TAM:
             return False
         
-        for linha in arg:
+        for linha in argumento:
             if len(linha) != TAM:
                 return False
-            for p in linha:
-                if not eh_peca(p):
+            for peca in linha:
+                if not eh_peca(peca):
                     return False
 
         return True
@@ -120,83 +120,83 @@ def eh_tabuleiro(arg):
         return False
 
 
-def eh_posicao_livre(t, p):
+def eh_posicao_livre(tabuleiro, posicao):
     """eh_posicao_livre: tabuleiro × posicao → booleano"""
-    return obter_peca(t, p) == ' '
+    return obter_peca(tabuleiro, posicao) == ' '
 
 
-def tabuleiros_iguais(t1, t2):
+def tabuleiros_iguais(tabuleiro1, tabuleiro2):
     """tabuleiros_iguais: tabuleiro × tabuleiro → booleano"""
-    return eh_tabuleiro(t1) and eh_tabuleiro(t2) and t1 == t2
+    return eh_tabuleiro(tabuleiro1) and eh_tabuleiro(tabuleiro2) and tabuleiro1 == tabuleiro2
 
 
 # ================================
 #   TRANSFORMADORES
 # ================================
 
-def tabuleiro_para_str(t):
+def tabuleiro_para_str(tabuleiro):
     """tabuleiro_para_str: tabuleiro → str
     Devolve uma representação visual do tabuleiro.
     """
     linhas = ["   a   b   c"]
     for i in range(TAM):
-        linha = f"{i+1} " + "-".join(peca_para_str(t[i][j]) for j in range(TAM))
+        linha = f"{i+1} " + "-".join(peca_para_str(tabuleiro[i][j]) for j in range(TAM))
         linhas.append(linha)
         if i < TAM - 1:
             linhas.append("   | \\ | / |" if i % 2 == 0 else "   | / | \\ |")
     return "\n".join(linhas)
 
 
-def tuplo_para_tabuleiro(tp):
+def tuplo_para_tabuleiro(tuplo_tabuleiro):
     """tuplo_para_tabuleiro: tuplo → tabuleiro
     Constrói um tabuleiro a partir de um tuplo de 3 tuplos com valores (1, -1, 0).
     """
-    t = cria_tabuleiro()
+    tabuleiro = cria_tabuleiro()
     for i in range(TAM):
         for j in range(TAM):
-            if tp[i][j] == 1:
-                t[i][j] = 'X'
-            elif tp[i][j] == -1:
-                t[i][j] = 'O'
+            if tuplo_tabuleiro[i][j] == 1:
+                tabuleiro[i][j] = 'X'
+            elif tuplo_tabuleiro[i][j] == -1:
+                tabuleiro[i][j] = 'O'
             else:
-                t[i][j] = ' '
-    return t
+                tabuleiro[i][j] = ' '
+    return tabuleiro
 
 
 # ================================
 #   FUNÇÕES DE ALTO NÍVEL
 # ================================
 
-def obter_ganhador(t):
+def obter_ganhador(tabuleiro):
     """obter_ganhador: tabuleiro → peca
     Devolve a peça do jogador que ganhou (3 em linha), ou uma peça livre se não há ganhador.
     """
     # Linhas
     for i in range(TAM):
-        if t[i][0] == t[i][1] == t[i][2] != ' ':
-            return t[i][0]
+        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != ' ':
+            return tabuleiro[i][0]
     # Colunas
     for j in range(TAM):
-        if t[0][j] == t[1][j] == t[2][j] != ' ':
-            return t[0][j]
+        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != ' ':
+            return tabuleiro[0][j]
     return cria_peca(' ')
 
 
-def obter_posicoes_livres(t):
+def obter_posicoes_livres(tabuleiro):
     """obter_posicoes_livres: tabuleiro → tuplo de posicoes"""
     livres = []
     for i in range(TAM):
         for j in range(TAM):
-            if t[i][j] == ' ':
+            if tabuleiro[i][j] == ' ':
                 livres.append(cria_posicao(chr(ord('a') + j), str(i + 1)))
     return tuple(livres)
 
 
-def obter_posicoes_jogador(t, j):
+def obter_posicoes_jogador(tabuleiro, peca):
     """obter_posicoes_jogador: tabuleiro × peca → tuplo de posicoes"""
-    pos = []
+    posicoes = []
     for i in range(TAM):
         for k in range(TAM):
-            if pecas_iguais(t[i][k], j):
-                pos.append(cria_posicao(chr(ord('a') + k), str(i + 1)))
-    return tuple(pos)
+            if pecas_iguais(tabuleiro[i][k], peca):
+                posicoes.append(cria_posicao(chr(ord('a') + k), str(i + 1)))
+    return tuple(posicoes)

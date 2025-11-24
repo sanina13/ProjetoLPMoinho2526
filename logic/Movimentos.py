@@ -25,92 +25,92 @@ def obter_movimento_manual(tabuleiro, peca):
     uma ou duas posições (dependendo da fase).
     Lança ValueError('obter_movimento_manual: escolha invalida') se a jogada for inválida.
     """
-    pos_jog = obter_posicoes_jogador(tabuleiro, peca)
+    posicoes_jogador = obter_posicoes_jogador(tabuleiro, peca)
 
-    if len(pos_jog) < 3:
+    if len(posicoes_jogador) < 3:
         return fase_colocacao(tabuleiro)
     else:
-        return fase_movimentacao(tabuleiro, peca, pos_jog)
+        return fase_movimentacao(tabuleiro, peca, posicoes_jogador)
 
 
 def fase_colocacao(tabuleiro):
-    entrada = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
+    entrada_jogador = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
 
     try:
-        if len(entrada) != 2:
+        if len(entrada_jogador) != 2:
             raise ValueError
-        pos = cria_posicao(entrada[0], entrada[1])
-        if not eh_posicao_livre(tabuleiro, pos):
+        posicao = cria_posicao(entrada_jogador[0], entrada_jogador[1])
+        if not eh_posicao_livre(tabuleiro, posicao):
             raise ValueError
-        return (pos,)
+        return (posicao,)
     except Exception:
         raise ValueError("obter_movimento_manual: escolha invalida")
 
 
-def fase_movimentacao(tabuleiro, peca, pos_jog):
-    entrada = input("Turno do jogador. Escolha um movimento: ").strip().lower()
-    origem, destino = parse_movimento(entrada)
+def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
+    entrada_jogador = input("Turno do jogador. Escolha um movimento: ").strip().lower()
+    posicao_origem, posicao_destino = parse_movimento(entrada_jogador)
 
-    validar_posicao_jogador(tabuleiro, origem, peca)
+    validar_posicao_jogador(tabuleiro, posicao_origem, peca)
 
-    if verificar_passar_turno(tabuleiro, origem, destino, pos_jog):
-        return (origem, destino)
+    if verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_jogador):
+        return (posicao_origem, posicao_destino)
 
-    validar_destino(tabuleiro, origem, destino)
-    return (origem, destino)
+    validar_destino(tabuleiro, posicao_origem, posicao_destino)
+    return (posicao_origem, posicao_destino)
 
 
 # ==========================
 # AUXILIARES (MANUAL)
 # ==========================
 
-def peca_do_jogador_na_pos(tabuleiro, pos, peca):
+def peca_do_jogador_na_pos(tabuleiro, posicao, peca):
     """Verifica se a posição contém uma peça do jogador."""
-    return pecas_iguais(obter_peca(tabuleiro, pos), peca)
+    return pecas_iguais(obter_peca(tabuleiro, posicao), peca)
 
 
-def existe_movimento_livre(tabuleiro, pos_jog):
+def existe_movimento_livre(tabuleiro, posicoes_jogador):
     """Verifica se existe alguma peça do jogador que ainda possa mover."""
-    for origem in pos_jog:
-        for adj in obter_posicoes_adjacentes(origem):
-            if eh_posicao_livre(tabuleiro, adj):
+    for posicao_origem in posicoes_jogador:
+        for posicao_adj in obter_posicoes_adjacentes(posicao_origem):
+            if eh_posicao_livre(tabuleiro, posicao_adj):
                 return True
     return False
 
 
-def parse_movimento(entrada):
+def parse_movimento(entrada_movimento):
     """Lê a string do input e devolve as posições origem e destino."""
     try:
-        if len(entrada) != 4:
+        if len(entrada_movimento) != 4:
             raise ValueError
-        origem = cria_posicao(entrada[0], entrada[1])
-        destino = cria_posicao(entrada[2], entrada[3])
-        return origem, destino
+        posicao_origem = cria_posicao(entrada_movimento[0], entrada_movimento[1])
+        posicao_destino = cria_posicao(entrada_movimento[2], entrada_movimento[3])
+        return posicao_origem, posicao_destino
     except Exception:
         raise ValueError("obter_movimento_manual: escolha invalida")
 
 
-def validar_posicao_jogador(tabuleiro, origem, peca):
+def validar_posicao_jogador(tabuleiro, posicao_origem, peca):
     """Garante que a origem pertence ao jogador."""
-    if not peca_do_jogador_na_pos(tabuleiro, origem, peca):
+    if not peca_do_jogador_na_pos(tabuleiro, posicao_origem, peca):
         raise ValueError("obter_movimento_manual: escolha invalida")
 
 
-def verificar_passar_turno(tabuleiro, origem, destino, pos_jog):
+def verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_jogador):
     """Valida a regra de passar turno (origem == destino)."""
-    if posicoes_iguais(origem, destino):
-        if existe_movimento_livre(tabuleiro, pos_jog):
+    if posicoes_iguais(posicao_origem, posicao_destino):
+        if existe_movimento_livre(tabuleiro, posicoes_jogador):
             raise ValueError("obter_movimento_manual: escolha invalida")
         return True
     return False
 
 
-def validar_destino(tabuleiro, origem, destino):
+def validar_destino(tabuleiro, posicao_origem, posicao_destino):
     """Valida se o destino é livre e adjacente."""
-    if not eh_posicao_livre(tabuleiro, destino):
+    if not eh_posicao_livre(tabuleiro, posicao_destino):
         raise ValueError("obter_movimento_manual: escolha invalida")
 
-    if destino not in obter_posicoes_adjacentes(origem):
+    if posicao_destino not in obter_posicoes_adjacentes(posicao_origem):
         raise ValueError("obter_movimento_manual: escolha invalida")
 
 
@@ -133,67 +133,67 @@ def obter_movimento_auto(tabuleiro, peca, nivel):
 # ==========================================================
 
 def movimento_colocacao(tabuleiro, peca):
-    posicoes = obter_posicoes_livres(tabuleiro)
+    posicoes_livres = obter_posicoes_livres(tabuleiro)
 
-    condicao = vitoria(tabuleiro, posicoes, peca)
-    if condicao:
-        return condicao
+    resultado = vitoria(tabuleiro, posicoes_livres, peca)
+    if resultado:
+        return resultado
 
-    condicao = bloqueio(tabuleiro, posicoes, peca)
-    if condicao:
-        return condicao
+    resultado = bloqueio(tabuleiro, posicoes_livres, peca)
+    if resultado:
+        return resultado
 
-    condicao = centro(tabuleiro)
-    if condicao:
-        return condicao
+    resultado = centro(tabuleiro)
+    if resultado:
+        return resultado
 
-    condicao = cantos(posicoes)
-    if condicao:
-        return condicao
+    resultado = cantos(posicoes_livres)
+    if resultado:
+        return resultado
 
-    condicao = laterais(posicoes)
-    if condicao:
-        return condicao
+    resultado = laterais(posicoes_livres)
+    if resultado:
+        return resultado
 
-    if posicoes:
-        return (posicoes[0],)
-
-
-def vitoria(tabuleiro, posicoes, peca):
-    for pos in posicoes:
-        t_sim = cria_copia_tabuleiro(tabuleiro)
-        coloca_peca(t_sim, peca, pos)
-        if pecas_iguais(obter_ganhador(t_sim), peca):
-            return (pos,)
+    if posicoes_livres:
+        return (posicoes_livres[0],)
 
 
-def bloqueio(tabuleiro, posicoes, peca):
+def vitoria(tabuleiro, posicoes_livres, peca):
+    for posicao_livre in posicoes_livres:
+        tabuleiro_simulado = cria_copia_tabuleiro(tabuleiro)
+        coloca_peca(tabuleiro_simulado, peca, posicao_livre)
+        if pecas_iguais(obter_ganhador(tabuleiro_simulado), peca):
+            return (posicao_livre,)
+
+
+def bloqueio(tabuleiro, posicoes_livres, peca):
     adversario = obter_peca_adversario(peca)
-    for pos in posicoes:
-        t_sim = cria_copia_tabuleiro(tabuleiro)
-        coloca_peca(t_sim, adversario, pos)
-        if pecas_iguais(obter_ganhador(t_sim), adversario):
-            return (pos,)
+    for posicao_livre in posicoes_livres:
+        tabuleiro_simulado = cria_copia_tabuleiro(tabuleiro)
+        coloca_peca(tabuleiro_simulado, adversario, posicao_livre)
+        if pecas_iguais(obter_ganhador(tabuleiro_simulado), adversario):
+            return (posicao_livre,)
 
 
 def centro(tabuleiro):
-    c = cria_posicao('b', '2')
-    if eh_posicao_livre(tabuleiro, c):
-        return (c,)
+    posicao_centro = cria_posicao('b', '2')
+    if eh_posicao_livre(tabuleiro, posicao_centro):
+        return (posicao_centro,)
 
 
-def cantos(posicoes):
-    cantos = [cria_posicao(c, l) for c, l in [('a', '1'), ('a', '3'), ('c', '1'), ('c', '3')]]
-    for pos in posicoes:
-        if pos in cantos:
-            return (pos,)
+def cantos(posicoes_livres):
+    lista_cantos = [cria_posicao(c, l) for c, l in [('a', '1'), ('a', '3'), ('c', '1'), ('c', '3')]]
+    for posicao_livre in posicoes_livres:
+        if posicao_livre in lista_cantos:
+            return (posicao_livre,)
 
 
-def laterais(posicoes):
-    laterais = [cria_posicao(c, l) for c, l in [('a', '2'), ('b', '1'), ('b', '3'), ('c', '2')]]
-    for pos in posicoes:
-        if pos in laterais:
-            return (pos,)
+def laterais(posicoes_livres):
+    lista_laterais = [cria_posicao(c, l) for c, l in [('a', '2'), ('b', '1'), ('b', '3'), ('c', '2')]]
+    for posicao_livre in posicoes_livres:
+        if posicao_livre in lista_laterais:
+            return (posicao_livre,)
 
 
 # ==========================================================
@@ -201,54 +201,59 @@ def laterais(posicoes):
 # ==========================================================
 
 def movimento_movimentacao(tabuleiro, peca, nivel):
-    pos_jogador = obter_posicoes_jogador(tabuleiro, peca)
-    movimentos = movimentos_possiveis(tabuleiro, pos_jogador)
+    posicoes_jogador = obter_posicoes_jogador(tabuleiro, peca)
+    movimentos_disponiveis = movimentos_possiveis(tabuleiro, posicoes_jogador)
 
-    if not movimentos:
-        return (pos_jogador[0], pos_jogador[0])
+    if not movimentos_disponiveis:
+        return (posicoes_jogador[0], posicoes_jogador[0])
 
     if nivel == 'facil':
-        return movimentos[0]
+        return movimentos_disponiveis[0]
     elif nivel == 'normal':
-        resultado, jogadas = minimax(tabuleiro, peca, 1, [])
-        return jogadas[0] if jogadas else movimentos[0]
+        resultado_minimax, lista_jogadas = minimax(tabuleiro, peca, 1, [])
+        return lista_jogadas[0] if lista_jogadas else movimentos_disponiveis[0]
     elif nivel == 'dificil':
-        resultado, jogadas = minimax(tabuleiro, peca, 5, [])
-        return jogadas[0]
+        resultado_minimax, lista_jogadas = minimax(tabuleiro, peca, 5, [])
+        return lista_jogadas[0]
 
 
-def movimentos_possiveis(tabuleiro, pos_jogador):
-    movs = []
-    for origem in pos_jogador:
-        for destino in obter_posicoes_adjacentes(origem):
-            if eh_posicao_livre(tabuleiro, destino):
-                movs.append((origem, destino))
-    return movs
+def movimentos_possiveis(tabuleiro, posicoes_jogador):
+    movimentos = []
+    for posicao_origem in posicoes_jogador:
+        for posicao_destino in obter_posicoes_adjacentes(posicao_origem):
+            if eh_posicao_livre(tabuleiro, posicao_destino):
+                movimentos.append((posicao_origem, posicao_destino))
+    return movimentos
 
 
 # ==========================================================
 #   MINIMAX
 # ==========================================================
 
-def minimax(tabuleiro, peca, profundidade, seq_movimentos):
+def minimax(tabuleiro, peca, profundidade, sequencia_movimentos):
     if not pecas_iguais(obter_ganhador(tabuleiro), cria_peca(' ')) or profundidade == 0:
-        return peca_para_inteiro(obter_ganhador(tabuleiro)), seq_movimentos
+        return peca_para_inteiro(obter_ganhador(tabuleiro)), sequencia_movimentos
 
     melhor_resultado = -2 if peca_para_inteiro(peca) == 1 else 2
-    melhor_seq = seq_movimentos
+    melhor_sequencia = sequencia_movimentos
 
-    for origem in obter_posicoes_jogador(tabuleiro, peca):
-        for destino in obter_posicoes_adjacentes(origem):
-            if eh_posicao_livre(tabuleiro, destino):
-                t_sim = cria_copia_tabuleiro(tabuleiro)
-                move_peca(t_sim, origem, destino)
-                peca_adv = obter_peca_adversario(peca)
-                novo_resultado, nova_seq = minimax(
-                    t_sim, peca_adv, profundidade - 1, seq_movimentos + [(origem, destino)]
+    for posicao_origem in obter_posicoes_jogador(tabuleiro, peca):
+        for posicao_destino in obter_posicoes_adjacentes(posicao_origem):
+            if eh_posicao_livre(tabuleiro, posicao_destino):
+                tabuleiro_simulado = cria_copia_tabuleiro(tabuleiro)
+                move_peca(tabuleiro_simulado, posicao_origem, posicao_destino)
+                peca_adversario = obter_peca_adversario(peca)
+
+                novo_resultado, nova_sequencia = minimax(
+                    tabuleiro_simulado,
+                    peca_adversario,
+                    profundidade - 1,
+                    sequencia_movimentos + [(posicao_origem, posicao_destino)]
                 )
 
                 jogador_x = peca_para_inteiro(peca) == 1
-                if (jogador_x and novo_resultado > melhor_resultado) or (not jogador_x and novo_resultado < melhor_resultado):
-                    melhor_resultado, melhor_seq = novo_resultado, nova_seq
+                if (jogador_x and novo_resultado > melhor_resultado) or \
+                   (not jogador_x and novo_resultado < melhor_resultado):
+                    melhor_resultado, melhor_sequencia = novo_resultado, nova_sequencia
 
-    return melhor_resultado, melhor_seq
+    return melhor_resultado, melhor_sequencia
