@@ -1,10 +1,9 @@
-
+from logic.moinho import *
 
 def main():
-    print('teste AQUI VAI SER POSTERIORMENTE ONDE VAMOS LANÇAR O JOGO PARA RODAR')
+    print("Bem‑vindo ao Jogo do Moinho!")
+    vencedor = moinho('[X]', 'facil')
+    print("Vencedor:", vencedor)
 
-
-
-# Garante que o jogo só roda se o script for executado diretamente
 if __name__ == "__main__":
     main()

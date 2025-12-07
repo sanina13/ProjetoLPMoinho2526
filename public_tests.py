@@ -1,5 +1,5 @@
 from logic.movimentos import * 
-
+from logic.moinho import *
 # imports para simular a stream de input/output
 import io
 import sys
@@ -263,7 +263,7 @@ if posicao_para_str(movimento[0]) == "c3" and posicao_para_str(movimento[1]) == 
 else:
     print("Teste " + str(num_tests) + ": Falhou")
 
-"""
+
 # moinho
 
 
@@ -286,6 +286,6 @@ try:
 except:
     print("\nTeste " + str(num_tests) + ": Falhou")
     pass 
-"""
+
 print("---------------------")
 print("Pontuacao final do projeto: ", total_score, "/", num_tests, "(" + "{:.2f}".format((total_score / num_tests) * 100) + "% )")
