@@ -1,4 +1,4 @@
-from logic.moinho import *
+from logic.Moinho import *
 
 def main():
     print("Bem‑vindo ao Jogo do Moinho!")

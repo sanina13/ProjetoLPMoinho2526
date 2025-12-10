@@ -4,8 +4,8 @@ O TAD tabuleiro representa um tabuleiro do jogo do moinho (3x3) e as peças nele
 Cada posição pode estar ocupada por uma peça ('X', 'O' ou ' ') ou livre.
 """
 
-from models.peca import *
-from models.posicao import *
+from models.Peca import *
+from models.Posicao import *
 
 # ============================================================
 # Representação interna: lista de listas 3x3 de peças ('X','O',' ')
