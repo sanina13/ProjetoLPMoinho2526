@@ -1,4 +1,4 @@
-from logic.moinho import *
+from logic.Moinho import *
 
 def main():
     vencedor = moinho('[X]', 'dificil')

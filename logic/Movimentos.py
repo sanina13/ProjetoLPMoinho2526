@@ -1,4 +1,4 @@
-from models.tabuleiro import *
+from models.Tabuleiro import *
 
 # ==========================================================
 #   MOVIMENTO MANUAL OU AUTOMÁTICO

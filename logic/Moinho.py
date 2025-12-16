@@ -1,5 +1,5 @@
 # moinho.py
-from logic.movimentos import *
+from logic.Movimentos import *
 
 def moinho(jogador_inicial, modo):
     # validar argumentos

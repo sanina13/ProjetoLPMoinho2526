@@ -1,5 +1,5 @@
-from logic.movimentos import * 
-from logic.moinho import *
+from logic.Movimentos import * 
+from logic.Moinho import *
 # imports para simular a stream de input/output
 import io
 import sys
