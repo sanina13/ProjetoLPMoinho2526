@@ -1,8 +1,7 @@
 from logic.moinho import *
 
 def main():
-    print("Bem‑vindo ao Jogo do Moinho!")
-    vencedor = moinho('[X]', 'facil')
+    vencedor = moinho('[X]', 'dificil')
     print("Vencedor:", vencedor)
 
 if __name__ == "__main__":
