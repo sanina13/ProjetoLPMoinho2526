@@ -111,7 +111,9 @@ def eh_tabuleiro(tabuleiro):
                     countO += 1
         if countX > 3 or countO > 3 or countO > countX+1 or countX > countO+1:
             return False
-        
+        if contar_vencedores(tabuleiro) > 1:
+            return False
+
         return True
     except Exception:
         # se nao for indexavel ou nao tiver len(), nao e um tabuleiro
@@ -194,3 +196,22 @@ def obter_posicoes_jogador(tabuleiro, peca):
             if pecas_iguais(tabuleiro[i][k], peca):
                 posicoes.append(cria_posicao(chr(ord('a') + k), str(i + 1)))
     return tuple(posicoes)
+
+# funcao auxiliar
+
+def contar_vencedores(tabuleiro):
+    """contar_vencedores: tabuleiro -> int
+    Devolve o numero de vencedores no tabuleiro (linhas e colunas).
+    """
+    count_vencedores = 0
+    
+    # Linhas
+    for i in range(TAM):
+        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != cria_peca(' '):
+            count_vencedores += 1
+    # Colunas
+    for j in range(TAM):
+        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != cria_peca(' '):
+            count_vencedores += 1
+            
+    return count_vencedores
