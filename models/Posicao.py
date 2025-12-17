@@ -14,15 +14,13 @@ NUMS = ('1', '2', '3')
 # =====================================================
 
 def cria_posicao(coluna, linha):
-    """cria_posicao: str x str -> posicao"""
     if coluna not in LETRAS or linha not in NUMS:
         raise ValueError("cria_posicao: argumentos invalidos")
     return (coluna, linha)
 
 
 def cria_copia_posicao(posicao):
-    """cria_copia_posicao: posicao -> posicao"""
-    return cria_posicao(obter_pos_c(posicao), obter_pos_l(posicao))
+    return cria_posicao(posicao[0], posicao[1])
 
 
 # =====================================================
@@ -30,12 +28,10 @@ def cria_copia_posicao(posicao):
 # =====================================================
 
 def obter_pos_c(posicao):
-    """obter_pos_c: posicao -> str"""
     return posicao[0]
 
 
 def obter_pos_l(posicao):
-    """obter_pos_l: posicao -> str"""
     return posicao[1]
 
 
@@ -44,16 +40,12 @@ def obter_pos_l(posicao):
 # =====================================================
 
 def eh_posicao(arg):
-    """eh_posicao: universal -> booleano"""
-    try:
-        return (
-            isinstance(arg, tuple) and
-            len(arg) == 2 and
-            arg[0] in LETRAS and
-            arg[1] in NUMS
-        )
-    except Exception:
-        return False
+    return (
+        isinstance(arg, tuple) and
+        len(arg) == 2 and
+        arg[0] in LETRAS and
+        arg[1] in NUMS
+    )
 
 
 # =====================================================
@@ -61,7 +53,6 @@ def eh_posicao(arg):
 # =====================================================
 
 def posicoes_iguais(p1, p2):
-    """posicoes_iguais: posicao x posicao -> booleano"""
     return eh_posicao(p1) and eh_posicao(p2) and p1 == p2
 
 
@@ -70,8 +61,7 @@ def posicoes_iguais(p1, p2):
 # =====================================================
 
 def posicao_para_str(posicao):
-    """posicao_para_str: posicao -> str"""
-    return obter_pos_c(posicao) + obter_pos_l(posicao)
+    return posicao[0] + posicao[1]
 
 
 # =====================================================
@@ -79,9 +69,8 @@ def posicao_para_str(posicao):
 # =====================================================
 
 def obter_posicoes_adjacentes(posicao):
-    """obter_posicoes_adjacentes: posicao -> tuplo de posicoes"""
-    col = ord(obter_pos_c(posicao)) - ord('a')
-    lin = int(obter_pos_l(posicao)) - 1
+    col = ord(posicao[0]) - ord('a')
+    lin = int(posicao[1]) - 1
 
     adj = []
 
@@ -94,7 +83,7 @@ def obter_posicoes_adjacentes(posicao):
             nc = col + dc
 
             if 0 <= nl < 3 and 0 <= nc < 3:
-                # diagonais so nos centros e cantos
+                # diagonais apenas nos cantos e centro
                 if dl != 0 and dc != 0:
                     if not (lin == col or lin + col == 2):
                         continue
@@ -104,5 +93,5 @@ def obter_posicoes_adjacentes(posicao):
                 )
 
     # ordem de leitura do tabuleiro
-    adj.sort(key=lambda p: (int(obter_pos_l(p)), obter_pos_c(p)))
+    adj.sort(key=lambda p: (int(p[1]), p[0]))
     return tuple(adj)

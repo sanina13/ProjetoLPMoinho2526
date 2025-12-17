@@ -12,14 +12,12 @@ PECAS_VALIDAS = ('X', 'O', ' ')
 # =====================================================
 
 def cria_peca(s):
-    """cria_peca: str -> peca"""
     if s not in PECAS_VALIDAS:
         raise ValueError("cria_peca: argumento invalido")
     return s
 
 
 def cria_copia_peca(peca):
-    """cria_copia_peca: peca -> peca"""
     return peca
 
 
@@ -28,7 +26,6 @@ def cria_copia_peca(peca):
 # =====================================================
 
 def eh_peca(arg):
-    """eh_peca: universal -> booleano"""
     return arg in PECAS_VALIDAS
 
 
@@ -36,9 +33,8 @@ def eh_peca(arg):
 # TESTE
 # =====================================================
 
-def pecas_iguais(j1, j2):
-    """pecas_iguais: peca x peca -> booleano"""
-    return eh_peca(j1) and eh_peca(j2) and j1 == j2
+def pecas_iguais(p1, p2):
+    return eh_peca(p1) and eh_peca(p2) and p1 == p2
 
 
 # =====================================================
@@ -46,7 +42,6 @@ def pecas_iguais(j1, j2):
 # =====================================================
 
 def peca_para_str(peca):
-    """peca_para_str: peca -> str"""
     return "[" + peca + "]"
 
 
@@ -55,7 +50,6 @@ def peca_para_str(peca):
 # =====================================================
 
 def peca_para_inteiro(peca):
-    """peca_para_inteiro: peca -> int"""
     if peca == 'X':
         return 1
     if peca == 'O':
@@ -64,11 +58,10 @@ def peca_para_inteiro(peca):
 
 
 # =====================================================
-# FUNCAO AUXILIAR (opcional)
+# FUNCAO AUXILIAR
 # =====================================================
 
 def obter_peca_adversario(peca):
-    """obter_peca_adversario: peca -> peca"""
     if peca == 'X':
         return 'O'
     if peca == 'O':
