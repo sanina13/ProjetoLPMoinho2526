@@ -36,7 +36,7 @@ def obter_movimento_manual(tabuleiro, peca):
 def fase_colocacao(tabuleiro):
     jogada_validada = False
     while not jogada_validada:
-        entrada_jogador = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
+        entrada_jogador = input("Turno do jogador. Escolha uma posicao (ex: a1, coluna a-c, linha 1-3): ").strip().lower()
 
         try:
             if len(entrada_jogador) != 2:
@@ -47,7 +47,7 @@ def fase_colocacao(tabuleiro):
             jogada_validada = True
             return (posicao,)
         except Exception:
-            print("Escolha inválida. Tente novamente.")
+            print("Escolha inválida. Formato esperado: 'a1' (coluna a-c, linha 1-3). Tente novamente.")
         
 
 
@@ -55,14 +55,20 @@ def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
     jogada_validada = False
     while not jogada_validada:
         try:
-            entrada_jogador = input("Turno do jogador. Escolha um movimento: ").strip().lower()
+            entrada_jogador = input("Turno do jogador. Escolha um movimento (ex: a1b2, origem+destino): ").strip().lower()
         except EOFError:
             # Em ambiente de testes (stdin esgotado), propagamos como ValueError para manter compatibilidade
             raise ValueError("obter_movimento_manual: escolha invalida")
 
+        # Primeiro tente interpretar o formato (origem+destino)
         try:
             posicao_origem, posicao_destino = parse_movimento(entrada_jogador)
+        except ValueError:
+            print("Formato inválido. Formato esperado: 'a1b2' (origem+destino). Tente novamente.")
+            continue
 
+        # Agora valide semanticamente a jogada (pertence ao jogador, destino livre/adjacente)
+        try:
             validar_posicao_jogador(tabuleiro, posicao_origem, peca)
 
             if verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_jogador):
@@ -72,8 +78,9 @@ def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
             validar_destino(tabuleiro, posicao_origem, posicao_destino)
             jogada_validada = True
             return (posicao_origem, posicao_destino)
-        except Exception:
-            print("Escolha inválida. Tente novamente.")
+        except ValueError:
+            print("Movimento inválido: origem não é sua peça, destino ocupado ou não adjacente. Tente novamente.")
+            continue
 
 
 # ==========================
