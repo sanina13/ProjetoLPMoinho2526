@@ -1,7 +1,7 @@
 """
-Módulo: posicao
-O TAD posicao é usado para representar uma posição do tabuleiro de jogo. Cada posição é
-caraterizada pela coluna e linha que ocupa no tabuleiro. 
+Modulo: posicao
+O TAD posicao e usado para representar uma posicao do tabuleiro de jogo. Cada posicao
+e caracterizada pela coluna e linha que ocupa no tabuleiro.
 """
 
 # Constantes
@@ -9,13 +9,12 @@ LETRAS = ('a', 'b', 'c')
 NUMS = ('1', '2', '3')
 
 
-# ================================
+
 #   CONSTRUTORES
-# ================================
 
 def cria_posicao(coluna, linha):
-    """cria_posicao: str × str → posicao
-    Cria uma posição (tuplo) a partir da coluna c e linha l.
+    """cria_posicao: str x str -> posicao
+    Cria uma posicao (tuplo) a partir da coluna c e linha l.
     """
     if coluna not in LETRAS or linha not in NUMS:
         raise ValueError("cria_posicao: argumentos invalidos")
@@ -23,30 +22,27 @@ def cria_posicao(coluna, linha):
 
 
 def cria_copia_posicao(posicao):
-    """cria_copia_posicao: posicao → posicao"""
+    """cria_copia_posicao: posicao -> posicao"""
     return (posicao[0], posicao[1])
 
 
-# ================================
+
 #   SELETORES
-# ================================
 
 def obter_pos_c(posicao):
-    """obter_pos_c: posicao → str"""
+    """obter_pos_c: posicao -> str"""
     return posicao[0]
 
 
 def obter_pos_l(posicao):
-    """obter_pos_l: posicao → str"""
+    """obter_pos_l: posicao -> str"""
     return posicao[1]
 
 
-# ================================
 #   RECONHECEDOR
-# ================================
 
 def eh_posicao(argumento):
-    """eh_posicao: universal → booleano"""
+    """eh_posicao: universal -> booleano"""
     try:
         coluna, linha = argumento[0], argumento[1]
         return len(argumento) == 2 and coluna in LETRAS and linha in NUMS
@@ -54,30 +50,24 @@ def eh_posicao(argumento):
         return False
 
 
-# ================================
 #   TESTE
-# ================================
 
 def posicoes_iguais(posicao1, posicao2):
-    """posicoes_iguais: posicao × posicao → booleano"""
+    """posicoes_iguais: posicao x posicao -> booleano"""
     return eh_posicao(posicao1) and eh_posicao(posicao2) and posicao1 == posicao2
 
 
-# ================================
 #   TRANSFORMADOR
-# ================================
 
 def posicao_para_str(posicao):
-    """posicao_para_str: posicao → str"""
+    """posicao_para_str: posicao -> str"""
     return posicao[0] + posicao[1]
 
 
-# ================================
-#   FUNÇÃO DE ALTO NÍVEL
-# ================================
+#   FUNCAO DE ALTO NIVEL
 
 def obter_posicoes_adjacentes(posicao):
-    """obter_posicoes_adjacentes: posicao → tuplo de posicoes"""
+    """obter_posicoes_adjacentes: posicao -> tuplo de posicoes"""
     coluna= obter_pos_c(posicao)
     linha = obter_pos_l(posicao)
     
