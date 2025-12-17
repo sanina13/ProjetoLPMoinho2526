@@ -69,7 +69,7 @@ def peca_para_str(peca):
 
 
 def peca_para_inteiro(peca):
-        """peca_para_inteiro: peca -> int
+    """peca_para_inteiro: peca -> int
         Devolve:
             1 se a peca e 'X'
          -1 se a peca e 'O'

@@ -169,21 +169,20 @@ def obter_ganhador(tabuleiro):
     """
     # Linhas
     for i in range(TAM):
-        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != cria_peca(' '):
-            return tabuleiro[i][0]
+        if obter_peca(tabuleiro, cria_posicao('a', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(i + 1))) != cria_peca(' '):
+            return obter_peca(tabuleiro, cria_posicao('a', str(i + 1)))
     # Colunas
     for j in range(TAM):
-        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != cria_peca(' '):
-            return tabuleiro[0][j]
+        if obter_peca(tabuleiro, cria_posicao('a', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(j + 1))) != cria_peca(' '):
+            return obter_peca(tabuleiro, cria_posicao('a', str(j + 1)))
     return cria_peca(' ')
-
 
 def obter_posicoes_livres(tabuleiro):
     """obter_posicoes_livres: tabuleiro -> tuplo de posicoes"""
     livres = []
     for i in range(TAM):
         for j in range(TAM):
-            if tabuleiro[i][j] == cria_peca(' '):
+            if obter_peca(tabuleiro, cria_posicao(chr(ord('a') + j), str(i + 1))) == cria_peca(' '):
                 livres.append(cria_posicao(chr(ord('a') + j), str(i + 1)))
     return tuple(livres)
 
@@ -193,7 +192,7 @@ def obter_posicoes_jogador(tabuleiro, peca):
     posicoes = []
     for i in range(TAM):
         for k in range(TAM):
-            if pecas_iguais(tabuleiro[i][k], peca):
+            if pecas_iguais(obter_peca(tabuleiro, cria_posicao(chr(ord('a') + k), str(i + 1))), peca):
                 posicoes.append(cria_posicao(chr(ord('a') + k), str(i + 1)))
     return tuple(posicoes)
 
@@ -207,11 +206,11 @@ def contar_vencedores(tabuleiro):
     
     # Linhas
     for i in range(TAM):
-        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != cria_peca(' '):
+        if obter_peca(tabuleiro, cria_posicao('a', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(i + 1))) != cria_peca(' '):
             count_vencedores += 1
     # Colunas
     for j in range(TAM):
-        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != cria_peca(' '):
+        if obter_peca(tabuleiro, cria_posicao('a', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(j + 1))) != cria_peca(' '):
             count_vencedores += 1
-            
+
     return count_vencedores
