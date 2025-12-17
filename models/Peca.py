@@ -1,76 +1,99 @@
 """
 Modulo: peca
 O TAD peca e usado para representar as pecas do jogo do moinho.
-Cada peca pertence ao jogador 'X', 'O' ou e livre (' ').
+Cada peca e caracterizada pelo jogador ('X', 'O') ou pode ser livre (' ').
 """
+
+
+#   Representacao interna: string simples ('X', 'O' ou ' ')
+
 
 PECAS_VALIDAS = ('X', 'O', ' ')
 
 
-# =====================================================
-# CONSTRUTORES
-# =====================================================
+#   CONSTRUTORES
 
-def cria_peca(s):
-    """cria_peca: str -> peca"""
-    if s not in PECAS_VALIDAS:
+
+def cria_peca(identificador_peca):
+    """cria_peca: str -> peca
+    Cria uma peca correspondente ao jogador indicado ('X', 'O' ou ' ').
+    """
+    if identificador_peca not in PECAS_VALIDAS:
         raise ValueError("cria_peca: argumento invalido")
-    return s
+    return identificador_peca
 
 
 def cria_copia_peca(peca):
-    """cria_copia_peca: peca -> peca"""
-    return peca
+    """cria_copia_peca: peca -> peca
+    Devolve uma copia da peca.
+    """
+    
+    return cria_peca(peca)  
 
 
-# =====================================================
-# RECONHECEDOR
-# =====================================================
+
+#   RECONHECEDOR
 
 def eh_peca(arg):
-    """eh_peca: universal -> booleano"""
+    """eh_peca: universal -> booleano
+    Devolve True se o argumento representar uma peca valida ('X', 'O' ou ' ').
+    """
+   
     return arg in PECAS_VALIDAS
 
 
-# =====================================================
-# TESTE
-# =====================================================
-
-def pecas_iguais(j1, j2):
-    """pecas_iguais: peca x peca -> booleano"""
-    return eh_peca(j1) and eh_peca(j2) and j1 == j2
 
 
-# =====================================================
-# TRANSFORMADOR
-# =====================================================
+#   TESTE
+
+
+def pecas_iguais(peca1, peca2):
+    """pecas_iguais: peca x peca -> booleano
+    Devolve True apenas se j1 e j2 sao pecas e sao iguais.
+    """
+    return eh_peca(peca1) and eh_peca(peca2) and peca1 == peca2
+
+
+
+#   TRANSFORMADORES
+
 
 def peca_para_str(peca):
-    """peca_para_str: peca -> str"""
-    return "[" + peca + "]"
+    """peca_para_str: peca -> str
+    Devolve a cadeia '[X]', '[O]' ou '[]' que representa a peca.
+    """
+    return f"[{peca}]"
 
 
-# =====================================================
-# FUNCAO DE ALTO NIVEL
-# =====================================================
+#   Funcao de alto nivel
+
 
 def peca_para_inteiro(peca):
-    """peca_para_inteiro: peca -> int"""
-    if peca == 'X':
+    """peca_para_inteiro: peca -> int
+        Devolve:
+            1 se a peca e 'X'
+         -1 se a peca e 'O'
+            0 se a peca e ' ' (livre)
+        """
+    if pecas_iguais(peca, cria_peca('X')):
         return 1
-    if peca == 'O':
+    elif pecas_iguais(peca, cria_peca('O')):
         return -1
-    return 0
+    else:
+        return 0
 
 
-# =====================================================
-# FUNCAO AUXILIAR (opcional)
-# =====================================================
+
+#   FUNCAO AUXILIAR (nao obrigatoria)
+
 
 def obter_peca_adversario(peca):
-    """obter_peca_adversario: peca -> peca"""
-    if peca == 'X':
-        return 'O'
-    if peca == 'O':
-        return 'X'
-    return ' '
+    """obter_peca_adversario: peca -> peca
+    Devolve a peca do jogador adversario.
+    """
+    if pecas_iguais(peca, cria_peca('X')):
+        return cria_peca('O')
+    elif pecas_iguais(peca, cria_peca('O')):
+        return cria_peca('X')
+    else:
+        return cria_peca(' ')
