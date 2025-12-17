@@ -45,9 +45,6 @@ def obter_vetor(tabuleiro, seletor):
     """obter_vetor: tabuleiro x str -> tuplo de pecas
     Devolve todas as pecas da linha (1-3) ou coluna (a-c).
     """
-    if not eh_tabuleiro(tabuleiro):
-        raise ValueError("obter_vetor: argumento invalido")
-
     if seletor in NUMS:
         linha_indice = int(seletor) - 1
         return tuple(tabuleiro[linha_indice][j] for j in range(TAM))
@@ -56,6 +53,7 @@ def obter_vetor(tabuleiro, seletor):
         return tuple(tabuleiro[i][coluna_indice] for i in range(TAM))
     else:
         raise ValueError("obter_vetor: argumento invalido")
+
 
 
 #   MODIFICADORES (destrutivos)
@@ -167,14 +165,24 @@ def obter_ganhador(tabuleiro):
     """obter_ganhador: tabuleiro -> peca
     Devolve a peca do jogador que ganhou (3 em linha), ou uma peca livre se nao ha ganhador.
     """
-    # Linhas
+
+    # Verificar linhas (horizontal)
     for i in range(TAM):
-        if obter_peca(tabuleiro, cria_posicao('a', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(i + 1))) != cria_peca(' '):
-            return obter_peca(tabuleiro, cria_posicao('a', str(i + 1)))
-    # Colunas
+        p1 = obter_peca(tabuleiro, cria_posicao('a', str(i + 1)))
+        p2 = obter_peca(tabuleiro, cria_posicao('b', str(i + 1)))
+        p3 = obter_peca(tabuleiro, cria_posicao('c', str(i + 1)))
+        if p1 == p2 == p3 != cria_peca(' '):
+            return p1
+
+    # Verificar colunas (vertical)
     for j in range(TAM):
-        if obter_peca(tabuleiro, cria_posicao('a', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(j + 1))) != cria_peca(' '):
-            return obter_peca(tabuleiro, cria_posicao('a', str(j + 1)))
+        col = chr(ord('a') + j)
+        p1 = obter_peca(tabuleiro, cria_posicao(col, '1'))
+        p2 = obter_peca(tabuleiro, cria_posicao(col, '2'))
+        p3 = obter_peca(tabuleiro, cria_posicao(col, '3'))
+        if p1 == p2 == p3 != cria_peca(' '):
+            return p1
+
     return cria_peca(' ')
 
 def obter_posicoes_livres(tabuleiro):
@@ -202,15 +210,23 @@ def contar_vencedores(tabuleiro):
     """contar_vencedores: tabuleiro -> int
     Devolve o numero de vencedores no tabuleiro (linhas e colunas).
     """
-    count_vencedores = 0
-    
+    count = 0
+
     # Linhas
     for i in range(TAM):
-        if obter_peca(tabuleiro, cria_posicao('a', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(i + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(i + 1))) != cria_peca(' '):
-            count_vencedores += 1
+        p1 = obter_peca(tabuleiro, cria_posicao('a', str(i + 1)))
+        p2 = obter_peca(tabuleiro, cria_posicao('b', str(i + 1)))
+        p3 = obter_peca(tabuleiro, cria_posicao('c', str(i + 1)))
+        if p1 == p2 == p3 != cria_peca(' '):
+            count += 1
+
     # Colunas
     for j in range(TAM):
-        if obter_peca(tabuleiro, cria_posicao('a', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('b', str(j + 1))) == obter_peca(tabuleiro, cria_posicao('c', str(j + 1))) != cria_peca(' '):
-            count_vencedores += 1
+        col = chr(ord('a') + j)
+        p1 = obter_peca(tabuleiro, cria_posicao(col, '1'))
+        p2 = obter_peca(tabuleiro, cria_posicao(col, '2'))
+        p3 = obter_peca(tabuleiro, cria_posicao(col, '3'))
+        if p1 == p2 == p3 != cria_peca(' '):
+            count += 1
 
-    return count_vencedores
+    return count

@@ -26,6 +26,7 @@ def cria_copia_posicao(posicao):
     return cria_posicao(obter_pos_c(posicao), obter_pos_l(posicao))
 
 
+
 #   SELETORES
 
 def obter_pos_c(posicao):
