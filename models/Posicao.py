@@ -89,6 +89,6 @@ def obter_posicoes_adjacentes(posicao):
                 cria_posicao(chr(ord('a') + nova_coluna_num - 1), str(nova_linha_num))
             )
     
-    adjacentes.sort(key = lambda pos: (obter_pos_l(pos), obter_pos_c(pos)))       
+    adjacentes.sort(key=lambda p: (int(obter_pos_l(p)), obter_pos_c(p)))       
 
     return tuple(adjacentes)
