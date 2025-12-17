@@ -122,7 +122,7 @@ def eh_tabuleiro(argumento):
 
 def eh_posicao_livre(tabuleiro, posicao):
     """eh_posicao_livre: tabuleiro × posicao → booleano"""
-    return obter_peca(tabuleiro, posicao) == ' '
+    return obter_peca(tabuleiro, posicao) == cria_peca(' ')
 
 
 def tabuleiros_iguais(tabuleiro1, tabuleiro2):
@@ -155,11 +155,11 @@ def tuplo_para_tabuleiro(tuplo_tabuleiro):
     for i in range(TAM):
         for j in range(TAM):
             if tuplo_tabuleiro[i][j] == 1:
-                tabuleiro[i][j] = 'X'
+                tabuleiro[i][j] = cria_peca('X')
             elif tuplo_tabuleiro[i][j] == -1:
-                tabuleiro[i][j] = 'O'
+                tabuleiro[i][j] = cria_peca('O')
             else:
-                tabuleiro[i][j] = ' '
+                tabuleiro[i][j] = cria_peca(' ')
     return tabuleiro
 
 
@@ -173,11 +173,11 @@ def obter_ganhador(tabuleiro):
     """
     # Linhas
     for i in range(TAM):
-        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != ' ':
+        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != cria_peca(' '):
             return tabuleiro[i][0]
     # Colunas
     for j in range(TAM):
-        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != ' ':
+        if tabuleiro[0][j] == tabuleiro[1][j] == tabuleiro[2][j] != cria_peca(' '):
             return tabuleiro[0][j]
     return cria_peca(' ')
 
