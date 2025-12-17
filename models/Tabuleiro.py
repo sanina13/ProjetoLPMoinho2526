@@ -99,21 +99,29 @@ def move_peca(tabuleiro, posicao_origem, posicao_destino):
 #   RECONHECEDORES E TESTES
 # ================================
 
-def eh_tabuleiro(argumento):
+def eh_tabuleiro(tabuleiro):
     """eh_tabuleiro: universal → booleano
     Verifica se o argumento é um tabuleiro válido (3x3 e com peças válidas).
     """
+    countX = 0
+    countO = 0
     try:
-        if len(argumento) != TAM:
+        if len(tabuleiro) != TAM:
             return False
         
-        for linha in argumento:
+        for linha in tabuleiro:
             if len(linha) != TAM:
                 return False
             for peca in linha:
                 if not eh_peca(peca):
                     return False
-
+                elif peca == cria_peca('X'):    
+                    countX += 1
+                elif peca == cria_peca('O'):
+                    countO += 1
+        if countX > 3 or countO > 3 or countO > countX+1 or countX > countO+1:
+            return False
+        
         return True
     except Exception:
         # se não for indexável ou não tiver len(), não é um tabuleiro
@@ -187,7 +195,7 @@ def obter_posicoes_livres(tabuleiro):
     livres = []
     for i in range(TAM):
         for j in range(TAM):
-            if tabuleiro[i][j] == ' ':
+            if tabuleiro[i][j] == cria_peca(' '):
                 livres.append(cria_posicao(chr(ord('a') + j), str(i + 1)))
     return tuple(livres)
 
