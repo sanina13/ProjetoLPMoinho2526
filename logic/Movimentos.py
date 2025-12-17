@@ -34,30 +34,46 @@ def obter_movimento_manual(tabuleiro, peca):
 
 
 def fase_colocacao(tabuleiro):
-    entrada_jogador = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
+    jogada_validada = False
+    while not jogada_validada:
+        entrada_jogador = input("Turno do jogador. Escolha uma posicao: ").strip().lower()
 
-    try:
-        if len(entrada_jogador) != 2:
-            raise ValueError
-        posicao = cria_posicao(entrada_jogador[0], entrada_jogador[1])
-        if not eh_posicao_livre(tabuleiro, posicao):
-            raise ValueError
-        return (posicao,)
-    except Exception:
-        raise ValueError("obter_movimento_manual: escolha invalida")
+        try:
+            if len(entrada_jogador) != 2:
+                raise ValueError
+            posicao = cria_posicao(entrada_jogador[0], entrada_jogador[1])
+            if not eh_posicao_livre(tabuleiro, posicao):
+                raise ValueError
+            jogada_validada = True
+            return (posicao,)
+        except Exception:
+            print("Escolha inválida. Tente novamente.")
+        
 
 
 def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
-    entrada_jogador = input("Turno do jogador. Escolha um movimento: ").strip().lower()
-    posicao_origem, posicao_destino = parse_movimento(entrada_jogador)
+    jogada_validada = False
+    while not jogada_validada:
+        try:
+            entrada_jogador = input("Turno do jogador. Escolha um movimento: ").strip().lower()
+        except EOFError:
+            # Em ambiente de testes (stdin esgotado), propagamos como ValueError para manter compatibilidade
+            raise ValueError("obter_movimento_manual: escolha invalida")
 
-    validar_posicao_jogador(tabuleiro, posicao_origem, peca)
+        try:
+            posicao_origem, posicao_destino = parse_movimento(entrada_jogador)
 
-    if verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_jogador):
-        return (posicao_origem, posicao_destino)
+            validar_posicao_jogador(tabuleiro, posicao_origem, peca)
 
-    validar_destino(tabuleiro, posicao_origem, posicao_destino)
-    return (posicao_origem, posicao_destino)
+            if verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_jogador):
+                jogada_validada = True
+                return (posicao_origem, posicao_destino)
+
+            validar_destino(tabuleiro, posicao_origem, posicao_destino)
+            jogada_validada = True
+            return (posicao_origem, posicao_destino)
+        except Exception:
+            print("Escolha inválida. Tente novamente.")
 
 
 # ==========================
