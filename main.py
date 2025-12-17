@@ -2,13 +2,13 @@ from logic.Moinho import *
 
 
 def jogo_humano_vs_computador():
-    # escolher peça do humano
+    # escolher peca do humano
     while True:
         escolha = input("Escolha o jogador humano (X/O): ").strip().upper()
         if escolha in ('X', 'O'):
             jogador_humano = f'[{escolha}]'
             break
-        print("Escolha inválida. Introduza 'X' ou 'O'.")
+        print("Escolha invalida. Introduza 'X' ou 'O'.")
 
     # escolher dificuldade
     niveis = {'1': 'facil', '2': 'normal', '3': 'dificil'}
@@ -17,7 +17,7 @@ def jogo_humano_vs_computador():
         if escolha_n in niveis:
             nivel = niveis[escolha_n]
             break
-        print("Escolha inválida. Tente novamente.")
+        print("Escolha invalida. Tente novamente.")
 
     vencedor = moinho(jogador_humano, nivel)
     print("Vencedor:", vencedor)
@@ -56,7 +56,7 @@ def main():
 
     while True:
         print(menu)
-        opcao = input("Opção: ").strip().lower()
+        opcao = input("Opcao: ").strip().lower()
         if opcao == '1':
             jogo_humano_vs_computador()
         elif opcao == '2':
@@ -65,7 +65,7 @@ def main():
             print("Saindo...")
             break
         else:
-            print("Opção inválida. Tente de novo.")
+            print("Opcao invalida. Tente de novo.")
 
 
 if __name__ == "__main__":

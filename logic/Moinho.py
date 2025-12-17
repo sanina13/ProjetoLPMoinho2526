@@ -9,19 +9,19 @@ def moinho(jogador_inicial, modo):
     tabuleiro = cria_tabuleiro()
     pecah = cria_peca(jogador_inicial[1])          # humano
     pecac = obter_peca_adversario(pecah)           # computador
-    peca_atual = cria_peca('X')                    # começa o X
+    peca_atual = cria_peca('X')                    # comeca o X
 
-    print(f"Bem-vindo ao JOGO DO MOINHO. Nivel de dificuldade {modo}.")
+    print(f"Bem vindo ao JOGO DO MOINHO. Nivel de dificuldade {modo}.")
 
     while True:
         print(tabuleiro_para_str(tabuleiro))
 
-        # decidir se é turno do humano (manual) ou do computador (auto)
+        # decidir se e turno do humano (manual) ou do computador (auto)
         if pecas_iguais(peca_atual, pecah):
             movimento = obter_movimento(tabuleiro, peca_atual)           # manual
         else:
             print(f"Turno do computador ({modo}):")
-            movimento = obter_movimento(tabuleiro, peca_atual, modo)     # automático
+            movimento = obter_movimento(tabuleiro, peca_atual, modo)     # automatico
 
         # aplicar movimento
         if len(movimento) == 1:

@@ -1,13 +1,13 @@
 from models.Tabuleiro import *
 
-# ==========================================================
-#   MOVIMENTO MANUAL OU AUTOMÁTICO
-# ==========================================================
+
+#   MOVIMENTO MANUAL OU AUTOMATICO
+
 
 def obter_movimento(tabuleiro, peca, nivel=None):
     """
-    Decide se será manual (jogador) ou automático,
-    dependendo se o nível foi passado como argumento.
+    Decide se sera manual (jogador) ou automatico,
+    dependendo se o nivel foi passado como argumento.
     """
     if nivel is None:
         return obter_movimento_manual(tabuleiro, peca)
@@ -15,15 +15,15 @@ def obter_movimento(tabuleiro, peca, nivel=None):
         return obter_movimento_auto(tabuleiro, peca, nivel)
 
 
-# ==========================================================
+
 #   MOVIMENTO MANUAL
-# ==========================================================
+
 
 def obter_movimento_manual(tabuleiro, peca):
     """
-    Recebe um tabuleiro e uma peça de um jogador, e devolve um tuplo com
-    uma ou duas posições (dependendo da fase).
-    Lança ValueError('obter_movimento_manual: escolha invalida') se a jogada for inválida.
+    Recebe um tabuleiro e uma peca de um jogador, e devolve um tuplo com
+    uma ou duas posicoes (dependendo da fase).
+    Lanca ValueError('obter_movimento_manual: escolha invalida') se a jogada for invalida.
     """
     posicoes_jogador = obter_posicoes_jogador(tabuleiro, peca)
 
@@ -47,7 +47,7 @@ def fase_colocacao(tabuleiro):
             jogada_validada = True
             return (posicao,)
         except Exception:
-            print("Escolha inválida. Formato esperado: 'a1' (coluna a-c, linha 1-3). Tente novamente.")
+            print("Escolha invalida. Formato esperado: 'a1' (coluna a-c, linha 1-3). Tente novamente.")
         
 
 
@@ -64,7 +64,7 @@ def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
         try:
             posicao_origem, posicao_destino = parse_movimento(entrada_jogador)
         except ValueError:
-            print("Formato inválido. Formato esperado: 'a1b2' (origem+destino). Tente novamente.")
+            print("Formato invalido. Formato esperado: 'a1b2' (origem+destino). Tente novamente.")
             continue
 
         # Agora valide semanticamente a jogada (pertence ao jogador, destino livre/adjacente)
@@ -79,21 +79,21 @@ def fase_movimentacao(tabuleiro, peca, posicoes_jogador):
             jogada_validada = True
             return (posicao_origem, posicao_destino)
         except ValueError:
-            print("Movimento inválido: origem não é sua peça, destino ocupado ou não adjacente. Tente novamente.")
+            print("Movimento invalido: origem nao e sua peca, destino ocupado ou nao adjacente. Tente novamente.")
             continue
 
 
-# ==========================
+
 # AUXILIARES (MANUAL)
-# ==========================
+
 
 def peca_do_jogador_na_pos(tabuleiro, posicao, peca):
-    """Verifica se a posição contém uma peça do jogador."""
+    """Verifica se a posicao contem uma peca do jogador."""
     return pecas_iguais(obter_peca(tabuleiro, posicao), peca)
 
 
 def existe_movimento_livre(tabuleiro, posicoes_jogador):
-    """Verifica se existe alguma peça do jogador que ainda possa mover."""
+    """Verifica se existe alguma peca do jogador que ainda possa mover."""
     for posicao_origem in posicoes_jogador:
         for posicao_adj in obter_posicoes_adjacentes(posicao_origem):
             if eh_posicao_livre(tabuleiro, posicao_adj):
@@ -102,7 +102,7 @@ def existe_movimento_livre(tabuleiro, posicoes_jogador):
 
 
 def parse_movimento(entrada_movimento):
-    """Lê a string do input e devolve as posições origem e destino."""
+    """Le a string do input e devolve as posicoes origem e destino."""
     try:
         if len(entrada_movimento) != 4:
             raise ValueError
@@ -129,7 +129,7 @@ def verificar_passar_turno(tabuleiro, posicao_origem, posicao_destino, posicoes_
 
 
 def validar_destino(tabuleiro, posicao_origem, posicao_destino):
-    """Valida se o destino é livre e adjacente."""
+    """Valida se o destino e livre e adjacente."""
     if not eh_posicao_livre(tabuleiro, posicao_destino):
         raise ValueError("obter_movimento_manual: escolha invalida")
 
@@ -137,13 +137,11 @@ def validar_destino(tabuleiro, posicao_origem, posicao_destino):
         raise ValueError("obter_movimento_manual: escolha invalida")
 
 
-# ==========================================================
-#   MOVIMENTO AUTOMÁTICO
-# ==========================================================
+#   MOVIMENTO AUTOMATICO
 
 def obter_movimento_auto(tabuleiro, peca, nivel):
     """
-    Obtém o movimento automático para o jogador indicado, com base no nível de dificuldade.
+    Obtem o movimento automatico para o jogador indicado com base no nivel de dificuldade.
     """
     if len(obter_posicoes_jogador(tabuleiro, peca)) < 3:
         return movimento_colocacao(tabuleiro, peca)
@@ -151,9 +149,7 @@ def obter_movimento_auto(tabuleiro, peca, nivel):
         return movimento_movimentacao(tabuleiro, peca, nivel)
 
 
-# ==========================================================
-#   FASE DE COLOCAÇÃO AUTOMÁTICA
-# ==========================================================
+#   FASE DE COLOCACAO AUTOMATICA
 
 def movimento_colocacao(tabuleiro, peca):
     posicoes_livres = obter_posicoes_livres(tabuleiro)
@@ -219,9 +215,7 @@ def laterais(posicoes_livres):
             return (posicao_livre,)
 
 
-# ==========================================================
-#   FASE DE MOVIMENTAÇÃO AUTOMÁTICA
-# ==========================================================
+#   FASE DE MOVIMENTACAO AUTOMATICA
 
 def movimento_movimentacao(tabuleiro, peca, nivel):
     posicoes_jogador = obter_posicoes_jogador(tabuleiro, peca)
@@ -249,9 +243,7 @@ def movimentos_possiveis(tabuleiro, posicoes_jogador):
     return movimentos
 
 
-# ==========================================================
 #   MINIMAX
-# ==========================================================
 
 def minimax(tabuleiro, peca, profundidade, sequencia_movimentos):
     if not pecas_iguais(obter_ganhador(tabuleiro), cria_peca(' ')) or profundidade == 0:

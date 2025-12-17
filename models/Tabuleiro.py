@@ -159,7 +159,7 @@ def tuplo_para_tabuleiro(tuplo_tabuleiro):
     return tabuleiro
 
 
-#   FUNCOES DE ALTO NÍVEL
+#   FUNCOES DE ALTO NIVEL
 
 def obter_ganhador(tabuleiro):
     """obter_ganhador: tabuleiro -> peca
