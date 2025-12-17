@@ -23,8 +23,7 @@ def cria_posicao(coluna, linha):
 
 def cria_copia_posicao(posicao):
     """cria_copia_posicao: posicao -> posicao"""
-    return (posicao[0], posicao[1])
-
+    return cria_posicao(obter_pos_c(posicao), obter_pos_l(posicao))
 
 
 #   SELETORES
