@@ -84,8 +84,9 @@ def movimento_colocacao(tabuleiro, peca):
     if r:
         return r
 
-    if eh_posicao_livre(tabuleiro, cria_posicao('b', '2')):
-        return (cria_posicao('b', '2'),)
+    centro = cria_posicao('b', '2')
+    if eh_posicao_livre(tabuleiro, centro):
+        return (centro,)
 
     for p in livres:
         if posicoes_iguais(p, cria_posicao('a', '1')) or \
@@ -149,12 +150,39 @@ def movimentos_possiveis(tabuleiro, posicoes):
 
 
 # =====================================================
+# AVALIACAO INTERMEDIA (heuristica simples)
+# =====================================================
+
+def avaliacao_intermedia(tabuleiro):
+    """
+    Avaliacao heuristica simples:
+    favorece posicoes com mais pecas alinhadas.
+    """
+    score = 0
+
+    for i in ('1', '2', '3'):
+        vetor = obter_vetor(tabuleiro, i)
+        score += vetor.count('X') - vetor.count('O')
+
+    for c in ('a', 'b', 'c'):
+        vetor = obter_vetor(tabuleiro, c)
+        score += vetor.count('X') - vetor.count('O')
+
+    return score
+
+
+# =====================================================
 # MINIMAX
 # =====================================================
 
 def minimax(tabuleiro, peca, profundidade):
-    if not pecas_iguais(obter_ganhador(tabuleiro), cria_peca(' ')) or profundidade == 0:
-        return peca_para_inteiro(obter_ganhador(tabuleiro)), []
+    ganhador = obter_ganhador(tabuleiro)
+
+    if not pecas_iguais(ganhador, cria_peca(' ')):
+        return peca_para_inteiro(ganhador), []
+
+    if profundidade == 0:
+        return avaliacao_intermedia(tabuleiro), []
 
     melhor = -2 if peca_para_inteiro(peca) == 1 else 2
     melhor_seq = []
