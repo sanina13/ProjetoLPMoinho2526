@@ -1,14 +1,14 @@
 """
 Módulo: peca
 O TAD peca é usado para representar as peças do jogo do moinho.
-Cada peça é caracterizada pelo jogador ('X', 'O') ou pode ser livre ('').
+Cada peça é caracterizada pelo jogador ('X', 'O') ou pode ser livre (' ').
 """
 
 # ============================================================
 #   Representação interna: string simples ('X', 'O' ou ' ')
 # ============================================================
 
-PECAS_VALIDAS = ('X', 'O', '')
+PECAS_VALIDAS = ('X', 'O', ' ')
 
 # ================================
 #   CONSTRUTORES
@@ -16,7 +16,7 @@ PECAS_VALIDAS = ('X', 'O', '')
 
 def cria_peca(identificador_peca):
     """cria_peca: str → peca
-    Cria uma peça correspondente ao jogador indicado ('X', 'O' ou '').
+    Cria uma peça correspondente ao jogador indicado ('X', 'O' ou ' ').
     """
     if identificador_peca not in PECAS_VALIDAS:
         raise ValueError("cria_peca: argumento invalido")
@@ -37,7 +37,7 @@ def cria_copia_peca(peca):
 
 def eh_peca(arg):
     """eh_peca: universal → booleano
-    Devolve True se o argumento representar uma peça válida ('X', 'O' ou '').
+    Devolve True se o argumento representar uma peça válida ('X', 'O' ou ' ').
     """
    
     return arg in PECAS_VALIDAS
@@ -74,7 +74,7 @@ def peca_para_inteiro(peca):
     Devolve:
       1 se a peça é 'X'
      -1 se a peça é 'O'
-      0 se a peça é '' (livre)
+      0 se a peça é ' ' (livre)
     """
     if pecas_iguais(peca, cria_peca('X')):
         return 1
@@ -97,4 +97,4 @@ def obter_peca_adversario(peca):
     elif pecas_iguais(peca, cria_peca('O')):
         return cria_peca('X')
     else:
-        return cria_peca('')
+        return cria_peca(' ')
